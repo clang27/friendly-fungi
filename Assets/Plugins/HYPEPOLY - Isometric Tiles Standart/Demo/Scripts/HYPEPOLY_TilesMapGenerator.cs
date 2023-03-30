@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HYPEPOLY_TilesMapGenerator : MonoBehaviour
-{
+public class HYPEPOLY_TilesMapGenerator : MonoBehaviour {
     [Header("[Tiles prefabs]")]
     public List<GameObject> tiles;
 
@@ -58,69 +57,52 @@ public class HYPEPOLY_TilesMapGenerator : MonoBehaviour
     public int laddersChance;
     public List<GameObject> laddersTiles;
 
-    [Header("Tap this checkbox to generate in play mode")]
-    public bool TapToGenerate = false;
-
     //Private
     GameObject lastMap;
     bool[,] lastRoadsMap, lastLaddersMap;
-    void FixedUpdate()
-    {
-        if (TapToGenerate)
-        {
-            if (HYPEPOLY_ScalerSystem.Instance == null || HYPEPOLY_ScalerSystem.Instance.mapReady)
-            {
-                TapToGenerate = false;
-                StartGenerator();
-            }
-        }
+
+    private void Start() {
+        StartGenerator();
     }
-    public void StartGenerator()
-    {
+    public void StartGenerator() {
         StartCoroutine(NewMap());
     }
-    IEnumerator NewMap()
-    {
-        if(HYPEPOLY_ScalerSystem.Instance != null)
-        {
+    IEnumerator NewMap() {
+        if(HYPEPOLY_ScalerSystem.Instance != null) {
             HYPEPOLY_ScalerSystem.Instance.ReverseScaling();
-            while(!HYPEPOLY_ScalerSystem.Instance.reversed)
-            {
+            while(!HYPEPOLY_ScalerSystem.Instance.reversed) {
                 yield return new WaitForSeconds(0.1f);
             }
         }
 
         if (lastMap != null)
-        {
             Destroy(lastMap);
-        }
 
         yield return new WaitForEndOfFrame();
 
         GenerateMap(mapName, mapPosition, mapSize, holesCount, holesSizes, heightsCount, heightsSizes, maxHeight,
                     heightSmoothing, contentOnMap, poiCount, roads, roadsFilling, roadsFenceChance, roadsBetweenPOI, ladders, laddersChance);
 
-        if (HYPEPOLY_ScalerSystem.Instance != null)
-        {
-            MeshRenderer[] meshs = lastMap.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer mr in meshs) mr.enabled = false;
+        if (HYPEPOLY_ScalerSystem.Instance != null) {
+            var meshs = lastMap.GetComponentsInChildren<MeshRenderer>();
+            foreach (var mr in meshs) 
+                mr.enabled = false;
         }
 
         yield return new WaitForEndOfFrame();
 
         AdditionalFilling(additionalFilling, mapSize);
 
-        if(HYPEPOLY_ScalerSystem.Instance != null)
-        {
+        if(HYPEPOLY_ScalerSystem.Instance != null) {
             HYPEPOLY_ScalerSystem.Instance.StartScaling(lastMap.transform);
 
-            MeshRenderer[] meshs = lastMap.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer mr in meshs) mr.enabled = true;
+            var meshs = lastMap.GetComponentsInChildren<MeshRenderer>();
+            foreach (var mr in meshs) 
+                mr.enabled = true;
         }
 
-        for(int i = 0; i<lastMap.transform.childCount; i++)
-        {
-            Vector3 thisPos = lastMap.transform.GetChild(i).localPosition;
+        for(int i = 0; i < lastMap.transform.childCount; i++) {
+            var thisPos = lastMap.transform.GetChild(i).localPosition;
             thisPos.x -= ((mapSize * 2f) / 2f)-1f;
             thisPos.z -= ((mapSize * 2f) / 2f)-1f;
             lastMap.transform.GetChild(i).localPosition = thisPos;
@@ -149,30 +131,24 @@ public class HYPEPOLY_TilesMapGenerator : MonoBehaviour
         Vector2 leftDownCorner = new Vector2(0, 0);
         Vector2 rightTopCorner = new Vector2(_xSize, _zSize);
         float maxMapDistance = Vector2.Distance(leftDownCorner, rightTopCorner);
-        if (_POIs == EnableDisable.Enabled)
-        {
-            for (int i = 0; i < _POIsCount; i++)
-            {
+        if (_POIs == EnableDisable.Enabled) {
+            for (int i = 0; i < _POIsCount; i++) {
                 int trys = 0;
-                while (true)
-                {
+                while (true) {
                     trys++;
                     int[] newPoi = new int[2] { Random.Range(0, _xSize), Random.Range(0, _zSize) };
 
-                    if (!pointsOfInterest.Contains(newPoi))
-                    {
+                    if (!pointsOfInterest.Contains(newPoi)) {
                         float minDistance = -1f;
 
-                        for (int a = 0; a < pointsOfInterest.Count; a++)
-                        {
+                        for (int a = 0; a < pointsOfInterest.Count; a++) {
                             Vector2 firstPoint = new Vector2(pointsOfInterest[a][0], pointsOfInterest[a][1]);
                             Vector2 secondPoint = new Vector2(newPoi[0], newPoi[1]);
                             float distance = Vector2.Distance(firstPoint, secondPoint);
                             if (distance < minDistance || minDistance < 0f) minDistance = distance;
                         }
 
-                        if (minDistance > (maxMapDistance / 4f) || minDistance < 0f || trys > _xSize*_zSize)
-                        {
+                        if (minDistance > (maxMapDistance / 4f) || minDistance < 0f || trys > _xSize*_zSize) {
                             pointsOfInterest.Add(newPoi);
                             roadsMap[newPoi[0], newPoi[1]] = true;
                             trys = 0;
@@ -182,27 +158,19 @@ public class HYPEPOLY_TilesMapGenerator : MonoBehaviour
                 }
             }
 
-            if (_roads == EnableDisable.Enabled)
-            {
-                for (int i = 0; i < pointsOfInterest.Count; i++)
-                {
-                    for (int a = i; a < pointsOfInterest.Count; a++)
-                    {
-                        if (i != a)
-                        {
+            if (_roads == EnableDisable.Enabled) {
+                for (int i = 0; i < pointsOfInterest.Count; i++) {
+                    for (int a = i; a < pointsOfInterest.Count; a++) {
+                        if (i != a) {
                             bool createThisConnection = true;
 
-                            if(i == 0 && a == 1)
-                            {
+                            if(i == 0 && a == 1) {
 
-                            }
-                            else
-                            {
+                            } else {
                                 createThisConnection = Random.Range(0, 100) < _roadsBetweenPOI;
                             }
 
-                            if (createThisConnection)
-                            {
+                            if (createThisConnection) {
                                 int minX = pointsOfInterest[i][0] < pointsOfInterest[a][0] ? pointsOfInterest[i][0] : pointsOfInterest[a][0];
                                 int maxX = pointsOfInterest[i][0] < pointsOfInterest[a][0] ? pointsOfInterest[a][0] : pointsOfInterest[i][0];
                                 int minZ = pointsOfInterest[i][1] < pointsOfInterest[a][1] ? pointsOfInterest[i][1] : pointsOfInterest[a][1];
@@ -211,43 +179,19 @@ public class HYPEPOLY_TilesMapGenerator : MonoBehaviour
                                 bool down = Random.Range(0, 100) < 50;
 
                                 bool left = true;
-                                if (pointsOfInterest[i][1] > pointsOfInterest[a][1])
-                                {
+                                if (pointsOfInterest[i][1] > pointsOfInterest[a][1]) {
                                     if (pointsOfInterest[i][0] < pointsOfInterest[a][0])
-                                    {
-                                        if (down)
-                                            left = true;
-                                        else
-                                            left = false;
-                                    }
+                                        left = down;
                                     else
-                                    {
-                                        if (down)
-                                            left = false;
-                                        else
-                                            left = true;
-                                    }
-                                }
-                                else
-                                {
+                                        left = !down;
+                                } else {
                                     if (pointsOfInterest[a][0] < pointsOfInterest[i][0])
-                                    {
-                                        if (down)
-                                            left = true;
-                                        else
-                                            left = false;
-                                    }
+                                        left = down;
                                     else
-                                    {
-                                        if (down)
-                                            left = false;
-                                        else
-                                            left = true;
-                                    }
+                                        left = !down;
                                 }
 
-                                for (int p = minX; p <= maxX; p++)
-                                {
+                                for (int p = minX; p <= maxX; p++){
                                     if (down)
                                         roadsMap[p, minZ] = true;
                                     else
