@@ -58,6 +58,7 @@ public class CameraController : MonoBehaviour {
         }
     }
 
+    [SerializeField] private Transform _worldTransform;
     private const float MouseSensitivityMultiplier = 0.01f;
     private Camera _camera;
     private Transform _transform;
@@ -176,8 +177,13 @@ public class CameraController : MonoBehaviour {
 
             var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
 
-            _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
-            // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+            if (_worldTransform) {
+                _worldTransform.Rotate(Vector3.down, mouseMovement.x * mouseSensitivityFactor, Space.Self);
+                //_worldTransform.Rotate(Vector3.right * (Mathf.Sqrt(2)/2f), mouseMovement.y * mouseSensitivityFactor, Space.Self);
+            } else {
+                _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
+                _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+            }
         }
         
         var translation = GetInputTranslationDirection() * Time.deltaTime;
