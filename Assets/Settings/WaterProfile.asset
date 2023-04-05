@@ -18,16 +18,16 @@ MonoBehaviour:
   color: {r: 0, g: 0.7999997, b: 1, a: 1}
   specColor: {r: 0.404, g: 0.404, b: 0.404, a: 1}
   smoothness: 1
-  enableLightAbsorption: 0
+  enableLightAbsorption: 1
   depthColor: {r: 0, g: 0.9545455, b: 1, a: 0.7882353}
-  maxDepth: 10
+  maxDepth: 100
   enableFoam: 0
   foamColor: {r: 1, g: 1, b: 1, a: 1}
   foamDistance: 1.2
   enableFoamHQ: 0
   foamNoiseScaleHQ: 3
   foamNoiseSpeedHQ: 1
-  shorelineFoamStrength: 1
+  shorelineFoamStrength: 0.33
   crestFoamStrength: 0.5
   crestMaxDepth: 10
   slopeFoamStrength: 0.5
@@ -51,11 +51,11 @@ MonoBehaviour:
   reflectionClipPlaneOffset: 0
   reflectionLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2147483647
   reflectCustomSkybox: 0
-  reflectionDistortionStrength: 0
+  reflectionDistortionStrength: 100
   enableRefraction: 0
-  refractionDistortionStrength: 20
+  refractionDistortionStrength: 0.1
   enableCaustic: 0
   causticTexture: {fileID: 2800000, guid: eeacbffe8eb46d343b0d7a9189130772, type: 3}
   causticSize: 1

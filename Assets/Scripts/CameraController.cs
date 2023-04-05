@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour {
     private class CameraState {
         public float Yaw;
         public float Pitch;
-        public float Zoom = 17f;
+        public float Zoom = 20f;
 
         private float _roll;
         private float _x, _y, _z;
@@ -143,15 +143,15 @@ public class CameraController : MonoBehaviour {
         direction.z = moveDelta.y;
         direction.y = verticalMovementAction.ReadValue<Vector2>().y;
 #else
-        if (Input.GetKey(KeyCode.W)) {
-            direction += Vector3.up;
-        } if (Input.GetKey(KeyCode.S)) {
-            direction += Vector3.down;
-        } if (Input.GetKey(KeyCode.A)) {
-            direction += Vector3.left;
-        } if (Input.GetKey(KeyCode.D)) {
-            direction += Vector3.right;
-        } 
+        // if (Input.GetKey(KeyCode.W)) {
+        //     direction += Vector3.up;
+        // } if (Input.GetKey(KeyCode.S)) {
+        //     direction += Vector3.down;
+        // } if (Input.GetKey(KeyCode.A)) {
+        //     direction += Vector3.left;
+        // } if (Input.GetKey(KeyCode.D)) {
+        //     direction += Vector3.right;
+        // } 
         
         // if (Input.GetKey(KeyCode.Q)) {
         //     direction += Vector3.down;
@@ -205,6 +205,7 @@ public class CameraController : MonoBehaviour {
         #if ENABLE_INPUT_SYSTEM
             return zoomAction.ReadValue<Vector2>().y * -mouseZoomSensitivity;
         #else
+            //return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
             return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
         #endif
     }

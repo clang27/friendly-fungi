@@ -624,7 +624,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    WebGL: POSEIDON;POSEIDON_URP;JUPITER
+    WebGL: POSEIDON;POSEIDON_URP;JUPITER;UNISTORM_PRESENT
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
