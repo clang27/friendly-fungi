@@ -65,15 +65,15 @@ Material:
     - _CloudDensity: 1
     - _CloudSharpness: 0.8
     - _CloudSize: 1
-    - _ColorDiff: -1.6400001
+    - _ColorDiff: -1.2
     - _ColorDiffOffset: 0.35
-    - _Coverage: 0.06
+    - _Coverage: 5
     - _CoverageOffset: 0.31
     - _CullMode: 0
-    - _CutHeight: -27.37
+    - _CutHeight: -20
     - _CutHeight2: 1222
     - _Cutoff: 0.465
-    - _Density: 0.0008
+    - _Density: 0.01
     - _DepthBlendMul: 2.29
     - _DepthBlendMult: 2
     - _DepthColor: 0
@@ -82,10 +82,10 @@ Material:
     - _Dithering: 1280
     - _EdgeBlend: 0.11
     - _EdgeFactor: 0.51
-    - _FogFactor: 0.7
+    - _FogFactor: -5
     - _FogUnity: 1
     - _Forward: 0
-    - _HorizonFactor: 0.07
+    - _HorizonFactor: 0.049999986
     - _IndirectContribution: 1
     - _MipLevel: 0
     - _Mode: 0
@@ -97,7 +97,7 @@ Material:
     - _TimeMult: 0.1
     - _TimeMultSecondLayer: 4
     - _TranspOffset: 6.62
-    - _Transparency: -0.6
+    - _Transparency: -8
     - _TransparencyOffset: 0
     - _TransparencyThres: -1.69
     - _Velocity1: 22
@@ -119,11 +119,11 @@ Material:
     - _FogColor: {r: 0.76862746, g: 0.85882354, b: 0.91764706, a: 1}
     - _LightingControl: {r: 1, g: 1, b: -1, a: 0}
     - _Shading: {r: 0.27681658, g: 0.29418916, b: 0.4705882, a: 0.172}
-    - _ShadowColor: {r: 0.53475434, g: 0.53475434, b: 0.5754717, a: 0}
-    - _SunColor: {r: 1, g: 1, b: 1, a: 0}
+    - _ShadowColor: {r: 0.73171055, g: 0.73171055, b: 0.8207547, a: 0}
+    - _SunColor: {r: 0.8627451, g: 0.88235295, b: 0.8235294, a: 1.027451}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
-    - _Velocity1: {r: 10.002271, g: 0.0000011918223, b: 0, a: 0.07001773}
-    - _Velocity2: {r: 30.002893, g: 0.0000035759342, b: 0, a: 2}
+    - _Velocity1: {r: 10.360022, g: 0.0000012350107, b: 0, a: 0.072519906}
+    - _Velocity2: {r: 50.004707, g: 0.000005961025, b: 0, a: 10}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 1, g: 1, b: 1, a: 1}
     - pointLightPos: {r: -1655.3737, g: 690.0187, b: -1121.822, a: 0}
