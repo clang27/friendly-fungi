@@ -6,21 +6,21 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
     private class CameraState {
-        public float Yaw;
-        public float Pitch;
-        public float Zoom = 20f;
-
         private float _roll;
         private float _x, _y, _z;
-        
-        public void Init(Transform t) {
-            Pitch = t.eulerAngles.x;
-            Yaw = t.eulerAngles.y;
-            _roll = t.eulerAngles.z;
-            
-            _x = t.position.x;
-            _y = t.position.y;
-            _z = t.position.z;
+        public float Pitch;
+        public float Yaw;
+        public float Zoom;
+
+        private float _initialZoom;
+        private Vector3 _initialPosition, _initialAngle;
+
+        public void Init(Transform t, float i) {
+            _initialPosition = t.position;
+            _initialAngle = t.eulerAngles;
+            _initialZoom = i;
+
+            Reset();
         }
 
         public void Translate(Vector3 translation) {
@@ -36,9 +36,9 @@ public class CameraController : MonoBehaviour {
             Zoom = Mathf.Clamp(Zoom, maxZoom, minZoom); // Higher the number, the more zoomed out
         }
 
-        public void LerpTowards(CameraState target, float positionLerpPct, float rotationLerpPct) {
-            Zoom = Mathf.Lerp(Zoom, target.Zoom, positionLerpPct);
-            
+        public void LerpTowards(CameraState target, float positionLerpPct, float rotationLerpPct, float zoomLerpPct) {
+            Zoom = Mathf.Lerp(Zoom, target.Zoom, zoomLerpPct);
+
             Yaw = Mathf.Lerp(Yaw, target.Yaw, rotationLerpPct);
             Pitch = Mathf.Lerp(Pitch, target.Pitch, rotationLerpPct);
             _roll = Mathf.Lerp(_roll, target._roll, rotationLerpPct);
@@ -56,33 +56,55 @@ public class CameraController : MonoBehaviour {
         public void UpdateZoom(Camera c) {
             c.orthographicSize = Zoom;
         }
+
+        public void Reset() {
+            Zoom = _initialZoom;
+            
+            Pitch = _initialAngle.x;
+            Yaw = _initialAngle.y;
+            _roll = _initialAngle.z;
+            
+            _x = _initialPosition.x;
+            _y = _initialPosition.y;
+            _z = _initialPosition.z;
+            
+        }
     }
 
     [SerializeField] private Transform _worldTransform;
     private const float MouseSensitivityMultiplier = 0.01f;
     private Camera _camera;
     private Transform _transform;
-    private readonly CameraState _targetCameraState = new (), _interpolatingCameraState = new ();
+    private Vector3 _goalRotation;
+    private float _initialYaw, _initialPitch;
+    private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
 
     [Header("Lerp Settings")]
-    [Tooltip("Time it takes to interpolate camera position 99% of the way to the target."), Range(0.001f, 1f)]
+    [Tooltip("Time it takes to interpolate camera position 99% of the way to the target.")]
+    [Range(0.001f, 1f)]
     public float positionLerpTime = 0.2f;
-    [Tooltip("Time it takes to interpolate camera rotation 99% of the way to the target."), Range(0.001f, 1f)]
+
+    [Range(0.001f, 1f)]
+    public float zoomLerpTime = 0.2f;
+    
+    [Tooltip("Time it takes to interpolate camera rotation 99% of the way to the target.")] [Range(0.001f, 1f)]
     public float rotationLerpTime = 0.01f;
+    
+    [Tooltip("Time it takes to interpolate world rotation 99% of the way to the target.")] [Range(0.001f, 1f)]
+    public float worldRotationLerpTime = 0.001f;
 
-    [Header("Zoom Settings")] 
-    public float maxZoomIn = 4f;
+    [Header("Zoom Settings")] public float maxZoomIn = 4f;
     public float minZoomIn = 17f;
+    public float zoomTranslationMultiplier = 30f;
 
-    [Header("Mouse Settings")]
+    [Header("Mouse Settings")] 
     public float mouseRotateSensitivity = 60.0f;
-    public float mouseZoomSensitivity = 1f;
 
     [Tooltip("X = Change in mouse position.\nY = Multiplicative factor for camera rotation.")]
-    public AnimationCurve mouseSensitivityCurve = new AnimationCurve(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
+    public AnimationCurve mouseSensitivityCurve = new(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
 
     [Tooltip("Whether or not to invert our Y axis for mouse input to rotation.")]
-    public bool invertY = false;
+    public bool invertY;
 
 #if ENABLE_INPUT_SYSTEM
     InputAction movementAction;
@@ -130,12 +152,14 @@ public class CameraController : MonoBehaviour {
         _transform = transform;
         _camera = GetComponent<Camera>();
     }
-    private void OnEnable() {
-        _targetCameraState.Init(_transform);
-        _interpolatingCameraState.Init(_transform);
-    }
 
-    private Vector3 GetInputTranslationDirection() {
+    private void OnEnable() {
+        _goalRotation = _worldTransform.localRotation.eulerAngles;
+        _targetCameraState.Init(_transform, _camera.orthographicSize);
+        _interpolatingCameraState.Init(_transform, _camera.orthographicSize);
+    }
+    
+    private Vector3 GetInputRotationDirection() {
         var direction = Vector3.zero;
 #if ENABLE_INPUT_SYSTEM
         var moveDelta = movementAction.ReadValue<Vector2>();
@@ -143,16 +167,16 @@ public class CameraController : MonoBehaviour {
         direction.z = moveDelta.y;
         direction.y = verticalMovementAction.ReadValue<Vector2>().y;
 #else
-        // if (Input.GetKey(KeyCode.W)) {
+        // if (Input.GetKey(KeyCode.W))
         //     direction += Vector3.up;
+        if (Input.GetKey(KeyCode.A))
+            direction += Vector3.up;
+        if (Input.GetKey(KeyCode.D))
+            direction += Vector3.down;
         // } if (Input.GetKey(KeyCode.S)) {
-        //     direction += Vector3.down;
-        // } if (Input.GetKey(KeyCode.A)) {
-        //     direction += Vector3.left;
-        // } if (Input.GetKey(KeyCode.D)) {
         //     direction += Vector3.right;
         // } 
-        
+        //
         // if (Input.GetKey(KeyCode.Q)) {
         //     direction += Vector3.down;
         // } if (Input.GetKey(KeyCode.E)) {
@@ -163,98 +187,105 @@ public class CameraController : MonoBehaviour {
     }
 
     private void Update() {
-        if (IsRightMouseButtonDown())  // Hide and lock cursor when right mouse button pressed
+        if (IsRightMouseButtonDown()) {
+            _targetCameraState.Translate(GetMouseLocation());
+            _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
             Cursor.lockState = CursorLockMode.Locked;
-        else if (IsRightMouseButtonUp()) {  // Unlock and show cursor when right mouse button released
+        } else if (IsRightMouseButtonUp()) {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            _targetCameraState.Reset();
         }
-        
-        if (IsCameraRotationAllowed()) {  // Rotation
+
+        if (RightMouseHeld()) {
             var mouseMovement = GetInputLookRotation() * (MouseSensitivityMultiplier * mouseRotateSensitivity);
             if (invertY)
                 mouseMovement.y = -mouseMovement.y;
 
             var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
 
+            _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
+            _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+        } else {
             if (_worldTransform) {
-                _worldTransform.Rotate(Vector3.down, mouseMovement.x * mouseSensitivityFactor, Space.Self);
-                //_worldTransform.Rotate(Vector3.right * (Mathf.Sqrt(2)/2f), mouseMovement.y * mouseSensitivityFactor, Space.Self);
-            } else {
-                _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
-                _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+                var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
+                _goalRotation += GetInputRotationDirection() * (IsBoostPressed() ? 4f : 1f);
+                _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
             }
         }
         
-        var translation = GetInputTranslationDirection() * Time.deltaTime;
-        translation *= (IsBoostPressed()) ? 40f : 8f;
-        
-        _targetCameraState.Translate(translation);
-        _targetCameraState.AddZoom(GetZoom(), minZoomIn, maxZoomIn);
+        //_targetCameraState.AddZoom(GetZoom(), minZoomIn, maxZoomIn);
         
         // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time
-        var positionLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / positionLerpTime) * Time.deltaTime);
-        var rotationLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / rotationLerpTime) * Time.deltaTime);
-        _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, rotationLerpPct);
+        var positionLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / positionLerpTime * Time.deltaTime);
+        var cameraRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / rotationLerpTime * Time.deltaTime);
+        var zoomLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / zoomLerpTime * Time.deltaTime);
 
+        _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, cameraRotationLerpPct, zoomLerpPct);
         _interpolatingCameraState.UpdateTransform(_transform);
         _interpolatingCameraState.UpdateZoom(_camera);
     }
 
-    private float GetZoom() {
-        #if ENABLE_INPUT_SYSTEM
-            return zoomAction.ReadValue<Vector2>().y * -mouseZoomSensitivity;
-        #else
-            //return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
-            return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
-        #endif
-    }
+    // private float GetZoom() {
+    //     #if ENABLE_INPUT_SYSTEM
+    //         return zoomAction.ReadValue<Vector2>().y * -mouseZoomSensitivity;
+    //     #else
+    //         //return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
+    //         return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
+    //     #endif
+    // }
 
     private Vector2 GetInputLookRotation() {
         // try to compensate the diff between the two input systems by multiplying with empirical values
-        #if ENABLE_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
             var delta = lookAction.ReadValue<Vector2>();
             delta *= 0.5f; // Account for scaling applied directly in Windows code by old input system.
             delta *= 0.1f; // Account for sensitivity setting on old Mouse X and Y axes.
             return delta;
-         #else
-            return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        #endif
+#else
+        return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+#endif
     }
 
     private bool IsBoostPressed() {
-        #if ENABLE_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
             bool boost = Keyboard.current != null ? Keyboard.current.leftShiftKey.isPressed : false;
             boost |= Gamepad.current != null ? Gamepad.current.xButton.isPressed : false;
             return boost;
-        #else
-            return Input.GetKey(KeyCode.LeftShift);
-        #endif
+#else
+        return Input.GetKey(KeyCode.LeftShift);
+#endif
     }
 
-    private bool IsCameraRotationAllowed() {
-        #if ENABLE_INPUT_SYSTEM
+    private bool RightMouseHeld() {
+#if ENABLE_INPUT_SYSTEM
             bool canRotate = Mouse.current != null ? Mouse.current.rightButton.isPressed : false;
             canRotate |= Gamepad.current != null ? Gamepad.current.rightStick.ReadValue().magnitude > 0 : false;
             return canRotate;
-        #else
-            return Input.GetMouseButton(1);
-        #endif
+#else
+        return Input.GetMouseButton(1);
+#endif
+    }
+
+    private Vector2 GetMouseLocation() {
+        var camPoint = (_camera.ScreenToViewportPoint(Input.mousePosition) - new Vector3(0.5f, 0.5f)) *
+                       zoomTranslationMultiplier;
+        return new Vector2(camPoint.x * Screen.width, camPoint.y * Screen.height);
     }
 
     private bool IsRightMouseButtonDown() {
-        #if ENABLE_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
             return Mouse.current != null ? Mouse.current.rightButton.isPressed : false;
-        #else
-            return Input.GetMouseButtonDown(1);
-        #endif
+#else
+        return Input.GetMouseButtonDown(1);
+#endif
     }
 
     private bool IsRightMouseButtonUp() {
-        #if ENABLE_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM
             return Mouse.current != null ? !Mouse.current.rightButton.isPressed : false;
-        #else
-            return Input.GetMouseButtonUp(1);
-        #endif
+#else
+        return Input.GetMouseButtonUp(1);
+#endif
     }
 }
