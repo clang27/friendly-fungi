@@ -70,12 +70,12 @@ public class CameraController : MonoBehaviour {
             
         }
     }
-
-    [SerializeField] private Transform _worldTransform;
+    
     private const float MouseSensitivityMultiplier = 0.01f;
     private Camera _camera;
     private Transform _transform;
     private Vector3 _goalRotation;
+    private Transform _worldTransform;
     private float _initialYaw, _initialPitch;
     private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
 
@@ -153,12 +153,18 @@ public class CameraController : MonoBehaviour {
         _camera = GetComponent<Camera>();
     }
 
-    private void OnEnable() {
-        _goalRotation = _worldTransform.localRotation.eulerAngles;
-        _targetCameraState.Init(_transform, _camera.orthographicSize);
-        _interpolatingCameraState.Init(_transform, _camera.orthographicSize);
+    public void Enable(bool b) {
+        enabled = b;
+
+        _worldTransform = b ? GameObject.FindGameObjectWithTag("Map").transform : null;
+        
+        if (b) {
+            _goalRotation = _worldTransform.localRotation.eulerAngles;
+            _targetCameraState.Init(_transform, _camera.orthographicSize);
+            _interpolatingCameraState.Init(_transform, _camera.orthographicSize);
+        }
     }
-    
+
     private Vector3 GetInputRotationDirection() {
         var direction = Vector3.zero;
 #if ENABLE_INPUT_SYSTEM
@@ -204,8 +210,11 @@ public class CameraController : MonoBehaviour {
 
             var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
 
-            _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
-            _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+            _targetCameraState.Translate(
+            new Vector3(mouseMovement.x * mouseSensitivityFactor, mouseMovement.y * mouseSensitivityFactor, 0f)
+            );
+            // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
+            // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
         } else {
             if (_worldTransform) {
                 var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
