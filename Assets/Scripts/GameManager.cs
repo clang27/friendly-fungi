@@ -11,18 +11,20 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private Button startButton;
+		// [SerializeField] private Button startButton;
 	#endregion
 	
 	#region Attributes
-		// public float AttributeOne { get; set; }
+		private bool Paused { get; set; }
 	#endregion
 	
 	#region Components
 		private TimeManager _timeManager;
 		private MapScaler _mapScaler;
 		private CameraController _cameraController;
-		#endregion
+		private AudioManager _audioManager;
+		private UiManager _uiManager;
+	#endregion
 	
 	#region Private Data
 		// private float _dataOne, _dataTwo;
@@ -30,11 +32,16 @@ public class GameManager : MonoBehaviour {
 	
 	#region Unity Methods
 		private void Awake() {
+			Settings.ReadSaveData();
+			
 			_timeManager = FindObjectOfType<TimeManager>();
 			_cameraController = FindObjectOfType<CameraController>();
+			_audioManager = FindObjectOfType<AudioManager>();
+			_uiManager = FindObjectOfType<UiManager>();
 		}
 
 		private void Start() {
+			_audioManager.MainMenuTheme();
 			StartCoroutine(LoadScene("LevelOne"));
 		}
 
@@ -44,26 +51,45 @@ public class GameManager : MonoBehaviour {
 					EndLevel();
 				else if (_mapScaler)
 					StartLevel();
+			} else if (Input.GetKeyDown(KeyCode.M) && _mapScaler && _mapScaler.MapReady) {
+				Pause(!Paused);
 			}
 		}
 	#endregion
 	
 	#region Other Methods
+		private void Pause(bool b) {
+			Paused = b;
+			
+			if (b) {
+				_timeManager.Pause();
+				_uiManager.OpenMenu();
+			} else {
+				_uiManager.CloseMenu();
+			}
+
+			_timeManager.ShowUI(!b);
+			_cameraController.Enabled = !b;
+			_cameraController.AutoRotate = b;
+		}
 		private IEnumerator LoadScene(string sceneName) {
 			var asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-			startButton.GetComponentInChildren<TextMeshProUGUI>().text = "Loading...";
+			_uiManager.DisableButtonsOnLoading(true);
 
 			while (!asyncLoad.isDone) {
 				yield return null;
 			}
 			
 			_mapScaler = FindObjectOfType<MapScaler>();
-			startButton.interactable = true;
-			startButton.GetComponentInChildren<TextMeshProUGUI>().text = "Start";
-			
+			_uiManager.DisableButtonsOnLoading(false);
+			_uiManager.ChangeStartButton("Start", StartLevel);
+
 		}
 		public void StartLevel() {
-			_cameraController.Enable(true);
+			_uiManager.CloseMenu();
+			_uiManager.ChangeStartButton("Resume", () => Pause(false));
+			_cameraController.Init();
+			_cameraController.Enabled = true;
 			StartCoroutine(GenerateLevel());
 		}
 

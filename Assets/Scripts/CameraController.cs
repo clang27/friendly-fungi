@@ -71,13 +71,15 @@ public class CameraController : MonoBehaviour {
         }
     }
     
-    private const float MouseSensitivityMultiplier = 0.01f;
     private Camera _camera;
     private Transform _transform;
     private Vector3 _goalRotation;
     private Transform _worldTransform;
     private float _initialYaw, _initialPitch;
     private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
+    
+    public bool AutoRotate { get; set; }
+    public bool Enabled { get; set; }
 
     [Header("Lerp Settings")]
     [Tooltip("Time it takes to interpolate camera position 99% of the way to the target.")]
@@ -93,18 +95,13 @@ public class CameraController : MonoBehaviour {
     [Tooltip("Time it takes to interpolate world rotation 99% of the way to the target.")] [Range(0.001f, 1f)]
     public float worldRotationLerpTime = 0.001f;
 
-    [Header("Zoom Settings")] public float maxZoomIn = 4f;
+    [Header("Zoom Settings")] 
+    public float maxZoomIn = 4f;
     public float minZoomIn = 17f;
     public float zoomTranslationMultiplier = 30f;
 
-    [Header("Mouse Settings")] 
-    public float mouseRotateSensitivity = 60.0f;
-
     [Tooltip("X = Change in mouse position.\nY = Multiplicative factor for camera rotation.")]
     public AnimationCurve mouseSensitivityCurve = new(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
-
-    [Tooltip("Whether or not to invert our Y axis for mouse input to rotation.")]
-    public bool invertY;
 
 #if ENABLE_INPUT_SYSTEM
     InputAction movementAction;
@@ -147,22 +144,19 @@ public class CameraController : MonoBehaviour {
     }
 
 #endif
-
     private void Awake() {
         _transform = transform;
         _camera = GetComponent<Camera>();
     }
 
-    public void Enable(bool b) {
-        enabled = b;
+    private void Start() {
+        _targetCameraState.Init(_transform, _camera.orthographicSize);
+        _interpolatingCameraState.Init(_transform, _camera.orthographicSize);
+    }
 
-        _worldTransform = b ? GameObject.FindGameObjectWithTag("Map").transform : null;
-        
-        if (b) {
-            _goalRotation = _worldTransform.localRotation.eulerAngles;
-            _targetCameraState.Init(_transform, _camera.orthographicSize);
-            _interpolatingCameraState.Init(_transform, _camera.orthographicSize);
-        }
+    public void Init() {
+        _worldTransform = GameObject.FindGameObjectWithTag("Map").transform;
+        _goalRotation = _worldTransform.localRotation.eulerAngles;
     }
 
     private Vector3 GetInputRotationDirection() {
@@ -193,46 +187,59 @@ public class CameraController : MonoBehaviour {
     }
 
     private void Update() {
+        if (!Enabled) return;
+        
         if (IsRightMouseButtonDown()) {
             _targetCameraState.Translate(GetMouseLocation());
             _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
             Cursor.lockState = CursorLockMode.Locked;
-        } else if (IsRightMouseButtonUp()) {
+        }
+        else if (IsRightMouseButtonUp()) {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             _targetCameraState.Reset();
         }
 
         if (RightMouseHeld()) {
-            var mouseMovement = GetInputLookRotation() * (MouseSensitivityMultiplier * mouseRotateSensitivity);
-            if (invertY)
+            var mouseMovement = GetInputLookRotation() * Settings.MouseRotateSensitivity;
+            if (Settings.InvertCameraY)
                 mouseMovement.y = -mouseMovement.y;
 
             var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
 
             _targetCameraState.Translate(
-            new Vector3(mouseMovement.x * mouseSensitivityFactor, mouseMovement.y * mouseSensitivityFactor, 0f)
+                new Vector3(mouseMovement.x * mouseSensitivityFactor, mouseMovement.y * mouseSensitivityFactor, 0f)
             );
             // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
             // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
-        } else {
-            if (_worldTransform) {
-                var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
-                _goalRotation += GetInputRotationDirection() * (IsBoostPressed() ? 4f : 1f);
-                _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
-            }
         }
-        
+    }
+
+    private void LateUpdate() {
         //_targetCameraState.AddZoom(GetZoom(), minZoomIn, maxZoomIn);
-        
+
         // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time
+        var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
         var positionLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / positionLerpTime * Time.deltaTime);
         var cameraRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / rotationLerpTime * Time.deltaTime);
         var zoomLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / zoomLerpTime * Time.deltaTime);
-
+        
         _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, cameraRotationLerpPct, zoomLerpPct);
         _interpolatingCameraState.UpdateTransform(_transform);
         _interpolatingCameraState.UpdateZoom(_camera);
+        
+        if (_worldTransform) {
+            if (AutoRotate) {
+                _goalRotation += Vector3.down * (Settings.RotateSpeed * (Settings.InvertWorldRotateX ? -1f : 1f) * 0.2f);
+            } else {
+                _goalRotation += GetInputRotationDirection() * (
+                    Settings.RotateSpeed * (IsBoostPressed() ? Settings.BoostMultiplier : 1f) * 
+                    (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotateX ? -1f : 1f)
+                );
+            }
+            
+            _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
+        }
     }
 
     // private float GetZoom() {

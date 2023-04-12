@@ -75,7 +75,7 @@ public class MapScaler : MonoBehaviour {
 
     private void FixedUpdate() {
         if (_startScaling) {
-            if (_scalers[0] != null) {
+            if (_scalers[0]) {
                 _a += 1f / (scalingTime / Time.fixedDeltaTime);
 
                 for (var i = 0; i < _detailsNow; i++)
@@ -99,7 +99,7 @@ public class MapScaler : MonoBehaviour {
             }
         }
         else if (_reverseScaling) {
-            if (_scalers != null && _scalers[0] != null) {
+            if (_scalers != null && _scalers[0]) {
                 _a += 1f / (scalingTime / Time.fixedDeltaTime) * 2f;
 
                 for (var i = 0; i < _detailsNow; i++)
@@ -183,8 +183,8 @@ public class MapScaler : MonoBehaviour {
                 break;
             }
             case 1: {
-                tilesTransforms = tilesTransforms.OrderBy(obj => Random.value).ToList();
-                otherTransforms = otherTransforms.OrderBy(obj => Random.value).ToList();
+                tilesTransforms = tilesTransforms.OrderBy(_ => Random.value).ToList();
+                otherTransforms = otherTransforms.OrderBy(_ => Random.value).ToList();
                 _detailsInPair = (int)(tilesTransforms.Count * (scalingGroupsSize / 100f));
                 _detailsForNoTile = (int)(otherTransforms.Count * (scalingGroupsSize / 100f));
                 if (_detailsForNoTile <= 0) _detailsForNoTile = 1;
