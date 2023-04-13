@@ -19,9 +19,7 @@ public class UiManager : MonoBehaviour {
 	#endregion
 	
 	#region Components
-		private Transform _transform;
-		// private Rigidbody2D _rigidbody;
-		// private Collider2D _collider;
+		//private AudioManager _audioManager;
 	#endregion
 	
 	#region Private Data
@@ -59,6 +57,7 @@ public class UiManager : MonoBehaviour {
 			OpenPanel(settingsPanel, true);
 			OpenPanel(mainPanel, false);
 			OpenPanel(_lastPanelOpen, true);
+			_activePanel = _lastPanelOpen;
 		}
 
 		public void OpenAudio() {
@@ -84,6 +83,7 @@ public class UiManager : MonoBehaviour {
 			CloseActivePanel();
 			OpenPanel(settingsPanel, false);
 			OpenPanel(mainPanel, true);
+			Settings.SaveAllData();
 		}
 			
 		private void OpenPanel(CanvasGroup panel, bool b) {

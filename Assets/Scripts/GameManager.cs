@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	#region Serialized Fields
-		// [SerializeField] private Button startButton;
+		[SerializeField] private Level startingLevel;
 	#endregion
 	
 	#region Attributes
@@ -27,13 +27,14 @@ public class GameManager : MonoBehaviour {
 	#endregion
 	
 	#region Private Data
-		// private float _dataOne, _dataTwo;
+		private Level _currentLevel;
 	#endregion
 	
 	#region Unity Methods
 		private void Awake() {
-			Settings.ReadSaveData();
+			Settings.ReadData();
 			
+			_currentLevel = startingLevel;
 			_timeManager = FindObjectOfType<TimeManager>();
 			_cameraController = FindObjectOfType<CameraController>();
 			_audioManager = FindObjectOfType<AudioManager>();
@@ -90,6 +91,8 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ChangeStartButton("Resume", () => Pause(false));
 			_cameraController.Init();
 			_cameraController.Enabled = true;
+			_audioManager.LevelTheme(_currentLevel);
+			_timeManager.SetLevelTime(_currentLevel);
 			StartCoroutine(GenerateLevel());
 		}
 
@@ -107,5 +110,29 @@ public class GameManager : MonoBehaviour {
 			_timeManager.ShowUI(true);
 			_timeManager.Play();
 		}
+	
+		public void UpdateMouseRotateSensitivity(float f) {
+			_audioManager.PlayIntervalScrollSound();
+			Settings.SetData(SettingsType.MouseRotateSensitivity, f);
+		}
+		
+		public void UpdateRotateSpeed(float f) {
+			_audioManager.PlayIntervalScrollSound();
+			Settings.SetData(SettingsType.RotateSpeed, f);
+		}
+		
+		public void UpdateBoostMultiplier(float f) {
+			_audioManager.PlayIntervalScrollSound();
+			Settings.SetData(SettingsType.BoostMultiplier, f);
+		}
+		
+		public void UpdateInvertWorldRotation(bool b) {
+			Settings.SetData(SettingsType.InvertWorldRotation, b ? 1 : 0);
+		}
+		
+		public void UpdateInvertLookY(bool b) {
+			Settings.SetData(SettingsType.InvertLookY, b ? 1 : 0);
+		}
+		
 	#endregion
 }

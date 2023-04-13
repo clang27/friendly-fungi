@@ -24,22 +24,19 @@ public class TimeManager : MonoBehaviour {
         private Slider _hourSlider;
         private Button _playButton;
         private TextMeshProUGUI _buttonText;
+        private CanvasGroup _canvasGroup;
     #endregion
 
-    
     #region Unity Methods
         private void Awake() {
             _hourSlider = GetComponent<Slider>();
+            _canvasGroup = GetComponent<CanvasGroup>();
             _playButton = GetComponentInChildren<Button>();
             _buttonText = _playButton.GetComponentInChildren<TextMeshProUGUI>();
         }
 
         private void Start() {
-            Hour = _hourSlider.value;
             _playButton.onClick.AddListener(Play);
-            startTime.text = Utility.FormatTime(_hourSlider.minValue+hourOffset);
-            endTime.text = Utility.FormatTime(_hourSlider.maxValue+hourOffset);
-            currentTime.text = Utility.FormatTime(_hourSlider.value+hourOffset);
             ShowUI(false);
         }
         private void Update() {
@@ -57,9 +54,22 @@ public class TimeManager : MonoBehaviour {
     #endregion
 
     #region Other Methods
+    
+        public void SetLevelTime(Level l) {
+            Hour = l.StartTime;
+                
+            startTime.text = Utility.FormatTime(l.StartTime+hourOffset);
+            endTime.text = Utility.FormatTime(l.EndTime+hourOffset);
+            currentTime.text = Utility.FormatTime(l.StartTime+hourOffset);
+
+            _hourSlider.minValue = l.StartTime;
+            _hourSlider.maxValue = l.EndTime;
+            _hourSlider.value = l.StartTime;
+        }
         public void ShowUI(bool b) {
-            _hourSlider.gameObject.SetActive(b);
-            _playButton.gameObject.SetActive(b);
+            _canvasGroup.alpha = b ? 1f : 0f;
+            _canvasGroup.interactable = b;
+            _canvasGroup.blocksRaycasts = b;
         }
         public void UpdateHour(float f) {
             Hour = f;
