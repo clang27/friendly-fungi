@@ -73,7 +73,7 @@ public class CameraController : MonoBehaviour {
     
     private Camera _camera;
     private Transform _transform;
-    private Vector3 _goalRotation;
+    private Vector3 _goalRotation, _startingRotation;
     private Transform _worldTransform;
     private float _initialYaw, _initialPitch;
     private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
@@ -152,11 +152,9 @@ public class CameraController : MonoBehaviour {
     private void Start() {
         _targetCameraState.Init(_transform, _camera.orthographicSize);
         _interpolatingCameraState.Init(_transform, _camera.orthographicSize);
-    }
-
-    public void Init() {
         _worldTransform = GameObject.FindGameObjectWithTag("Map").transform;
         _goalRotation = _worldTransform.localRotation.eulerAngles;
+        _startingRotation = _worldTransform.localRotation.eulerAngles;
     }
 
     private Vector3 GetInputRotationDirection() {
@@ -215,6 +213,10 @@ public class CameraController : MonoBehaviour {
         }
     }
 
+    public void ResetWorldPosition() {
+        _goalRotation = _startingRotation;
+    }
+
     private void LateUpdate() {
         //_targetCameraState.AddZoom(GetZoom(), minZoomIn, maxZoomIn);
 
@@ -230,7 +232,7 @@ public class CameraController : MonoBehaviour {
         
         if (_worldTransform) {
             if (AutoRotate) {
-                _goalRotation += Vector3.down * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? 1f : -1f) * 0.2f);
+                _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? 1f : -1f) * 0.2f);
             } else {
                 _goalRotation += GetInputRotationDirection() * (
                     Settings.RotateSpeed * (IsBoostPressed() ? Settings.BoostMultiplier : 1f) * 

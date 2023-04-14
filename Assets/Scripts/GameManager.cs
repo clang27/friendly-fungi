@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 	#endregion
 	
 	#region Attributes
-		private bool Paused { get; set; }
+		private bool InMainMenu { get; set; } = true;
 	#endregion
 	
 	#region Components
@@ -27,90 +27,124 @@ public class GameManager : MonoBehaviour {
 	#endregion
 	
 	#region Private Data
-		private Level _currentLevel;
+		//private Level _currentLevel;
 	#endregion
 	
 	#region Unity Methods
 		private void Awake() {
 			Settings.ReadData();
 			
-			_currentLevel = startingLevel;
 			_timeManager = FindObjectOfType<TimeManager>();
-			_cameraController = FindObjectOfType<CameraController>();
 			_audioManager = FindObjectOfType<AudioManager>();
 			_uiManager = FindObjectOfType<UiManager>();
 		}
 
 		private void Start() {
 			_audioManager.MainMenuTheme();
-			StartCoroutine(LoadScene("LevelOne"));
-		}
-
-		private void Update() {
-			if (Input.GetKeyDown(KeyCode.Space)) {
-				if (_mapScaler && _mapScaler.MapReady)
-					EndLevel();
-				else if (_mapScaler)
-					StartLevel();
-			} else if (Input.GetKeyDown(KeyCode.M) && _mapScaler && _mapScaler.MapReady) {
-				Pause(!Paused);
-			}
+			_uiManager.ShowTopBar(false);
 		}
 	#endregion
 	
 	#region Other Methods
-		private void Pause(bool b) {
-			Paused = b;
+		public void QuitGame() {
+			InMainMenu = true;
 			
-			if (b) {
-				_timeManager.Pause();
-				_uiManager.OpenMenu();
+			_uiManager.OpenMainMenu();
+			_uiManager.ShowTopBar(false);
+			
+			_audioManager.MainMenuTheme();
+			_cameraController.Enabled = false;
+			_cameraController.AutoRotate = true;
+			
+			_timeManager.Pause();
+			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
+		}
+		public void OpenSettings() {
+			if (InMainMenu) {
+				_uiManager.CloseMainMenu();
 			} else {
-				_uiManager.CloseMenu();
+				_timeManager.Pause();
+				_uiManager.ShowTopBar(false);
+				_cameraController.Enabled = false;
+				_cameraController.AutoRotate = true;
+			}
+				
+			_uiManager.OpenSettings();
+		}
+		public void CloseSettings() {
+			if (InMainMenu) {
+				_uiManager.OpenMainMenu();
+			} else {
+				_timeManager.Play();
+				_uiManager.ShowTopBar(true);
+				_cameraController.Enabled = true;
+				_cameraController.AutoRotate = false;
+			}
+				
+			_uiManager.CloseSettings();
+		}
+
+		public IEnumerator SwapLevels(Level lvl) {
+			var asyncUnload = SceneManager.UnloadSceneAsync(LevelSelection.CurrentLevel.SceneName);
+			_uiManager.ShowLoadingScreen(true);
+			_uiManager.DisableButtonsOnLoading(true);
+			
+			while (!asyncUnload.isDone) {
+				yield return null;
 			}
 
-			_timeManager.ShowUI(!b);
-			_cameraController.Enabled = !b;
-			_cameraController.AutoRotate = b;
+			StartCoroutine(LoadLevel(lvl));
 		}
-		private IEnumerator LoadScene(string sceneName) {
-			var asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+		
+		public IEnumerator LoadLevel(Level lvl) {
+			var asyncLoad = SceneManager.LoadSceneAsync(lvl.SceneName, LoadSceneMode.Additive);
+			_uiManager.ShowLoadingScreen(true);
 			_uiManager.DisableButtonsOnLoading(true);
 
 			while (!asyncLoad.isDone) {
 				yield return null;
 			}
 			
+			_uiManager.ShowLoadingScreen(false);
+			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
-			_uiManager.DisableButtonsOnLoading(false);
-			_uiManager.ChangeStartButton("Start", StartLevel);
-
-		}
-		public void StartLevel() {
-			_uiManager.CloseMenu();
-			_uiManager.ChangeStartButton("Resume", () => Pause(false));
-			_cameraController.Init();
-			_cameraController.Enabled = true;
-			_audioManager.LevelTheme(_currentLevel);
-			_timeManager.SetLevelTime(_currentLevel);
-			StartCoroutine(GenerateLevel());
-		}
-
-		public void EndLevel() {
-			_timeManager.Pause();
-			_timeManager.ShowUI(false);
-			_mapScaler.RemoveMap();
-		}
-
-		private IEnumerator GenerateLevel() {
+			
+			if (LevelSelection.CurrentLevel.Unlocked()) {
+				_uiManager.DisableButtonsOnLoading(false);
+				_uiManager.ChangeStartButton("Start", StartLevel);
+			} else {
+				_uiManager.ChangeStartButton("Locked", () => { });
+			}
+			
+			_timeManager.SetLevelTime(lvl);
 			_mapScaler.GenerateMap();
+			_cameraController.AutoRotate = true;
+			
 			while (!_mapScaler.MapReady) {
 				yield return new WaitForSeconds(0.1f);
 			}
-			_timeManager.ShowUI(true);
+		}
+		public void StartLevel() {
+			InMainMenu = false;
+			_uiManager.CloseMainMenu();
+			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
+			_cameraController.Enabled = true;
+			
+			StartCoroutine(FinishLevelGenerationThenStartTime());
+		}
+
+		private IEnumerator FinishLevelGenerationThenStartTime() {
+			_cameraController.AutoRotate = false;
+			_cameraController.ResetWorldPosition();
+			
+			while (!_mapScaler.MapReady) {
+				yield return new WaitForSeconds(0.1f);
+			}
+			
+			_uiManager.ShowTopBar(true);
 			_timeManager.Play();
 		}
-	
+
 		public void UpdateMouseRotateSensitivity(float f) {
 			_audioManager.PlayIntervalScrollSound();
 			Settings.SetData(SettingsType.MouseRotateSensitivity, f);

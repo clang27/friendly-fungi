@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5555e026b7fc3664496191adc7728850, type: 3}
   m_Name: LevelOneData
   m_EditorClassIdentifier: 
+  SceneName: LevelOne
+  LevelName: Tutorial
   StartTime: 7
   EndTime: 17
   Song: {fileID: 8300000, guid: 60678cf1314aa6c4ca988fabe88cbd2b, type: 3}

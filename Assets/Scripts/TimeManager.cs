@@ -12,6 +12,8 @@ public class TimeManager : MonoBehaviour {
         [SerializeField] private float multiplier = 0.1f;
         [SerializeField] private TextMeshProUGUI startTime, currentTime, endTime;
         [SerializeField] private float hourOffset = 2f;
+        [SerializeField] private Button playButton;
+        [SerializeField] private Slider hourSlider;
     #endregion
     
     #region Attributes
@@ -21,35 +23,28 @@ public class TimeManager : MonoBehaviour {
     #endregion
 
     #region Private Data
-        private Slider _hourSlider;
-        private Button _playButton;
         private TextMeshProUGUI _buttonText;
-        private CanvasGroup _canvasGroup;
     #endregion
 
     #region Unity Methods
         private void Awake() {
-            _hourSlider = GetComponent<Slider>();
-            _canvasGroup = GetComponent<CanvasGroup>();
-            _playButton = GetComponentInChildren<Button>();
-            _buttonText = _playButton.GetComponentInChildren<TextMeshProUGUI>();
+            _buttonText = playButton.GetComponentInChildren<TextMeshProUGUI>();
         }
 
         private void Start() {
-            _playButton.onClick.AddListener(Play);
-            ShowUI(false);
+            playButton.onClick.AddListener(Play);
         }
         private void Update() {
             if (!Running) return;
 
             Hour += Time.deltaTime * multiplier;
-            if (Hour >= _hourSlider.maxValue) {
-                Hour = _hourSlider.maxValue;
+            if (Hour >= hourSlider.maxValue) {
+                Hour = hourSlider.maxValue;
                 Pause();
             }
 
             currentTime.text = Utility.FormatTime(Hour+hourOffset);
-            _hourSlider.value = Hour;
+            hourSlider.value = Hour;
         }
     #endregion
 
@@ -62,14 +57,9 @@ public class TimeManager : MonoBehaviour {
             endTime.text = Utility.FormatTime(l.EndTime+hourOffset);
             currentTime.text = Utility.FormatTime(l.StartTime+hourOffset);
 
-            _hourSlider.minValue = l.StartTime;
-            _hourSlider.maxValue = l.EndTime;
-            _hourSlider.value = l.StartTime;
-        }
-        public void ShowUI(bool b) {
-            _canvasGroup.alpha = b ? 1f : 0f;
-            _canvasGroup.interactable = b;
-            _canvasGroup.blocksRaycasts = b;
+            hourSlider.minValue = l.StartTime;
+            hourSlider.maxValue = l.EndTime;
+            hourSlider.value = l.StartTime;
         }
         public void UpdateHour(float f) {
             Hour = f;
@@ -79,15 +69,15 @@ public class TimeManager : MonoBehaviour {
         public void Play() {
             Running = true;
             _buttonText.text = "||";
-            _playButton.onClick.RemoveListener(Play);
-            _playButton.onClick.AddListener(Pause);
+            playButton.onClick.RemoveListener(Play);
+            playButton.onClick.AddListener(Pause);
         }
 
         public void Pause() {
             Running = false;
             _buttonText.text = ">";
-            _playButton.onClick.RemoveListener(Pause);
-            _playButton.onClick.AddListener(Play);
+            playButton.onClick.RemoveListener(Pause);
+            playButton.onClick.AddListener(Play);
         }
 
     #endregion

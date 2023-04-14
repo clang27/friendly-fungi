@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5555e026b7fc3664496191adc7728850, type: 3}
   m_Name: LevelTwoData
   m_EditorClassIdentifier: 
+  SceneName: LevelTwo
+  LevelName: Toad Lake
   StartTime: 2
   EndTime: 12
   Song: {fileID: 8300000, guid: dd933ea093a02e24898b2692de425325, type: 3}

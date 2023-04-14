@@ -10,8 +10,9 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour {
 	#region Serialized Fields
+		[SerializeField] private RawImage loadingScreen;
 		[SerializeField] private Button startButton;
-		[SerializeField] private CanvasGroup menuPanel, mainPanel, settingsPanel, audioPanel, gameplayPanel, graphicsPanel;
+		[SerializeField] private CanvasGroup menuPanel, mainPanel, settingsPanel, audioPanel, gameplayPanel, graphicsPanel, topBar;
 	#endregion
 	
 	#region Attributes
@@ -33,6 +34,9 @@ public class UiManager : MonoBehaviour {
 	#endregion
 	
 	#region Other Methods
+		public void ShowLoadingScreen(bool b) {
+			loadingScreen.gameObject.SetActive(b);
+		}
 
 		public void ChangeStartButton(string s, UnityAction a) {
 			startButton.GetComponentInChildren<TextMeshProUGUI>().text = s;
@@ -45,19 +49,25 @@ public class UiManager : MonoBehaviour {
 			startButton.GetComponentInChildren<TextMeshProUGUI>().text = b ? "Loading..." : "Start";
 		}
 		
-		public void OpenMenu() {
+		public void OpenMainMenu() {
 			OpenPanel(menuPanel, true);
 		}
 		
-		public void CloseMenu() {
+		public void CloseMainMenu() {
 			OpenPanel(menuPanel, false);
 		}
-		
+
 		public void OpenSettings() {
 			OpenPanel(settingsPanel, true);
-			OpenPanel(mainPanel, false);
 			OpenPanel(_lastPanelOpen, true);
 			_activePanel = _lastPanelOpen;
+		}
+		
+		public void CloseSettings() {
+			_lastPanelOpen = _activePanel;
+			CloseActivePanel();
+			OpenPanel(settingsPanel, false);
+			Settings.SaveAllData();
 		}
 
 		public void OpenAudio() {
@@ -78,12 +88,8 @@ public class UiManager : MonoBehaviour {
 			_activePanel = graphicsPanel;
 		}
 
-		public void AcceptSettings() {
-			_lastPanelOpen = _activePanel;
-			CloseActivePanel();
-			OpenPanel(settingsPanel, false);
-			OpenPanel(mainPanel, true);
-			Settings.SaveAllData();
+		public void ShowTopBar(bool b) {
+			OpenPanel(topBar, b);
 		}
 			
 		private void OpenPanel(CanvasGroup panel, bool b) {
