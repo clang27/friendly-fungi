@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
 		private CameraController _cameraController;
 		private AudioManager _audioManager;
 		private UiManager _uiManager;
+		private CardManager _cardManager;
 	#endregion
 	
 	#region Private Data
@@ -37,11 +38,14 @@ public class GameManager : MonoBehaviour {
 			_timeManager = FindObjectOfType<TimeManager>();
 			_audioManager = FindObjectOfType<AudioManager>();
 			_uiManager = FindObjectOfType<UiManager>();
+			_cardManager = FindObjectOfType<CardManager>();
 		}
 
 		private void Start() {
 			_audioManager.MainMenuTheme();
 			_uiManager.ShowTopBar(false);
+			_uiManager.ShowCardPanel(false);
+			_uiManager.ShowAnswerPanel(false);
 		}
 	#endregion
 	
@@ -51,6 +55,7 @@ public class GameManager : MonoBehaviour {
 			
 			_uiManager.OpenMainMenu();
 			_uiManager.ShowTopBar(false);
+			_uiManager.ShowCardPanel(false);
 			
 			_audioManager.MainMenuTheme();
 			_cameraController.Enabled = false;
@@ -65,6 +70,7 @@ public class GameManager : MonoBehaviour {
 			} else {
 				_timeManager.Pause();
 				_uiManager.ShowTopBar(false);
+				_uiManager.ShowCardPanel(false);
 				_cameraController.Enabled = false;
 				_cameraController.AutoRotate = true;
 			}
@@ -77,6 +83,7 @@ public class GameManager : MonoBehaviour {
 			} else {
 				_timeManager.Play();
 				_uiManager.ShowTopBar(true);
+				_uiManager.ShowCardPanel(true);
 				_cameraController.Enabled = true;
 				_cameraController.AutoRotate = false;
 			}
@@ -84,27 +91,27 @@ public class GameManager : MonoBehaviour {
 			_uiManager.CloseSettings();
 		}
 
-		public IEnumerator SwapLevels(Level lvl) {
-			var asyncUnload = SceneManager.UnloadSceneAsync(LevelSelection.CurrentLevel.SceneName);
+		public IEnumerator LoadLevel(Level lvl) {
 			_uiManager.ShowLoadingScreen(true);
 			_uiManager.DisableButtonsOnLoading(true);
-			
-			while (!asyncUnload.isDone) {
-				yield return null;
+
+			if (LevelSelection.LevelLoaded) {
+				//Debug.Log("Unloading " + LevelSelection.CurrentLevel.SceneName);
+
+				var asyncUnload = SceneManager.UnloadSceneAsync(LevelSelection.CurrentLevel.SceneName);
+				while (!asyncUnload.isDone || _uiManager.LoadingFadingIn()) {
+					yield return null;
+				}
 			}
 
-			StartCoroutine(LoadLevel(lvl));
-		}
-		
-		public IEnumerator LoadLevel(Level lvl) {
+			//Debug.Log("Loading " + LevelSelection.CurrentLevel.SceneName);
+			LevelSelection.LevelLoaded = false;
 			var asyncLoad = SceneManager.LoadSceneAsync(lvl.SceneName, LoadSceneMode.Additive);
-			_uiManager.ShowLoadingScreen(true);
-			_uiManager.DisableButtonsOnLoading(true);
-
 			while (!asyncLoad.isDone) {
 				yield return null;
 			}
-			
+
+			LevelSelection.LevelLoaded = true;
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
@@ -127,6 +134,7 @@ public class GameManager : MonoBehaviour {
 		public void StartLevel() {
 			InMainMenu = false;
 			_uiManager.CloseMainMenu();
+			_cardManager.ResetQuestions();
 			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
 			_cameraController.Enabled = true;
 			
@@ -142,7 +150,23 @@ public class GameManager : MonoBehaviour {
 			}
 			
 			_uiManager.ShowTopBar(true);
+			_uiManager.ShowCardPanel(true);
+			_cardManager.PickRandomQuestions(2);
 			_timeManager.Play();
+		}
+
+		public void OpenAnswer() {
+			_uiManager.ShowAnswerPanel(true);
+			_timeManager.Pause();
+			_uiManager.ShowCardPanel(false);
+			_cameraController.Enabled = false;
+		}
+		
+		public void CloseAnswer() {
+			_uiManager.ShowAnswerPanel(false);
+			_timeManager.Play();
+			_uiManager.ShowCardPanel(true);
+			_cameraController.Enabled = true;
 		}
 
 		public void UpdateMouseRotateSensitivity(float f) {

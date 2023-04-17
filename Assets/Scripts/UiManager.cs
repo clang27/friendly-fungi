@@ -3,6 +3,7 @@
  * https://www.knitwitstudios.com/
  */
 
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +13,8 @@ public class UiManager : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private RawImage loadingScreen;
 		[SerializeField] private Button startButton;
-		[SerializeField] private CanvasGroup menuPanel, mainPanel, settingsPanel, audioPanel, gameplayPanel, graphicsPanel, topBar;
+		[SerializeField] private CanvasGroup menuPanel, cardPanel, settingsPanel, 
+			audioPanel, gameplayPanel, graphicsPanel, topBar, answerPanel;
 	#endregion
 	
 	#region Attributes
@@ -35,7 +37,12 @@ public class UiManager : MonoBehaviour {
 	
 	#region Other Methods
 		public void ShowLoadingScreen(bool b) {
-			loadingScreen.gameObject.SetActive(b);
+			loadingScreen.DOFade(b ? 1f : 0f, b ? 0.2f : 1f);
+			DOTween.Play(loadingScreen);
+		}
+
+		public bool LoadingFadingIn() {
+			return DOTween.IsTweening(loadingScreen);
 		}
 
 		public void ChangeStartButton(string s, UnityAction a) {
@@ -90,6 +97,14 @@ public class UiManager : MonoBehaviour {
 
 		public void ShowTopBar(bool b) {
 			OpenPanel(topBar, b);
+		}
+		
+		public void ShowCardPanel(bool b) {
+			OpenPanel(cardPanel, b);
+		}
+		
+		public void ShowAnswerPanel(bool b) {
+			OpenPanel(answerPanel, b);
 		}
 			
 		private void OpenPanel(CanvasGroup panel, bool b) {

@@ -16,6 +16,7 @@ public class LevelSelection : MonoBehaviour {
 	
 	#region Attributes
 		public static Level CurrentLevel { get; private set; }
+		public static bool LevelLoaded { get; set; }
 	#endregion
 	
 	#region Components
@@ -56,14 +57,14 @@ public class LevelSelection : MonoBehaviour {
 	#region Other Methods
 		public void NextLevel() {
 			_currentSelection++;
-			StartCoroutine(_gameManager.SwapLevels(levels[_currentSelection]));
+			StartCoroutine(_gameManager.LoadLevel(levels[_currentSelection]));
 			CurrentLevel = levels[_currentSelection];
 			UpdateUI();
 		}
 		
 		public void PreviousLevel() {
 			_currentSelection--;
-			StartCoroutine(_gameManager.SwapLevels(levels[_currentSelection]));
+			StartCoroutine(_gameManager.LoadLevel(levels[_currentSelection]));
 			CurrentLevel = levels[_currentSelection];
 			UpdateUI();
 		}
