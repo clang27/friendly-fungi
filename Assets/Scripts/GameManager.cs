@@ -11,57 +11,91 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private Level startingLevel;
-	#endregion
-	
-	#region Attributes
-		private bool InMainMenu { get; set; } = true;
-	#endregion
-	
-	#region Components
-		private TimeManager _timeManager;
-		private MapScaler _mapScaler;
-		private CameraController _cameraController;
-		private AudioManager _audioManager;
-		private UiManager _uiManager;
-		private CardManager _cardManager;
-	#endregion
-	
-	#region Private Data
-		//private Level _currentLevel;
-	#endregion
-	
-	#region Unity Methods
-		private void Awake() {
-			Settings.ReadData();
-			
-			_timeManager = FindObjectOfType<TimeManager>();
-			_audioManager = FindObjectOfType<AudioManager>();
-			_uiManager = FindObjectOfType<UiManager>();
-			_cardManager = FindObjectOfType<CardManager>();
-		}
 
-		private void Start() {
-			_audioManager.MainMenuTheme();
-			_uiManager.ShowTopBar(false);
-			_uiManager.ShowCardPanel(false);
-			_uiManager.ShowAnswerPanel(false);
-		}
+	[SerializeField] private Level startingLevel;
+
 	#endregion
-	
+
+	#region Attributes
+
+	private bool InMainMenu { get; set; } = true;
+
+	#endregion
+
+	#region Components
+
+	private TimeManager _timeManager;
+	private MapScaler _mapScaler;
+	private CameraController _cameraController;
+	private AudioManager _audioManager;
+	private UiManager _uiManager;
+	private CardManager _cardManager;
+
+	#endregion
+
+	#region Private Data
+
+	//private Level _currentLevel;
+
+	#endregion
+
+	#region Unity Methods
+
+	private void Awake() {
+		Settings.ReadData();
+		MushroomData.Init();
+
+		_timeManager = FindObjectOfType<TimeManager>();
+		_audioManager = FindObjectOfType<AudioManager>();
+		_uiManager = FindObjectOfType<UiManager>();
+		_cardManager = FindObjectOfType<CardManager>();
+	}
+
+	private void Start() {
+		_audioManager.MainMenuTheme();
+		_uiManager.ShowTopBar(false);
+		_uiManager.ShowCardPanel(false);
+		_uiManager.ShowAnswerPanel(false);
+		_uiManager.ClosePrompt();
+	}
+
+	#endregion
+
 	#region Other Methods
-		public void QuitGame() {
-			InMainMenu = true;
-			
-			_uiManager.OpenMainMenu();
-			_uiManager.ShowTopBar(false);
-			_uiManager.ShowCardPanel(false);
-			
-			_audioManager.MainMenuTheme();
+		public void OpenQuitPrompt() {
+			_timeManager.Pause();
 			_cameraController.Enabled = false;
 			_cameraController.AutoRotate = true;
 			
-			_timeManager.Pause();
+			_uiManager.ShowTopBar(false);
+			_uiManager.ShowCardPanel(false);
+				
+			_uiManager.OpenPrompt(
+				"Are you sure you want to exit to menu? You will lose this level's progress.",
+				"Yes", "No",
+				QuitGame, CloseQuitPrompt
+			);
+		}
+
+		private void CloseQuitPrompt() {
+			_timeManager.Play();
+			_cameraController.Enabled = true;
+			_cameraController.AutoRotate = false;
+			
+			_uiManager.ShowTopBar(true);
+			_uiManager.ShowCardPanel(true);
+			
+			_uiManager.ClosePrompt();
+		}
+
+		private void QuitGame() {
+			InMainMenu = true;
+			
+			_uiManager.ClosePrompt();
+			_uiManager.OpenMainMenu();
+			
+			_audioManager.MainMenuTheme();
+
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
 		}
 		public void OpenSettings() {
@@ -151,7 +185,7 @@ public class GameManager : MonoBehaviour {
 			
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
-			_cardManager.PickRandomQuestions(2);
+			_cardManager.PickRandomQuestions(LevelSelection.CurrentLevel.NumberOfQuestions);
 			_timeManager.Play();
 		}
 

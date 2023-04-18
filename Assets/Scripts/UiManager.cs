@@ -11,30 +11,48 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private RawImage loadingScreen;
-		[SerializeField] private Button startButton;
-		[SerializeField] private CanvasGroup menuPanel, cardPanel, settingsPanel, 
-			audioPanel, gameplayPanel, graphicsPanel, topBar, answerPanel;
+
+	[SerializeField] private RawImage loadingScreen;
+	[SerializeField] private Button startButton;
+
+	[SerializeField] private CanvasGroup menuPanel,
+		cardPanel,
+		settingsPanel,
+		audioPanel,
+		gameplayPanel,
+		graphicsPanel,
+		topBar,
+		answerPanel,
+		promptPanel;
+
 	#endregion
-	
+
 	#region Attributes
-		// public float AttributeOne { get; set; }
+
+	// public float AttributeOne { get; set; }
+
 	#endregion
-	
+
 	#region Components
-		//private AudioManager _audioManager;
+
+	//private AudioManager _audioManager;
+
 	#endregion
-	
+
 	#region Private Data
-		private CanvasGroup _activePanel, _lastPanelOpen;
+
+	private CanvasGroup _activePanel, _lastPanelOpen;
+
 	#endregion
-	
+
 	#region Unity Methods
-		private void Awake() {
-			_lastPanelOpen = audioPanel;
-		}
+
+	private void Awake() {
+		_lastPanelOpen = audioPanel;
+	}
+
 	#endregion
-	
+
 	#region Other Methods
 		public void ShowLoadingScreen(bool b) {
 			loadingScreen.DOFade(b ? 1f : 0f, b ? 0.2f : 1f);
@@ -50,16 +68,16 @@ public class UiManager : MonoBehaviour {
 			startButton.onClick.RemoveAllListeners();
 			startButton.onClick.AddListener(a);
 		}
-		
+
 		public void DisableButtonsOnLoading(bool b) {
 			startButton.interactable = !b;
 			startButton.GetComponentInChildren<TextMeshProUGUI>().text = b ? "Loading..." : "Start";
 		}
-		
+
 		public void OpenMainMenu() {
 			OpenPanel(menuPanel, true);
 		}
-		
+
 		public void CloseMainMenu() {
 			OpenPanel(menuPanel, false);
 		}
@@ -69,7 +87,7 @@ public class UiManager : MonoBehaviour {
 			OpenPanel(_lastPanelOpen, true);
 			_activePanel = _lastPanelOpen;
 		}
-		
+
 		public void CloseSettings() {
 			_lastPanelOpen = _activePanel;
 			CloseActivePanel();
@@ -82,19 +100,35 @@ public class UiManager : MonoBehaviour {
 			OpenPanel(audioPanel, true);
 			_activePanel = audioPanel;
 		}
-			
 		public void OpenGameplay() {
 			CloseActivePanel();
 			OpenPanel(gameplayPanel, true);
 			_activePanel = gameplayPanel;
 		}
-			
 		public void OpenGraphics() {
 			CloseActivePanel();
 			OpenPanel(graphicsPanel, true);
 			_activePanel = graphicsPanel;
 		}
+		public void OpenPrompt(string question, string optionOneLabel, string optionTwoLabel, UnityAction optionOneAction, UnityAction optionTwoAction) {
+			OpenPanel(promptPanel, true);
+			
+			var textMeshes = promptPanel.GetComponentsInChildren<TextMeshProUGUI>();
+			var buttons = promptPanel.GetComponentsInChildren<Button>();
 
+			textMeshes[0].text = question;
+			
+			textMeshes[1].text = optionOneLabel;
+			buttons[0].onClick.RemoveAllListeners();
+			buttons[0].onClick.AddListener(optionOneAction);
+			
+			textMeshes[2].text = optionTwoLabel;
+			buttons[1].onClick.RemoveAllListeners();
+			buttons[1].onClick.AddListener(optionTwoAction);
+		}
+		public void ClosePrompt() {
+			OpenPanel(promptPanel, false);
+		}
 		public void ShowTopBar(bool b) {
 			OpenPanel(topBar, b);
 		}
