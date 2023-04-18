@@ -21,5 +21,9 @@ public enum Difficulty {
 public class Question : ScriptableObject {
 	public QuestionType Type;
 	public Difficulty Difficulty;
-	public string Verse;
+	public string VerseTemplate;
+	public int MushroomIndex;
+	public string GetVerse(MushroomData md) {
+		return VerseTemplate.Replace("{name}", md.Name);
+	}
 }

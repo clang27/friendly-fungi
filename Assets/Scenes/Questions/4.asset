@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 3
   Difficulty: 0
-  Verse: Does Loo live?
+  VerseTemplate: is {name}'s brownie?
+  MushroomIndex: 1

@@ -3,15 +3,15 @@
  * https://www.knitwitstudios.com/
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnswerUi : MonoBehaviour {
 	#region Serialized Fields
-
-		[SerializeField] private TextMeshProUGUI _body;
+		[SerializeField] private TextMeshProUGUI header;
+		[SerializeField] private TMP_Dropdown nameDropdown;
+		[SerializeField] private Slider timeSlider;
 	#endregion
 	
 	#region Attributes
@@ -29,28 +29,28 @@ public class AnswerUi : MonoBehaviour {
 	#endregion
 	
 	#region Unity Methods
-		private void Awake() {
-			_transform = transform;
-			// _rigidbody = GetComponent<Rigidbody2D>();
-			// _collider = GetComponent<Collider2D>();
-		}
-		
 		private void Start() {
-			
+			nameDropdown.ClearOptions();
+			nameDropdown.AddOptions(MushroomData.UsedNames);
 		}
 
-		private void Update() {
-			
-		}
-		
-		private void FixedUpdate() {
-			
-		}
+
 	#endregion
 	
 	#region Other Methods
 		public void SetAnswerFormat(Question q) {
-			_body.text = q.Type.ToString();
+			header.text = q.Type + " " + q.GetVerse(MushroomManager.AllShrooms[q.MushroomIndex]);
+			nameDropdown.gameObject.SetActive(false);
+			timeSlider.gameObject.SetActive(false);
+			
+			switch (q.Type) {
+				case QuestionType.Who:
+					nameDropdown.gameObject.SetActive(true);
+					break;
+				case QuestionType.When:
+					timeSlider.gameObject.SetActive(true);
+					break;
+			}
 		}
 	#endregion
 }

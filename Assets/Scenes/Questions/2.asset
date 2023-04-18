@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   Difficulty: 0
-  Verse: Ate the brownie?
+  VerseTemplate: is missing at the evening campfire?
+  MushroomIndex: 0

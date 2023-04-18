@@ -3,7 +3,6 @@
  * https://www.knitwitstudios.com/
  */
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,7 +22,6 @@ public class CardManager : MonoBehaviour {
 	#endregion
 	
 	#region Private Data
-		// private float _dataOne, _dataTwo;
 	#endregion
 	
 	#region Unity Methods
@@ -53,7 +51,7 @@ public class CardManager : MonoBehaviour {
 				card.ClearQuestion();
 				card.HighlightCard(false);
 				card.ShowCard( false);
-				card.MoveRectX(-30f);
+				card.MoveRectX(-20f);
 			}
 		}
 	#endregion

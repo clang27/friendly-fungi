@@ -41,12 +41,7 @@ public class CardUi : MonoBehaviour {
 		}
 
 		private void Start() {
-			for (var i = 0; i < transform.parent.childCount; i++) {
-				if (!transform.parent.GetChild(i).name.Equals(name)) continue;
-				
-				_index = i;
-				break;
-			}
+			_index = int.Parse(name[^1].ToString()) - 1;
 		}
 		
 	#endregion
@@ -61,7 +56,7 @@ public class CardUi : MonoBehaviour {
 		public void SetQuestion(Question q) {
 			Question = q;
 			_header.text = q.Type.ToString();
-			_body.text = q.Verse;
+			_body.text = q.GetVerse(MushroomManager.AllShrooms[q.MushroomIndex]);
 		}
 		public void MoveRectX(Single x) {
 			_rectTransform.DOMoveX(x, 0.5f);
