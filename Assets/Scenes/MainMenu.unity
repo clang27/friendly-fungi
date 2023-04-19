@@ -7471,6 +7471,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f40b9e440cd524eaaf41a16d1af4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mushroomPrefab: {fileID: 8064443193673040974, guid: 54adfce7acbc6014b8f68c67146f7b69, type: 3}
+  mushroomModels:
+  - {fileID: 11400000, guid: 68af45a117b0a0d4ebf98c35ee45e377, type: 2}
+  mushroomBench: {fileID: 1640616951}
 --- !u!1 &930033201
 GameObject:
   m_ObjectHideFlags: 0
@@ -12831,6 +12835,37 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1640616950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1640616951}
+  m_Layer: 0
+  m_Name: Bench
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1640616951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640616950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1652036789
 GameObject:
   m_ObjectHideFlags: 0

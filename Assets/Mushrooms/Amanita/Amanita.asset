@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b238645573c9b4a478af889caf208da2, type: 3}
+  m_Name: Amanita
+  m_EditorClassIdentifier: 
+  Type: 0
+  Mesh: {fileID: -2432090755550338912, guid: ade89330c03c07147aa88b33785f28c5, type: 3}
+  HeadTextures:
+  - {fileID: 2800000, guid: fe6843f9b482fdb468b7faed3cfadc0c, type: 3}
+  - {fileID: 2800000, guid: 5733953ec657b9046aa334c8c96cfc76, type: 3}
+  - {fileID: 2800000, guid: 9217a09ee06cf194d896aaeb029f96db, type: 3}
+  - {fileID: 2800000, guid: 5149821eb03c4b841a31c52db8c43d22, type: 3}
+  - {fileID: 2800000, guid: 630503aab0335cc47ac9b3619d642f59, type: 3}
+  - {fileID: 2800000, guid: b273b650c9a96c84a8ea6ea8a79e0670, type: 3}
+  BodyTextures:
+  - {fileID: 2800000, guid: 00cdeeb57922b2940a2c511b919920f9, type: 3}
+  - {fileID: 2800000, guid: be1c408af5c325847916a39e4a0ff4f9, type: 3}
+  - {fileID: 2800000, guid: bf68e5bd02013704b99f4b25df070047, type: 3}
+  - {fileID: 2800000, guid: f1723585c5eea5d478d6f464d9647ff1, type: 3}
+  - {fileID: 2800000, guid: ec99e30cb6d38974f956431e435b4ea3, type: 3}
+  - {fileID: 2800000, guid: 2e9b83ed3d3837740ad39f2f51fda94b, type: 3}

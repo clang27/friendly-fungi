@@ -3,46 +3,59 @@
  * https://www.knitwitstudios.com/
  */
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
-
-[Serializable]
-public enum MushroomType {
-    Amanita, Porcini, Shiitake, Morel
-}
 
 public class MushroomData {
-    private static string[] _names;
-    private static List<string> _takenNames = new();
-    public static List<string> UsedNames => _takenNames;
-    public Color HeadColor { get; }
-    public Color BodyColor { get; }
+    public static List<MushroomData> AllData { get; } = new();
+
+    public int HeadColorIndex { get; }
+    public int BodyColorIndex { get; }
     public string Name { get; }
     public MushroomType Type { get; }
 
-    private MushroomData(Color hc, Color bc, string n, MushroomType mt) {
-        HeadColor = hc;
-        BodyColor = bc;
+    private MushroomData(int hc, int bc, string n, MushroomType mt) {
+        HeadColorIndex = hc;
+        BodyColorIndex = bc;
         Name = n;
         Type = mt;
     }
     public static void Init() {
         var file = Resources.Load<TextAsset>("names");
-        _names = file.text.Split(",");
-    }
-    
-    public static MushroomData RandomMushroom() {
-        var hc = Color.HSVToRGB(Random.Range(0f, 1f), 1f, 0.8f);
-        var bc = Color.HSVToRGB(1f - hc.r, 0.2f, 1f);
-        var n = _names[Random.Range(0, _names.Length)];
-        while (_takenNames.Contains(n)) {
-            n = _names[Random.Range(0, _names.Length)];
-        }
-        _takenNames.Add(n);
-        var mt = (MushroomType)Random.Range(0, 4);
+        var names = file.text.Split(",");
+        
+        if (!PlayerPrefs.HasKey("MushroomDataName0")) {
+            var usedNames = new List<string>();
+            
+            for (var i = 0; i < names.Length; i++) {
+                var hc = Random.Range(0,6);
+                var bc = Random.Range(0,6);
+                var n = names[Random.Range(0, names.Length)];
+                //TODO: Add more types
+                var mt = (MushroomType)Random.Range(0, 1);
+                
+                while (usedNames.Contains(n)) {
+                    n = names[Random.Range(0, names.Length)];
+                }
+                usedNames.Add(n);
 
-        return new MushroomData(hc, bc, n, mt);
+                AllData.Add(new MushroomData(hc, bc, n, mt));
+                
+                PlayerPrefs.SetString("MushroomDataName"+i, n);
+                PlayerPrefs.SetInt("MushroomDataHeadColorIndex"+i, hc);
+                PlayerPrefs.SetInt("MushroomDataBodyColorIndex"+i, bc);
+                PlayerPrefs.SetInt("MushroomDataType"+i, (int)mt);
+            }
+            
+            PlayerPrefs.Save();
+        } else {
+            for (var i = 0; i < names.Length; i++) {
+                var hc =  PlayerPrefs.GetInt("MushroomDataHeadColorIndex"+i);
+                var bc =  PlayerPrefs.GetInt("MushroomDataBodyColorIndex"+i);
+                var n = PlayerPrefs.GetString("MushroomDataName"+i);
+                var mt = (MushroomType)PlayerPrefs.GetInt("MushroomDataType"+i);
+                AllData.Add(new MushroomData(hc, bc, n, mt));
+            }
+        }
     }
 }

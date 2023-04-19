@@ -56,7 +56,7 @@ public class CardUi : MonoBehaviour {
 		public void SetQuestion(Question q) {
 			Question = q;
 			_header.text = q.Type.ToString();
-			_body.text = q.GetVerse(MushroomManager.AllShrooms[q.MushroomIndex]);
+			_body.text = q.GetVerse(MushroomManager.AllActiveData[q.MushroomIndex]);
 		}
 		public void MoveRectX(Single x) {
 			_rectTransform.DOMoveX(x, 0.5f);

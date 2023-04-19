@@ -7,36 +7,28 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 	#region Serialized Fields
-
-	[SerializeField] private Level startingLevel;
-
+		[SerializeField] private Level startingLevel;
 	#endregion
 
 	#region Attributes
-
-	private bool InMainMenu { get; set; } = true;
-
+		private bool InMainMenu { get; set; } = true;
 	#endregion
 
 	#region Components
-
-	private TimeManager _timeManager;
-	private MapScaler _mapScaler;
-	private CameraController _cameraController;
-	private AudioManager _audioManager;
-	private UiManager _uiManager;
-	private CardManager _cardManager;
-
+		private TimeManager _timeManager;
+		private MapScaler _mapScaler;
+		private CameraController _cameraController;
+		private AudioManager _audioManager;
+		private UiManager _uiManager;
+		private CardManager _cardManager;
+		private MushroomManager _mushroomManager;
 	#endregion
 
 	#region Private Data
-
-	//private Level _currentLevel;
-
+		//private Level _currentLevel;
 	#endregion
 
 	#region Unity Methods
@@ -49,6 +41,7 @@ public class GameManager : MonoBehaviour {
 		_audioManager = FindObjectOfType<AudioManager>();
 		_uiManager = FindObjectOfType<UiManager>();
 		_cardManager = FindObjectOfType<CardManager>();
+		_mushroomManager = FindObjectOfType<MushroomManager>();
 	}
 
 	private void Start() {
@@ -97,6 +90,7 @@ public class GameManager : MonoBehaviour {
 			_audioManager.MainMenuTheme();
 
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
+			_mushroomManager.UnpopulateWorld();
 		}
 		public void OpenSettings() {
 			if (InMainMenu) {
@@ -185,8 +179,11 @@ public class GameManager : MonoBehaviour {
 			
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
-			_cardManager.PickRandomQuestions(LevelSelection.CurrentLevel.NumberOfQuestions);
+			
 			_timeManager.Play();
+			
+			_mushroomManager.PopulateWorld(_mapScaler.transform, LevelSelection.CurrentLevel.MushroomSpawnPoints);
+			_cardManager.PickRandomQuestions(LevelSelection.CurrentLevel.NumberOfQuestions);
 		}
 
 		public void OpenAnswer() {
