@@ -232,11 +232,11 @@ public class CameraController : MonoBehaviour {
         
         if (_worldTransform) {
             if (AutoRotate) {
-                _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? 1f : -1f) * 0.2f);
+                _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? -1f : 1f) * 0.2f);
             } else {
                 _goalRotation += GetInputRotationDirection() * (
                     Settings.RotateSpeed * (IsBoostPressed() ? Settings.BoostMultiplier : 1f) * 
-                    (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? -1f : 1f)
+                    (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)
                 );
             }
             
