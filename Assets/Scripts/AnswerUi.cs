@@ -15,8 +15,8 @@ public class AnswerUi : MonoBehaviour {
 	#endregion
 
 	#region Other Methods
-		public void SetAnswerFormat(Question q) {
-			header.text = q.Type + " " + q.GetVerse(MushroomManager.AllActiveData[q.MushroomIndex]);
+		public void SetAnswerFormat(Question q, MushroomData md) {
+			header.text = q.Type + " " + q.GetVerse(md);
 			nameDropdown.gameObject.SetActive(false);
 			timeSlider.gameObject.SetActive(false);
 			

@@ -28,7 +28,8 @@ public class MapScaler : MonoBehaviour {
     private PWater _water;
 
     private void Awake() {
-        _meshes = GetComponentsInChildren<MeshRenderer>();
+        _meshes = GetComponentsInChildren<MeshRenderer>()
+            .Where(mr => !mr.gameObject.CompareTag("Mushroom")).ToArray();
         _particles = GetComponentsInChildren<ParticleSystem>();
         _water = GetComponentInChildren<PWater>();
     }

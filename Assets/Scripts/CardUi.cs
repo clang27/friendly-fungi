@@ -14,6 +14,7 @@ public class CardUi : MonoBehaviour {
 	#endregion
 	
 	#region Attributes
+		public Mushroom AffiliatedMushroom { get; private set; }
 		public Question Question { get; private set; }
 	#endregion
 	
@@ -53,10 +54,12 @@ public class CardUi : MonoBehaviour {
 			_canvasGroup.blocksRaycasts = b;
 		}
 
-		public void SetQuestion(Question q) {
-			Question = q;
-			_header.text = q.Type.ToString();
-			_body.text = q.GetVerse(MushroomManager.AllActiveData[q.MushroomIndex]);
+		public void SetQuestion(Mushroom m, int index) {
+			AffiliatedMushroom = m;
+			Question = m.Questions[index];
+			
+			_header.text = Question.Type.ToString();
+			_body.text = Question.GetVerse(m.Data);
 		}
 		public void MoveRectX(Single x) {
 			_rectTransform.DOMoveX(x, 0.5f);
@@ -80,11 +83,11 @@ public class CardUi : MonoBehaviour {
 		public void SelectCard() {
 			if (!Question) return;
 			
-			_answerUi.SetAnswerFormat(Question);
+			_answerUi.SetAnswerFormat(Question, AffiliatedMushroom.Data);
 		}
 
 		public void ClearQuestion() {
-			Question = null;
+			AffiliatedMushroom = null;
 		}
 	#endregion
 }

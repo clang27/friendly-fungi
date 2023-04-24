@@ -180,10 +180,10 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
 			
-			_timeManager.Play();
+			_mushroomManager.PopulateWorld();
 			
-			_mushroomManager.PopulateWorld(_mapScaler.transform, LevelSelection.CurrentLevel.MushroomSpawnPoints);
-			_cardManager.PickRandomQuestions(LevelSelection.CurrentLevel.NumberOfQuestions);
+			_timeManager.Play();
+			_cardManager.PickRandomQuestions();
 		}
 
 		public void OpenAnswer() {

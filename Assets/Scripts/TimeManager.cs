@@ -36,20 +36,27 @@ public class TimeManager : MonoBehaviour {
         }
         private void Update() {
             if (!Running) return;
-
-            Hour += Time.deltaTime * multiplier;
-            if (Hour >= hourSlider.maxValue) {
-                Hour = hourSlider.maxValue;
-                Pause();
-            }
-
-            currentTime.text = Utility.FormatTime(Hour+hourOffset);
-            hourSlider.value = Hour;
+            
+            hourSlider.value += Time.deltaTime * multiplier;
         }
     #endregion
 
     #region Other Methods
-    
+
+        public void UpdateHour(float f) {
+            Hour = f;
+            if (Hour >= hourSlider.maxValue) {
+                Hour = hourSlider.maxValue;
+                Pause();
+            }
+            
+            foreach (var m in MushroomManager.AllActive) {
+                m.SetTimeline((Hour - hourSlider.minValue) * 60f);
+            }
+            
+            currentTime.text = Utility.FormatTime(Hour+hourOffset);
+        }
+
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
                 
@@ -60,10 +67,6 @@ public class TimeManager : MonoBehaviour {
             hourSlider.minValue = l.StartTime;
             hourSlider.maxValue = l.EndTime;
             hourSlider.value = l.StartTime;
-        }
-        public void UpdateHour(float f) {
-            Hour = f;
-            currentTime.text = Utility.FormatTime(Hour+hourOffset);
         }
 
         public void Play() {

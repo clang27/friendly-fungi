@@ -2458,7 +2458,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 918187291}
         m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
         m_MethodName: UpdateHour
         m_Mode: 0
@@ -7471,10 +7471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f40b9e440cd524eaaf41a16d1af4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mushroomPrefab: {fileID: 8064443193673040974, guid: 54adfce7acbc6014b8f68c67146f7b69, type: 3}
   mushroomModels:
   - {fileID: 11400000, guid: 68af45a117b0a0d4ebf98c35ee45e377, type: 2}
-  mushroomBench: {fileID: 1640616951}
 --- !u!1 &930033201
 GameObject:
   m_ObjectHideFlags: 0

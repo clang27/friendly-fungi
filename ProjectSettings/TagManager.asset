@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tile
   - Map
+  - Mushroom
   layers:
   - Default
   - TransparentFX

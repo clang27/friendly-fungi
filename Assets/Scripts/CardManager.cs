@@ -35,14 +35,12 @@ public class CardManager : MonoBehaviour {
 	#endregion
 	
 	#region Other Methods
-		public void PickRandomQuestions(int num) {
-			var index = num-1;
-			while (index >= 0) {
-				var question = Questions.First(q1 => 
-					!Cards.Select(c => c.Question).Any(q2 => q2 && q2.Equals(q1)));
-				Cards[index].SetQuestion(question);
+		public void PickRandomQuestions() {
+			var index = 0;
+			foreach (var m in MushroomManager.AllActive) {
+				Cards[index].SetQuestion(m, 0);
 				Cards[index].ShowCard(true);
-				index--;
+				index++;
 			}
 		}
 
