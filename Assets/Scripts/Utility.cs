@@ -44,7 +44,7 @@ public static class Utility {
 	}
 	
 	public static int GetHour(string formattedTime) {
-		var hour = int.Parse(formattedTime.Substring(0, 1));
+		var hour = int.Parse(formattedTime.Split(':')[0]);
 		if (formattedTime.Contains("pm"))
 			hour += 12;
 
@@ -52,9 +52,9 @@ public static class Utility {
 	}
 	
 	public static int GetMinute(string formattedTime) {
-		var minutesString = formattedTime.Substring(2, 2);
+		var minutesString = formattedTime.Split(':')[1][..2];
 		if (minutesString[0] == '0')
-			minutesString = minutesString.Substring(1, 1);
+			minutesString = minutesString[1].ToString();
 
 		return int.Parse(minutesString);
 	}

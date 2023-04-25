@@ -7,12 +7,14 @@ using System;
 
 [Serializable]
 public abstract class Question {
+	public abstract string DependentName { get; }
 	public abstract string Header { get; }
 	public abstract string Template { get; }
-	public string Phrase => Header + " " + Template;
 	public abstract bool IsRightAnswer(string s);
 
-	private string ReplaceNameTemplate(string n) {
-		return Template.Replace("{name}", n);
+	public string ReplaceNameTemplate() {
+		return !string.IsNullOrEmpty(DependentName) ? 
+			Template.Replace("{name}", DependentName) : 
+			Template;
 	}
 }

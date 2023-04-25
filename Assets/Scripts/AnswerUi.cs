@@ -5,18 +5,31 @@
 
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AnswerUi : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private TextMeshProUGUI header;
 		[SerializeField] private TMP_Dropdown nameDropdown;
-		[SerializeField] private Slider timeSlider;
+		[SerializeField] private TimeSlider timeSlider;
+	#endregion
+	
+	#region Attributes
+		private static CardUi PartneredCard { get; set; }
+	#endregion
+	
+	#region Components
+		private GameManager _gameManager;
 	#endregion
 
 	#region Other Methods
-		public void SetAnswer(Question q) {
-			header.text = q.Phrase;
+		private void Awake() {
+			_gameManager = FindObjectOfType<GameManager>();
+		}
+		public void SetCard(CardUi cardUi) {
+			PartneredCard = cardUi;
+			var q = PartneredCard.Question;
+			
+			header.text = q.Header + " " + q.ReplaceNameTemplate();
 			nameDropdown.gameObject.SetActive(false);
 			timeSlider.gameObject.SetActive(false);
 			
@@ -27,9 +40,27 @@ public class AnswerUi : MonoBehaviour {
 					nameDropdown.gameObject.SetActive(true);
 					break;
 				case "When":
+					timeSlider.SetLevelTime(LevelSelection.CurrentLevel);
 					timeSlider.gameObject.SetActive(true);
 					break;
 			}
+			
+			_gameManager.OpenAnswer();
+		}
+		public void Guess() {
+			var q = PartneredCard.Question;
+			
+			var answer = q.Header switch {
+				"Who" => nameDropdown.options[nameDropdown.value].text,
+				"When" => Utility.FormatTime(timeSlider.CurrentTime+TimeManager.HourOffset),
+				_ => ""
+			};
+
+			var isCorrect = q.IsRightAnswer(answer);
+			_gameManager.GuessAnswer(isCorrect);
+			_gameManager.CloseAnswer();
+			
+			PartneredCard.Finished(isCorrect);
 		}
 	#endregion
 }

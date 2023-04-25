@@ -8,7 +8,7 @@ using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private Question[] questions;
+		private Question[] questions;
 	#endregion
 	
 	#region Attributes

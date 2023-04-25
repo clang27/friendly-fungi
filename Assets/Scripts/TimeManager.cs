@@ -10,13 +10,12 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour {
     #region Components
         [SerializeField] private float multiplier = 0.1f;
-        [SerializeField] private TextMeshProUGUI startTime, currentTime, endTime;
-        [SerializeField] private float hourOffset = 2f;
         [SerializeField] private Button playButton;
-        [SerializeField] private Slider hourSlider;
+        [SerializeField] private TimeSlider _timeSlider;
     #endregion
     
     #region Attributes
+        public static int HourOffset => 2;
         public static bool Running { get; private set; }
         public static float Hour { get; private set; } = 9f;
 
@@ -37,36 +36,28 @@ public class TimeManager : MonoBehaviour {
         private void Update() {
             if (!Running) return;
             
-            hourSlider.value += Time.deltaTime * multiplier;
+            UpdateTime(Hour + Time.deltaTime * multiplier);
         }
     #endregion
 
     #region Other Methods
-
-        public void UpdateHour(float f) {
+        public void UpdateTime(float f) {
             Hour = f;
-            if (Hour >= hourSlider.maxValue) {
-                Hour = hourSlider.maxValue;
+            if (Hour >= _timeSlider.EndTime) {
+                Hour = _timeSlider.EndTime;
                 Pause();
             }
             
-            foreach (var m in MushroomManager.AllActive) {
-                m.SetTimeline((Hour - hourSlider.minValue) * 60f);
-            }
+            _timeSlider.UpdateTimeUi(Hour);
             
-            currentTime.text = Utility.FormatTime(Hour+hourOffset);
+            foreach (var m in MushroomManager.AllActive) {
+                m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
+            }
         }
 
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
-                
-            startTime.text = Utility.FormatTime(l.StartTime+hourOffset);
-            endTime.text = Utility.FormatTime(l.EndTime+hourOffset);
-            currentTime.text = Utility.FormatTime(l.StartTime+hourOffset);
-
-            hourSlider.minValue = l.StartTime;
-            hourSlider.maxValue = l.EndTime;
-            hourSlider.value = l.StartTime;
+            _timeSlider.SetLevelTime(l);
         }
 
         public void Play() {

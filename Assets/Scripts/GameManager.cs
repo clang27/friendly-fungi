@@ -22,30 +22,25 @@ public class GameManager : MonoBehaviour {
 		private MushroomManager _mushroomManager;
 	#endregion
 
-	#region Private Data
-		//private Level _currentLevel;
-	#endregion
-
 	#region Unity Methods
+		private void Awake() {
+			Settings.ReadData();
+			MushroomData.Init();
 
-	private void Awake() {
-		Settings.ReadData();
-		MushroomData.Init();
+			_timeManager = FindObjectOfType<TimeManager>();
+			_audioManager = FindObjectOfType<AudioManager>();
+			_uiManager = FindObjectOfType<UiManager>();
+			_cardManager = FindObjectOfType<CardManager>();
+			_mushroomManager = FindObjectOfType<MushroomManager>();
+		}
 
-		_timeManager = FindObjectOfType<TimeManager>();
-		_audioManager = FindObjectOfType<AudioManager>();
-		_uiManager = FindObjectOfType<UiManager>();
-		_cardManager = FindObjectOfType<CardManager>();
-		_mushroomManager = FindObjectOfType<MushroomManager>();
-	}
-
-	private void Start() {
-		_audioManager.MainMenuTheme();
-		_uiManager.ShowTopBar(false);
-		_uiManager.ShowCardPanel(false);
-		_uiManager.ShowAnswerPanel(false);
-		_uiManager.ClosePrompt();
-	}
+		private void Start() {
+			_audioManager.MainMenuTheme();
+			_uiManager.ShowTopBar(false);
+			_uiManager.ShowCardPanel(false);
+			_uiManager.ShowAnswerPanel(false);
+			_uiManager.ClosePrompt();
+		}
 
 	#endregion
 
@@ -83,6 +78,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.OpenMainMenu();
 			
 			_audioManager.MainMenuTheme();
+			_audioManager.StopAmbience();
 
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
 			_mushroomManager.Clear();
@@ -172,6 +168,7 @@ public class GameManager : MonoBehaviour {
 				yield return new WaitForSeconds(0.1f);
 			}
 			
+			_audioManager.StartAmbience();
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
 
@@ -193,6 +190,10 @@ public class GameManager : MonoBehaviour {
 			_timeManager.Play();
 			_uiManager.ShowCardPanel(true);
 			_cameraController.Enabled = true;
+		}
+
+		public void GuessAnswer(bool correct) {
+			_audioManager.PlayCorrect(correct);
 		}
 
 		public void UpdateMouseRotateSensitivity(float f) {

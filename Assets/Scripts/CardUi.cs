@@ -7,14 +7,12 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardUi : MonoBehaviour {
-	#region Serialized Fields
-		// [SerializeField] private float fieldOne, fieldTwo, fieldThree;
-	#endregion
-	
 	#region Attributes
 		public Question Question { get; private set; }
+		private bool Selectable { get; set; }
 	#endregion
 	
 	#region Components
@@ -22,6 +20,7 @@ public class CardUi : MonoBehaviour {
 		private CanvasGroup _canvasGroup;
 		private TextMeshProUGUI _header, _body;
 		private AnswerUi _answerUi;
+		private Image _image;
 		private int _index;
 	#endregion
 	
@@ -32,6 +31,7 @@ public class CardUi : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			_rectTransform = GetComponent<RectTransform>();
+			_image = GetComponent<Image>();
 			_canvasGroup = GetComponent<CanvasGroup>();
 			_header = GetComponentsInChildren<TextMeshProUGUI>()[0];
 			_body = GetComponentsInChildren<TextMeshProUGUI>()[1];
@@ -56,8 +56,11 @@ public class CardUi : MonoBehaviour {
 		public void SetQuestion(Question q) {
 			Question = q;
 			
+			Selectable = true;
+			
+			_image.color = Color.HSVToRGB(60f / 360f, .27f, 1f);
 			_header.text = Question.Header;
-			_body.text = Question.Template;
+			_body.text = Question.ReplaceNameTemplate();
 		}
 		public void MoveRectX(Single x) {
 			_rectTransform.DOMoveX(x, 0.5f);
@@ -79,7 +82,14 @@ public class CardUi : MonoBehaviour {
 		}
 
 		public void SelectCard() {
-			_answerUi.SetAnswer(Question);
+			if (!Selectable) return;
+			
+			_answerUi.SetCard(this);
+		}
+
+		public void Finished(bool b) {
+			Selectable = false;
+			_image.color = Color.HSVToRGB(b ? 120f / 360f : 0f, .27f, 1f);
 		}
 		
 	#endregion
