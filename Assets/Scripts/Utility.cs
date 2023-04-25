@@ -25,4 +25,37 @@ public static class Utility {
 		}
 		return $"{hours}:{minutes:00}{amPmDesignator}";
 	}
+	
+	public static string FormatTime(float hours, float minutes) {
+		var amPmDesignator = "am";
+		switch (hours) {
+			case 0:
+				hours = 12;
+				break;
+			case 12:
+				amPmDesignator = "pm";
+				break;
+			case > 12:
+				hours -= 12;
+				amPmDesignator = "pm";
+				break;
+		}
+		return $"{hours}:{minutes:00}{amPmDesignator}";
+	}
+	
+	public static int GetHour(string formattedTime) {
+		var hour = int.Parse(formattedTime.Substring(0, 1));
+		if (formattedTime.Contains("pm"))
+			hour += 12;
+
+		return hour;
+	}
+	
+	public static int GetMinute(string formattedTime) {
+		var minutesString = formattedTime.Substring(2, 2);
+		if (minutesString[0] == '0')
+			minutesString = minutesString.Substring(1, 1);
+
+		return int.Parse(minutesString);
+	}
 }

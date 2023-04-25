@@ -36,7 +36,7 @@ public class MushroomManager : MonoBehaviour {
 	#endregion
 
 	#region Other Methods
-		public void PopulateWorld() {
+		public void Init() {
 			AllActive = FindObjectsOfType<Mushroom>().ToList();
 
 			foreach (var mushroom in AllActive) {
@@ -47,7 +47,7 @@ public class MushroomManager : MonoBehaviour {
 				
 		}
 		
-		public void UnpopulateWorld() {
+		public void Clear() {
 			foreach (var mr in AllActive.Select(m => m.MeshRenderer))
 				mr.enabled = false;
 			

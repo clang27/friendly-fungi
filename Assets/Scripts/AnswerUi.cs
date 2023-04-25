@@ -15,18 +15,18 @@ public class AnswerUi : MonoBehaviour {
 	#endregion
 
 	#region Other Methods
-		public void SetAnswerFormat(Question q, MushroomData md) {
-			header.text = q.Type + " " + q.GetVerse(md);
+		public void SetAnswer(Question q) {
+			header.text = q.Phrase;
 			nameDropdown.gameObject.SetActive(false);
 			timeSlider.gameObject.SetActive(false);
 			
-			switch (q.Type) {
-				case QuestionType.Who:
+			switch (q.Header) {
+				case "Who":
 					nameDropdown.ClearOptions();
 					nameDropdown.AddOptions(MushroomManager.AllActiveNames);
 					nameDropdown.gameObject.SetActive(true);
 					break;
-				case QuestionType.When:
+				case "When":
 					timeSlider.gameObject.SetActive(true);
 					break;
 			}

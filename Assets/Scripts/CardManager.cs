@@ -29,24 +29,34 @@ public class CardManager : MonoBehaviour {
 			AllCards = Cards;
 		}
 		private void Start() {
-			ResetQuestions();
+			ResetCards();
 		}
 		
 	#endregion
 	
 	#region Other Methods
-		public void PickRandomQuestions() {
+		public void Init() {
+			var randomQuestions = new List<Question>();
+			
+			for (var i = 0; i < QuestionQueue.NumberOfQuestions; i++) {
+				var randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
+				while (randomQuestions.Contains(randomQuestion)) {
+					randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
+				}
+
+				randomQuestions.Add(randomQuestion);
+			}
+			
 			var index = 0;
-			foreach (var m in MushroomManager.AllActive) {
-				Cards[index].SetQuestion(m, 0);
+			foreach (var q in randomQuestions) {
+				Cards[index].SetQuestion(q);
 				Cards[index].ShowCard(true);
 				index++;
 			}
 		}
 
-		public void ResetQuestions() {
+		public void ResetCards() {
 			foreach (var card in Cards) {
-				card.ClearQuestion();
 				card.HighlightCard(false);
 				card.ShowCard( false);
 				card.MoveRectX(-20f);

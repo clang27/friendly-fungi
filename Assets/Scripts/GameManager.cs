@@ -4,15 +4,10 @@
  */
 
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-	#region Serialized Fields
-		[SerializeField] private Level startingLevel;
-	#endregion
-
 	#region Attributes
 		private bool InMainMenu { get; set; } = true;
 	#endregion
@@ -90,7 +85,7 @@ public class GameManager : MonoBehaviour {
 			_audioManager.MainMenuTheme();
 
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
-			_mushroomManager.UnpopulateWorld();
+			_mushroomManager.Clear();
 		}
 		public void OpenSettings() {
 			if (InMainMenu) {
@@ -162,7 +157,7 @@ public class GameManager : MonoBehaviour {
 		public void StartLevel() {
 			InMainMenu = false;
 			_uiManager.CloseMainMenu();
-			_cardManager.ResetQuestions();
+			_cardManager.ResetCards();
 			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
 			_cameraController.Enabled = true;
 			
@@ -179,11 +174,11 @@ public class GameManager : MonoBehaviour {
 			
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
-			
-			_mushroomManager.PopulateWorld();
+
+			_mushroomManager.Init();
+			_cardManager.Init();
 			
 			_timeManager.Play();
-			_cardManager.PickRandomQuestions();
 		}
 
 		public void OpenAnswer() {
