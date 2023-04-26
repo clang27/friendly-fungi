@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour {
 		private UiManager _uiManager;
 		private CardManager _cardManager;
 		private MushroomManager _mushroomManager;
+		private VictoryParticles _victoryParticles;
+	#endregion
+	
+	#region Private Data
+		private int _correctGuesses, _incorrectGuesses;
 	#endregion
 
 	#region Unity Methods
@@ -46,12 +51,7 @@ public class GameManager : MonoBehaviour {
 
 	#region Other Methods
 		public void OpenQuitPrompt() {
-			_timeManager.Pause();
-			_cameraController.Enabled = false;
-			_cameraController.AutoRotate = true;
-			
-			_uiManager.ShowTopBar(false);
-			_uiManager.ShowCardPanel(false);
+			DisableEverythingForPrompt(true);
 				
 			_uiManager.OpenPrompt(
 				"Are you sure you want to exit to menu? You will lose this level's progress.",
@@ -61,12 +61,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		private void CloseQuitPrompt() {
-			_timeManager.Play();
-			_cameraController.Enabled = true;
-			_cameraController.AutoRotate = false;
-			
-			_uiManager.ShowTopBar(true);
-			_uiManager.ShowCardPanel(true);
+			DisableEverythingForPrompt(false);
 			
 			_uiManager.ClosePrompt();
 		}
@@ -81,17 +76,52 @@ public class GameManager : MonoBehaviour {
 			_audioManager.StopAmbience();
 
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
+			_timeManager.PlayParticles();
+			
+			_victoryParticles.Activate(false);
+			
 			_mushroomManager.Clear();
 		}
+
+		private void RestartLevel() {
+			_uiManager.ClosePrompt();
+			DisableEverythingForPrompt(false);
+			
+			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
+
+			_correctGuesses = 0;
+			_incorrectGuesses = 0;
+
+			_victoryParticles.Activate(false);
+			_cameraController.ResetWorldPosition();
+			
+			_mushroomManager.Init();
+			
+			_cardManager.ResetCards();
+			_cardManager.Init();
+		}
+		
+		private void DisableEverythingForPrompt(bool b) {
+			if (b) {
+				_timeManager.Pause();
+				_timeManager.PauseParticles();
+			} else if (!TimeManager.PausedFlag) {
+				_timeManager.Play();
+				_timeManager.PlayParticles();
+			}
+			
+			_cameraController.Enabled = !b;
+			_cameraController.AutoRotate = b;
+			
+			_uiManager.ShowTopBar(!b);
+			_uiManager.ShowCardPanel(!b);
+		}
+		
 		public void OpenSettings() {
 			if (InMainMenu) {
 				_uiManager.CloseMainMenu();
 			} else {
-				_timeManager.Pause();
-				_uiManager.ShowTopBar(false);
-				_uiManager.ShowCardPanel(false);
-				_cameraController.Enabled = false;
-				_cameraController.AutoRotate = true;
+				DisableEverythingForPrompt(true);
 			}
 				
 			_uiManager.OpenSettings();
@@ -100,11 +130,7 @@ public class GameManager : MonoBehaviour {
 			if (InMainMenu) {
 				_uiManager.OpenMainMenu();
 			} else {
-				_timeManager.Play();
-				_uiManager.ShowTopBar(true);
-				_uiManager.ShowCardPanel(true);
-				_cameraController.Enabled = true;
-				_cameraController.AutoRotate = false;
+				DisableEverythingForPrompt(false);
 			}
 				
 			_uiManager.CloseSettings();
@@ -134,6 +160,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
+			_victoryParticles = FindObjectOfType<VictoryParticles>();
 			
 			if (LevelSelection.CurrentLevel.Unlocked()) {
 				_uiManager.DisableButtonsOnLoading(false);
@@ -142,7 +169,9 @@ public class GameManager : MonoBehaviour {
 				_uiManager.ChangeStartButton("Locked", () => { });
 			}
 			
+			_timeManager.Init(_mapScaler.transform);
 			_timeManager.SetLevelTime(lvl);
+			
 			_mapScaler.GenerateMap();
 			_cameraController.AutoRotate = true;
 			
@@ -156,6 +185,9 @@ public class GameManager : MonoBehaviour {
 			_cardManager.ResetCards();
 			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
 			_cameraController.Enabled = true;
+			
+			_correctGuesses = 0;
+			_incorrectGuesses = 0;
 			
 			StartCoroutine(FinishLevelGenerationThenStartTime());
 		}
@@ -181,19 +213,48 @@ public class GameManager : MonoBehaviour {
 		public void OpenAnswer() {
 			_uiManager.ShowAnswerPanel(true);
 			_timeManager.Pause();
+			_timeManager.PauseParticles();
 			_uiManager.ShowCardPanel(false);
 			_cameraController.Enabled = false;
 		}
 		
 		public void CloseAnswer() {
 			_uiManager.ShowAnswerPanel(false);
-			_timeManager.Play();
+			if (!TimeManager.PausedFlag)
+				_timeManager.Play();
 			_uiManager.ShowCardPanel(true);
 			_cameraController.Enabled = true;
 		}
 
 		public void GuessAnswer(bool correct) {
-			_audioManager.PlayCorrect(correct);
+			if (correct) {
+				_correctGuesses++;
+				if (_correctGuesses == LevelSelection.CurrentLevel.NumberOfCorrectGuesses) {
+					_audioManager.VictoryTheme();
+					_victoryParticles.Activate(true);
+					_uiManager.ShowAnswerPanel(false);
+					DisableEverythingForPrompt(true);
+					_uiManager.OpenPrompt("Congrats!", 
+						"Restart", "Menu",
+						RestartLevel, QuitGame);
+				} else {
+					_audioManager.PlayCorrect(true);
+					CloseAnswer();
+				}
+			} else {
+				_incorrectGuesses++;
+				if (_incorrectGuesses == LevelSelection.CurrentLevel.NumberOfQuestions - LevelSelection.CurrentLevel.NumberOfCorrectGuesses + 1) {
+					_audioManager.DefeatTheme();
+					_uiManager.ShowAnswerPanel(false);
+					DisableEverythingForPrompt(true);
+					_uiManager.OpenPrompt("You made one too many incorrect guesses!\nTry again?", 
+						"Yes", "No",
+						RestartLevel, QuitGame);
+				} else {
+					_audioManager.PlayCorrect(false);
+					CloseAnswer();
+				}
+			}
 		}
 
 		public void UpdateMouseRotateSensitivity(float f) {

@@ -38,7 +38,7 @@ public class CardManager : MonoBehaviour {
 		public void Init() {
 			var randomQuestions = new List<Question>();
 			
-			for (var i = 0; i < QuestionQueue.NumberOfQuestions; i++) {
+			for (var i = 0; i < LevelSelection.CurrentLevel.NumberOfQuestions; i++) {
 				var randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
 				while (randomQuestions.Contains(randomQuestion)) {
 					randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];

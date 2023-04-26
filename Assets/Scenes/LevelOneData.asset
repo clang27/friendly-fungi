@@ -17,8 +17,5 @@ MonoBehaviour:
   StartTime: 7
   EndTime: 17
   Song: {fileID: 8300000, guid: 60678cf1314aa6c4ca988fabe88cbd2b, type: 3}
-  NumberOfQuestions: 4
-  MushroomSpawnPoints:
-  - {x: 15.76877, y: 0.237, z: -15.49825}
-  - {x: 15.20768, y: 0.237, z: -11.49825}
-  - {x: 17.20768, y: 0.237, z: -11.49825}
+  NumberOfQuestions: 2
+  NumberOfCorrectGuesses: 1

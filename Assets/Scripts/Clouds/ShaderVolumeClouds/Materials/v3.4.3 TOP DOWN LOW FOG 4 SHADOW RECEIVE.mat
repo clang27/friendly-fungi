@@ -67,7 +67,7 @@ Material:
     - _CloudSize: 1
     - _ColorDiff: -1.2
     - _ColorDiffOffset: 0.35
-    - _Coverage: 5
+    - _Coverage: 1
     - _CoverageOffset: 0.31
     - _CullMode: 0
     - _CutHeight: -20
@@ -85,7 +85,7 @@ Material:
     - _FogFactor: -5
     - _FogUnity: 1
     - _Forward: 0
-    - _HorizonFactor: 0.049999986
+    - _HorizonFactor: 0.05
     - _IndirectContribution: 1
     - _MipLevel: 0
     - _Mode: 0
@@ -97,7 +97,7 @@ Material:
     - _TimeMult: 0.1
     - _TimeMultSecondLayer: 4
     - _TranspOffset: 6.62
-    - _Transparency: -10
+    - _Transparency: -2
     - _TransparencyOffset: 0
     - _TransparencyThres: -1.69
     - _Velocity1: 22
@@ -113,17 +113,17 @@ Material:
     - _Brightness: {r: 1, g: 1, b: 1, a: 1}
     - _CloudNormalsDirection: {r: 1, g: -1, b: 1, a: 0}
     - _CloudSpeed: {r: 0.001, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.043124065, g: 0.043124065, b: 0.043124065, a: 1}
+    - _Color: {r: 0.043126285, g: 0.043126285, b: 0.043126285, a: 1}
     - _Control: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
     - _EdgeFactors: {r: 0, g: 0.52, b: -1, a: 0}
-    - _FogColor: {r: 0.7691262, g: 0.8569667, b: 0.9160142, a: 0.9997456}
+    - _FogColor: {r: 0.76906747, g: 0.857184, b: 0.9162056, a: 0.99977523}
     - _LightingControl: {r: 1, g: 1, b: -1, a: 0}
     - _Shading: {r: 0.27681658, g: 0.29418916, b: 0.4705882, a: 0.172}
-    - _ShadowColor: {r: 0.7338851, g: 0.71753037, b: 0.779743, a: 0.0069940863}
-    - _SunColor: {r: 0.87352985, g: 0.87388897, b: 0.8638007, a: 1.076544}
+    - _ShadowColor: {r: 0.7342123, g: 0.71538955, b: 0.7735567, a: 0.008048995}
+    - _SunColor: {r: 0.87315065, g: 0.8670936, b: 0.85943353, a: 1.058753}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
-    - _Velocity1: {r: 200.00003, g: 0.000023841858, b: -0, a: 1.4000001}
-    - _Velocity2: {r: 1000.0001, g: 0.00011920929, b: 0, a: 10}
+    - _Velocity1: {r: 141.4214, g: -141.42133, b: -0, a: 1.4000001}
+    - _Velocity2: {r: 707.107, g: -707.1066, b: 0, a: 10}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 1, g: 1, b: 1, a: 1}
     - pointLightPos: {r: -1655.3737, g: 690.0187, b: -1121.822, a: 0}

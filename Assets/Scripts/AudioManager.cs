@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour {
 	#region Serialized Fields
 		[Header("Music")]
 		[SerializeField] private AudioClip musicMainMenu;
+		[SerializeField] private AudioClip victoryMusic, defeatMusic;
 		
 		[Header("UI")]
 		[SerializeField] private AudioClip uiButtonClick;
@@ -54,12 +55,20 @@ public class AudioManager : MonoBehaviour {
 		public void MainMenuTheme() {
 			ChangeClip(musicMainMenu, _musicSource);
 		}
+		
+		public void VictoryTheme() {
+			ChangeClip(victoryMusic, _musicSource, 0.1f, false);
+		}
+		
+		public void DefeatTheme() {
+			ChangeClip(defeatMusic, _musicSource, 0.1f, false);
+		}
 
 		public void LevelTheme(Level l) {
 			ChangeClip(l.Song, _musicSource);
 		}
 
-		private void ChangeClip(AudioClip ac, AudioSource a) {
+		private void ChangeClip(AudioClip ac, AudioSource a, float duration = 0.5f, bool loop = true) {
 			float maxVolume;
 			
 			if (a.Equals(_musicSource))
@@ -68,16 +77,18 @@ public class AudioManager : MonoBehaviour {
 				maxVolume = Settings.SfxVolume * Settings.MasterVolume;
 			else
 				maxVolume = Settings.AmbienceVolume * Settings.MasterVolume;
-
+			
 			if (a.isPlaying) {
-				a.DOFade(0f, 1f).OnComplete(() => {
+				a.DOFade(0f, duration).OnComplete(() => {
 					a.Stop();
 					a.clip = ac;
+					a.loop = loop;
 					a.Play();
-					a.DOFade(maxVolume, 1f);
+					a.DOFade(maxVolume, duration);
 				});
 			} else {
 				a.clip = ac;
+				a.loop = loop;
 				a.volume = maxVolume;
 				a.Play();
 			}
@@ -123,7 +134,12 @@ public class AudioManager : MonoBehaviour {
 		}
 
 		public void PlayCorrect(bool b) {
-			_sfxSource.PlayOneShot(b ? correctAnswer : incorrectAnswer, 1f);
+			PlaySfx(b ? correctAnswer : incorrectAnswer);
+		}
+
+		public void PlaySfx(AudioClip ac, float volume = 1f, float pitch = 1f) {
+			_sfxSource.pitch = pitch;
+			_sfxSource.PlayOneShot(ac, volume);
 		}
 		
 		public void PlayUiSound(UiSound s) {

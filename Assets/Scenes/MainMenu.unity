@@ -1178,6 +1178,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicMainMenu: {fileID: 8300000, guid: c6c2cf366c3c8014e8f7bbf7b5fe5c20, type: 3}
+  victoryMusic: {fileID: 8300000, guid: 5c4bdb180f4ee674a91f265eb5e7c5e4, type: 3}
+  defeatMusic: {fileID: 8300000, guid: 853a81485f1ee45e6973957b63da1778, type: 3}
   uiButtonClick: {fileID: 8300000, guid: cde0712e2125fea4ab46190803748e2f, type: 3}
   uiTabClick: {fileID: 8300000, guid: 39967aa46d5def14aad4fb573126a67a, type: 3}
   uiHover: {fileID: 8300000, guid: e515ab3d6890c604689f3f645ee9fb0a, type: 3}
@@ -3842,8 +3844,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
+  m_HorizontalAxis: Ignore
+  m_VerticalAxis: Ignore
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10

@@ -57,9 +57,8 @@ public class AnswerUi : MonoBehaviour {
 			};
 
 			var isCorrect = q.IsRightAnswer(answer);
-			_gameManager.GuessAnswer(isCorrect);
-			_gameManager.CloseAnswer();
 			
+			_gameManager.GuessAnswer(isCorrect);
 			PartneredCard.Finished(isCorrect);
 		}
 	#endregion

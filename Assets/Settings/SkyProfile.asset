@@ -183,26 +183,26 @@ Material:
     - _StarsTwinkle1: 0
     - _StarsTwinkle2: 0
     - _SunGlow: 0.236
-    - _SunLightIntensity: 0.66787106
+    - _SunLightIntensity: 0.645051
     - _SunSize: 0
     - _SunSoftEdge: 0.446
     m_Colors:
     - _DetailOverlayTintColor: {r: 0.48900002, g: 0.48900002, b: 0.48900002, a: 1}
     - _FogColor: {r: 0.9659264, g: 1, b: 0.7783019, a: 0}
-    - _GroundColor: {r: 0.24566977, g: 0.3130958, b: 0.3246103, a: 1}
-    - _HorizonCloudColor: {r: 0.9356362, g: 0.86611503, b: 0.76221174, a: 1}
-    - _HorizonColor: {r: 0.8017608, g: 0.7997341, b: 0.75576234, a: 1}
+    - _GroundColor: {r: 0.23757873, g: 0.3019978, b: 0.3136398, a: 1}
+    - _HorizonCloudColor: {r: 0.9316549, g: 0.85783327, b: 0.7475027, a: 1}
+    - _HorizonColor: {r: 0.8188958, g: 0.80331, b: 0.74526334, a: 1}
     - _MoonColor: {r: 1, g: 1, b: 1, a: 0}
     - _MoonDirection: {r: 0, g: 0, b: 1, a: 0}
     - _MoonLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SkyColor: {r: 0.22702014, g: 0.44903368, b: 0.6728324, a: 1}
+    - _SkyColor: {r: 0.21271493, g: 0.419781, b: 0.6342655, a: 1}
     - _StarsColor0: {r: 0, g: 0, b: 0, a: 0}
     - _StarsColor1: {r: 0, g: 0, b: 0, a: 0}
     - _StarsColor2: {r: 0, g: 0, b: 0, a: 0}
     - _SunColor: {r: 0.9798559, g: 1, b: 0.8352941, a: 1}
-    - _SunDirection: {r: 0.88708717, g: -0.33165458, b: 0.32106322, a: 0}
-    - _SunLightColor: {r: 0.9621823, g: 0.8024975, b: 0.7557032, a: 1}
+    - _SunDirection: {r: 0.23820633, g: -0.258819, b: -0.9360932, a: 0}
+    - _SunLightColor: {r: 0.96293586, g: 0.7936084, b: 0.7466227, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &8814505006527936657
 Material:
