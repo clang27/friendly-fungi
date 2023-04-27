@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,13 +27,13 @@ public class MushroomManager : MonoBehaviour {
 	#endregion
 	
 	#region Components
-		private Transform _transform;
-		// private Rigidbody2D _rigidbody;
-		// private Collider2D _collider;
+		private Journal _journal;
 	#endregion
 	
-	#region Private Data
-		//private static ObjectPool<Mushroom> Pool;
+	#region Unity Events
+		private void Awake() {
+			_journal = FindObjectOfType<Journal>();
+		}
 	#endregion
 
 	#region Other Methods
@@ -44,9 +45,29 @@ public class MushroomManager : MonoBehaviour {
 				mushroom.SetMesh(model);
 				mushroom.MeshRenderer.enabled = true;
 			}
-				
+			
+			StartCoroutine(TakeHeadshots());
 		}
-		
+
+		//TODO: sus
+		private IEnumerator TakeHeadshots() {
+			// Wait for mesh renderer to start rendering
+			yield return new WaitForEndOfFrame();
+
+			var gap = 100f;
+			foreach (var m in AllActive.Where(m => !m.HeadshotCamera.HeadshotTexture)) {
+				StartCoroutine(m.HeadshotCamera.TakeHeadshot(new Vector3(gap, gap, gap)));
+				gap += 100f;
+			}
+
+			// Wait for all headshots to be ready
+			while (!AllActive.All(m => m.HeadshotCamera.HeadshotTexture))
+				yield return null;
+			
+			// Populate Journal data
+			_journal.Init();
+		}
+
 		public void Clear() {
 			foreach (var mr in AllActive.Select(m => m.MeshRenderer))
 				mr.enabled = false;

@@ -7,19 +7,16 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour {
-	#region Serialized Fields
-		private Question[] questions;
-	#endregion
-	
 	#region Attributes
 		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActive.IndexOf(this)];
 		public MeshRenderer MeshRenderer => _meshRenderer;
-		public Question[] Questions => questions;
+		public HeadshotCamera HeadshotCamera => _headshotCamera;
 	#endregion
 	
 	#region Components
 		private Transform _transform;
 		private PlayableDirector _playableDirector;
+		private HeadshotCamera _headshotCamera;
 	#endregion
 	
 	#region Private Data
@@ -33,6 +30,7 @@ public class Mushroom : MonoBehaviour {
 			_meshRenderer = GetComponent<MeshRenderer>();
 			_meshFilter = GetComponent<MeshFilter>();
 			_playableDirector = GetComponent<PlayableDirector>();
+			_headshotCamera = GetComponent<HeadshotCamera>();
 		}
 
 		private void Start() {

@@ -135,6 +135,25 @@ public class GameManager : MonoBehaviour {
 				
 			_uiManager.CloseSettings();
 		}
+		
+		public void OpenJournal() {
+			if (InMainMenu) {
+				_uiManager.CloseMainMenu();
+			} else {
+				DisableEverythingForPrompt(true);
+			}
+				
+			_uiManager.OpenJournal();
+		}
+		public void CloseJournal() {
+			if (InMainMenu) {
+				_uiManager.OpenMainMenu();
+			} else {
+				DisableEverythingForPrompt(false);
+			}
+				
+			_uiManager.CloseJournal();
+		}
 
 		public IEnumerator LoadLevel(Level lvl) {
 			_uiManager.ShowLoadingScreen(true);

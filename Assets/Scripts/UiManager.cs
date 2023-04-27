@@ -23,33 +23,22 @@ public class UiManager : MonoBehaviour {
 		graphicsPanel,
 		topBar,
 		answerPanel,
+		journalPanel,
 		promptPanel;
 
 	#endregion
 
-	#region Attributes
-
-	// public float AttributeOne { get; set; }
-
-	#endregion
-
-	#region Components
-
-	//private AudioManager _audioManager;
-
-	#endregion
-
 	#region Private Data
-
-	private CanvasGroup _activePanel, _lastPanelOpen;
-
+		private CanvasGroup _activePanel, _lastPanelOpen;
+		private Journal _journal;
 	#endregion
 
 	#region Unity Methods
 
-	private void Awake() {
-		_lastPanelOpen = audioPanel;
-	}
+		private void Awake() {
+			_lastPanelOpen = audioPanel;
+			_journal = journalPanel.GetComponent<Journal>();
+		}
 
 	#endregion
 
@@ -81,7 +70,6 @@ public class UiManager : MonoBehaviour {
 		public void CloseMainMenu() {
 			OpenPanel(menuPanel, false);
 		}
-
 		public void OpenSettings() {
 			OpenPanel(settingsPanel, true);
 			OpenPanel(_lastPanelOpen, true);
@@ -93,6 +81,15 @@ public class UiManager : MonoBehaviour {
 			CloseActivePanel();
 			OpenPanel(settingsPanel, false);
 			Settings.SaveAllData();
+		}
+		
+		public void OpenJournal() {
+			_journal.PopulateHeadshots();
+			OpenPanel(journalPanel, true);
+		}
+
+		public void CloseJournal() {
+			OpenPanel(journalPanel, false);
 		}
 
 		public void OpenAudio() {
