@@ -22,8 +22,7 @@ public class MushroomManager : MonoBehaviour {
 	
 	#region Attributes
 		public static List<Mushroom> AllActive { get; private set; } = new();
-		public static List<MushroomData> AllActiveData => AllActive.Select(s => s.Data).ToList();
-		public static List<string> AllActiveNames => AllActiveData.Select(md => md.Name).ToList();
+		public static Dictionary<string, Sprite> AllActiveOptions { get; } = new();
 	#endregion
 	
 	#region Components
@@ -39,6 +38,7 @@ public class MushroomManager : MonoBehaviour {
 	#region Other Methods
 		public void Init() {
 			AllActive = FindObjectsOfType<Mushroom>().ToList();
+			AllActiveOptions.Clear();
 
 			foreach (var mushroom in AllActive) {
 				var model = mushroomModels.First(model => model.Type == mushroom.Data.Type);
@@ -63,6 +63,13 @@ public class MushroomManager : MonoBehaviour {
 			// Wait for all headshots to be ready
 			while (!AllActive.All(m => m.HeadshotCamera.HeadshotTexture))
 				yield return null;
+			
+			foreach (var mushroom in AllActive) {
+				AllActiveOptions.Add(
+					mushroom.Data.Name, 
+					Sprite.Create(mushroom.HeadshotCamera.HeadshotTexture, new Rect(0f, 0f, Utility.HeadshotDimension, Utility.HeadshotDimension), Vector2.zero)
+				);
+			}
 			
 			// Populate Journal data
 			_journal.Init();

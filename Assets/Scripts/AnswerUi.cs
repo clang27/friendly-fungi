@@ -3,6 +3,7 @@
  * https://www.knitwitstudios.com/
  */
 
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -36,7 +37,10 @@ public class AnswerUi : MonoBehaviour {
 			switch (q.Header) {
 				case "Who":
 					nameDropdown.ClearOptions();
-					nameDropdown.AddOptions(MushroomManager.AllActiveNames);
+					var options = MushroomManager.AllActiveOptions
+							.Select(o => new TMP_Dropdown.OptionData(o.Key, o.Value))
+							.ToList();
+					nameDropdown.AddOptions(options);
 					nameDropdown.gameObject.SetActive(true);
 					break;
 				case "When":

@@ -13,7 +13,7 @@ public class Journal : MonoBehaviour {
 	// Since some data is a mystery, it is paired with a value that determines if the data is known
 	private struct Entry {
 		public KeyValuePair<string, bool> Name;
-		public KeyValuePair<Texture, bool> Headshot;
+		public KeyValuePair<Texture2D, bool> Headshot;
 	}
 	
 	#region Serialized Fields
@@ -21,7 +21,7 @@ public class Journal : MonoBehaviour {
 	#endregion
 	
 	#region Attributes
-		// public float AttributeOne { get; set; }
+		//public List<Entry> Entries { get; }
 	#endregion
 	
 	#region Components
@@ -47,7 +47,7 @@ public class Journal : MonoBehaviour {
 			foreach (var shroom in MushroomManager.AllActive) {
 				var e = new Entry() {
 					Name = new KeyValuePair<string, bool>(shroom.Data.Name, true),
-					Headshot = new KeyValuePair<Texture, bool>(shroom.HeadshotCamera.HeadshotTexture, true)
+					Headshot = new KeyValuePair<Texture2D, bool>(shroom.HeadshotCamera.HeadshotTexture, true)
 				};
 				_entries.Add(e);
 			}

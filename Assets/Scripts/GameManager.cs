@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowCardPanel(false);
 			_uiManager.ShowAnswerPanel(false);
 			_uiManager.ClosePrompt();
+			_uiManager.CloseJournal();
 		}
 
 	#endregion
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(false);
 			
 			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
+			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
 
 			_correctGuesses = 0;
 			_incorrectGuesses = 0;
@@ -266,7 +268,7 @@ public class GameManager : MonoBehaviour {
 					_audioManager.DefeatTheme();
 					_uiManager.ShowAnswerPanel(false);
 					DisableEverythingForPrompt(true);
-					_uiManager.OpenPrompt("You made one too many incorrect guesses!\nTry again?", 
+					_uiManager.OpenPrompt("You made one too many incorrect guesses!\n\nTry again?", 
 						"Yes", "No",
 						RestartLevel, QuitGame);
 				} else {

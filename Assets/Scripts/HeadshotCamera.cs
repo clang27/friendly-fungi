@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 
 public class HeadshotCamera : MonoBehaviour {
 	#region Attributes
-		public Texture HeadshotTexture => _headshotTexture;
+		public Texture2D HeadshotTexture => _headshotTexture;
 	#endregion
 	
 	#region Components
@@ -19,7 +19,7 @@ public class HeadshotCamera : MonoBehaviour {
 	
 	#region Private Data
 		private RenderTexture _renderTexture;
-		private Texture _headshotTexture;
+		private Texture2D _headshotTexture;
 	#endregion
 	
 	#region Unity Methods
@@ -27,7 +27,7 @@ public class HeadshotCamera : MonoBehaviour {
 			_camera = GetComponentInChildren<Camera>();
 			_mushroomTransform = transform;
 			
-			_renderTexture = new RenderTexture(108, 108, 0) {
+			_renderTexture = new RenderTexture(Utility.HeadshotDimension, Utility.HeadshotDimension, 0) {
 				dimension = TextureDimension.Tex2D,
 				antiAliasing = 2
 			};
@@ -47,7 +47,12 @@ public class HeadshotCamera : MonoBehaviour {
 			_camera.gameObject.SetActive(true);
 			_mushroomTransform.position = shotLocation;
 			yield return new WaitForEndOfFrame();
-			_headshotTexture = _renderTexture;
+			
+			_headshotTexture = new Texture2D(Utility.HeadshotDimension, Utility.HeadshotDimension, TextureFormat.RGB24, false);
+			RenderTexture.active = _renderTexture;
+			_headshotTexture.ReadPixels(new Rect(0, 0, _renderTexture.width, _renderTexture.height), 0, 0);
+			_headshotTexture.Apply();
+			
 			_camera.gameObject.SetActive(false);
 		}
 	#endregion
