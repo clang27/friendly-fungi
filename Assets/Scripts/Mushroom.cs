@@ -3,6 +3,7 @@
  * https://www.knitwitstudios.com/
  */
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -48,6 +49,16 @@ public class Mushroom : MonoBehaviour {
 		public void SetTimeline(float f) {
 			_playableDirector.time = f;
 			_playableDirector.DeferredEvaluate();
+		}
+		
+		public IEnumerator TakeHeadshot(float gap) {
+			transform.position = new Vector3(gap, gap, gap);
+			
+			while (!MeshRenderer.isVisible) {
+				yield return null;
+			}
+
+			StartCoroutine(HeadshotCamera.TakeHeadshot());
 		}
 
 	#endregion

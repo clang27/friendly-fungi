@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 	#region Attributes
+		public static GameManager Instance { get; private set; }
 		private bool InMainMenu { get; set; } = true;
 	#endregion
 
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour {
 		private CardManager _cardManager;
 		private MushroomManager _mushroomManager;
 		private VictoryParticles _victoryParticles;
+		private MushroomClicker _mushroomClicker;
 	#endregion
 	
 	#region Private Data
@@ -29,14 +31,17 @@ public class GameManager : MonoBehaviour {
 
 	#region Unity Methods
 		private void Awake() {
+			Instance = this;
+			
 			Settings.ReadData();
 			MushroomData.Init();
 
-			_timeManager = FindObjectOfType<TimeManager>();
+			_timeManager = GetComponent<TimeManager>();
 			_audioManager = FindObjectOfType<AudioManager>();
-			_uiManager = FindObjectOfType<UiManager>();
-			_cardManager = FindObjectOfType<CardManager>();
-			_mushroomManager = FindObjectOfType<MushroomManager>();
+			_uiManager = GetComponent<UiManager>();
+			_cardManager = GetComponent<CardManager>();
+			_mushroomManager = GetComponent<MushroomManager>();
+			_mushroomClicker = GetComponent<MushroomClicker>();
 		}
 
 		private void Start() {
@@ -52,7 +57,7 @@ public class GameManager : MonoBehaviour {
 
 	#region Other Methods
 		public void OpenQuitPrompt() {
-			DisableEverythingForPrompt(true);
+			DisableEverythingForPrompt(true, false);
 				
 			_uiManager.OpenPrompt(
 				"Are you sure you want to exit to menu? You will lose this level's progress.",
@@ -69,6 +74,8 @@ public class GameManager : MonoBehaviour {
 
 		private void QuitGame() {
 			InMainMenu = true;
+
+			_cameraController.AutoRotate = true;
 			
 			_uiManager.ClosePrompt();
 			_uiManager.OpenMainMenu();
@@ -103,7 +110,7 @@ public class GameManager : MonoBehaviour {
 			_cardManager.Init();
 		}
 		
-		private void DisableEverythingForPrompt(bool b) {
+		private void DisableEverythingForPrompt(bool b, bool autoRotate = true) {
 			if (b) {
 				_timeManager.Pause();
 				_timeManager.PauseParticles();
@@ -113,7 +120,7 @@ public class GameManager : MonoBehaviour {
 			}
 			
 			_cameraController.Enabled = !b;
-			_cameraController.AutoRotate = b;
+			_cameraController.AutoRotate = b && autoRotate;
 			
 			_uiManager.ShowTopBar(!b);
 			_uiManager.ShowCardPanel(!b);
@@ -142,10 +149,15 @@ public class GameManager : MonoBehaviour {
 			if (InMainMenu) {
 				_uiManager.CloseMainMenu();
 			} else {
-				DisableEverythingForPrompt(true);
+				DisableEverythingForPrompt(true, false);
 			}
 				
 			_uiManager.OpenJournal();
+		}
+		public void OpenJournalToMushroomPage(Mushroom m) {
+			DisableEverythingForPrompt(true, false);
+
+			_uiManager.OpenJournalToMushroomPage(m);
 		}
 		public void CloseJournal() {
 			if (InMainMenu) {
@@ -204,30 +216,32 @@ public class GameManager : MonoBehaviour {
 			InMainMenu = false;
 			_uiManager.CloseMainMenu();
 			_cardManager.ResetCards();
-			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
-			_cameraController.Enabled = true;
 			
+			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
+			_audioManager.StartAmbience();
+			
+			_cameraController.Enabled = true;
+			_cameraController.AutoRotate = false;
+
 			_correctGuesses = 0;
 			_incorrectGuesses = 0;
-			
+
 			StartCoroutine(FinishLevelGenerationThenStartTime());
 		}
 
 		private IEnumerator FinishLevelGenerationThenStartTime() {
-			_cameraController.AutoRotate = false;
 			_cameraController.ResetWorldPosition();
 			
-			while (!_mapScaler.MapReady) {
-				yield return new WaitForSeconds(0.1f);
-			}
-			
-			_audioManager.StartAmbience();
-			_uiManager.ShowTopBar(true);
-			_uiManager.ShowCardPanel(true);
-
 			_mushroomManager.Init();
 			_cardManager.Init();
 			
+			while (!_mapScaler.MapReady || !_cameraController.Ready) {
+				yield return new WaitForSeconds(0.1f);
+			}
+			
+			_uiManager.ShowTopBar(true);
+			_uiManager.ShowCardPanel(true);
+
 			_timeManager.Play();
 		}
 

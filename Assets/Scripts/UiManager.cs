@@ -84,7 +84,12 @@ public class UiManager : MonoBehaviour {
 		}
 		
 		public void OpenJournal() {
-			_journal.PopulateHeadshots();
+			_journal.GoToHomePage();
+			OpenPanel(journalPanel, true);
+		}
+		
+		public void OpenJournalToMushroomPage(Mushroom m) {
+			_journal.GoToMushroomPage(m.Data.Name);
 			OpenPanel(journalPanel, true);
 		}
 

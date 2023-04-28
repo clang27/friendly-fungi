@@ -61,9 +61,10 @@ public class MapScaler : MonoBehaviour {
     }
 
     private void EnableMeshes(bool b) {
-        foreach (var mr in _meshes)
+        foreach (var mr in _meshes) {
             mr.enabled = b;
-
+        }
+        
         foreach (var p in _particles) {
             if (b) 
                 p.Play();

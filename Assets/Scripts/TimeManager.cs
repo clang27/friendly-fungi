@@ -48,6 +48,7 @@ public class TimeManager : MonoBehaviour {
             if (Hour >= _timeSlider.EndTime) {
                 Hour = _timeSlider.EndTime;
                 Pause();
+                PausedFlag = true;
                 PauseParticles();
             }
             

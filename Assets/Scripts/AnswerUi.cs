@@ -17,15 +17,8 @@ public class AnswerUi : MonoBehaviour {
 	#region Attributes
 		private static CardUi PartneredCard { get; set; }
 	#endregion
-	
-	#region Components
-		private GameManager _gameManager;
-	#endregion
 
 	#region Other Methods
-		private void Awake() {
-			_gameManager = FindObjectOfType<GameManager>();
-		}
 		public void SetCard(CardUi cardUi) {
 			PartneredCard = cardUi;
 			var q = PartneredCard.Question;
@@ -37,8 +30,8 @@ public class AnswerUi : MonoBehaviour {
 			switch (q.Header) {
 				case "Who":
 					nameDropdown.ClearOptions();
-					var options = MushroomManager.AllActiveOptions
-							.Select(o => new TMP_Dropdown.OptionData(o.Key, o.Value))
+					var options = MushroomManager.AllActive
+							.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, m.HeadshotCamera.HeadshotSprite))
 							.ToList();
 					nameDropdown.AddOptions(options);
 					nameDropdown.gameObject.SetActive(true);
@@ -49,7 +42,7 @@ public class AnswerUi : MonoBehaviour {
 					break;
 			}
 			
-			_gameManager.OpenAnswer();
+			GameManager.Instance.OpenAnswer();
 		}
 		public void Guess() {
 			var q = PartneredCard.Question;
@@ -62,7 +55,7 @@ public class AnswerUi : MonoBehaviour {
 
 			var isCorrect = q.IsRightAnswer(answer);
 			
-			_gameManager.GuessAnswer(isCorrect);
+			GameManager.Instance.GuessAnswer(isCorrect);
 			PartneredCard.Finished(isCorrect);
 		}
 	#endregion

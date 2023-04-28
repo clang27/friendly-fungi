@@ -22,7 +22,6 @@ public class MushroomManager : MonoBehaviour {
 	
 	#region Attributes
 		public static List<Mushroom> AllActive { get; private set; } = new();
-		public static Dictionary<string, Sprite> AllActiveOptions { get; } = new();
 	#endregion
 	
 	#region Components
@@ -38,39 +37,24 @@ public class MushroomManager : MonoBehaviour {
 	#region Other Methods
 		public void Init() {
 			AllActive = FindObjectsOfType<Mushroom>().ToList();
-			AllActiveOptions.Clear();
 
+			var gap = 100f;
 			foreach (var mushroom in AllActive) {
 				var model = mushroomModels.First(model => model.Type == mushroom.Data.Type);
 				mushroom.SetMesh(model);
 				mushroom.MeshRenderer.enabled = true;
-			}
-			
-			StartCoroutine(TakeHeadshots());
-		}
-
-		//TODO: sus
-		private IEnumerator TakeHeadshots() {
-			// Wait for mesh renderer to start rendering
-			yield return new WaitForEndOfFrame();
-
-			var gap = 100f;
-			foreach (var m in AllActive.Where(m => !m.HeadshotCamera.HeadshotTexture)) {
-				StartCoroutine(m.HeadshotCamera.TakeHeadshot(new Vector3(gap, gap, gap)));
+				if(!mushroom.HeadshotCamera.HeadshotTexture)
+					StartCoroutine(mushroom.TakeHeadshot(gap));
 				gap += 100f;
 			}
 
+			StartCoroutine(InitJournal());
+		}
+		private IEnumerator InitJournal() {
 			// Wait for all headshots to be ready
 			while (!AllActive.All(m => m.HeadshotCamera.HeadshotTexture))
 				yield return null;
-			
-			foreach (var mushroom in AllActive) {
-				AllActiveOptions.Add(
-					mushroom.Data.Name, 
-					Sprite.Create(mushroom.HeadshotCamera.HeadshotTexture, new Rect(0f, 0f, Utility.HeadshotDimension, Utility.HeadshotDimension), Vector2.zero)
-				);
-			}
-			
+
 			// Populate Journal data
 			_journal.Init();
 		}

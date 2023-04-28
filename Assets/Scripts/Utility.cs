@@ -6,7 +6,7 @@
 using UnityEngine;
 
 public static class Utility {
-	public const int HeadshotDimension = 108;
+	public const int HeadshotDimension = 256;
 	public static string FormatTime(float time) {
 		var hours = Mathf.FloorToInt(time);
 		var minutes = 60f * (time - hours);

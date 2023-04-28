@@ -29,7 +29,6 @@ public class LevelSelection : MonoBehaviour {
 		private int _currentSelection = 0;
 		private Button _leftButton, _rightButton;
 		private TextMeshProUGUI _levelNameText;
-		private GameManager _gameManager;
 	#endregion
 	
 	#region Unity Methods
@@ -38,7 +37,6 @@ public class LevelSelection : MonoBehaviour {
 			_levelNameText = GetComponentsInChildren<TextMeshProUGUI>()[0];
 			_leftButton = GetComponentsInChildren<Button>()[1];
 			_rightButton = GetComponentsInChildren<Button>()[0];
-			_gameManager = FindObjectOfType<GameManager>();
 		}
 
 		private void UpdateUI() {
@@ -49,7 +47,7 @@ public class LevelSelection : MonoBehaviour {
 		}
 		
 		private void Start() {
-			StartCoroutine(_gameManager.LoadLevel(CurrentLevel));
+			StartCoroutine(GameManager.Instance.LoadLevel(CurrentLevel));
 			UpdateUI();
 		}
 	#endregion
@@ -57,14 +55,14 @@ public class LevelSelection : MonoBehaviour {
 	#region Other Methods
 		public void NextLevel() {
 			_currentSelection++;
-			StartCoroutine(_gameManager.LoadLevel(levels[_currentSelection]));
+			StartCoroutine(GameManager.Instance.LoadLevel(levels[_currentSelection]));
 			CurrentLevel = levels[_currentSelection];
 			UpdateUI();
 		}
 		
 		public void PreviousLevel() {
 			_currentSelection--;
-			StartCoroutine(_gameManager.LoadLevel(levels[_currentSelection]));
+			StartCoroutine(GameManager.Instance.LoadLevel(levels[_currentSelection]));
 			CurrentLevel = levels[_currentSelection];
 			UpdateUI();
 		}
