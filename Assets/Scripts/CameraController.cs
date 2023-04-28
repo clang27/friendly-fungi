@@ -2,7 +2,10 @@
 using UnityEngine.InputSystem;
 #endif
 
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour {
     private class CameraState {
@@ -70,8 +73,11 @@ public class CameraController : MonoBehaviour {
             
         }
     }
-    
+
+    private Image _binocularImage;
+    private Coroutine _resettingPosition;
     private Camera _camera;
+    private MushroomClicker _mushroomClicker;
     private Transform _transform;
     private Vector3 _goalRotation, _startingRotation;
     private Transform _worldTransform;
@@ -80,6 +86,7 @@ public class CameraController : MonoBehaviour {
     
     public bool AutoRotate { get; set; }
     public bool Enabled { get; set; }
+    public bool Ready => _resettingPosition == null;
 
     [Header("Lerp Settings")]
     [Tooltip("Time it takes to interpolate camera position 99% of the way to the target.")]
@@ -147,6 +154,8 @@ public class CameraController : MonoBehaviour {
     private void Awake() {
         _transform = transform;
         _camera = GetComponent<Camera>();
+        _mushroomClicker = GetComponent<MushroomClicker>();
+        _binocularImage = GameObject.FindGameObjectWithTag("Binocular").GetComponent<Image>();
     }
 
     private void Start() {
@@ -191,12 +200,23 @@ public class CameraController : MonoBehaviour {
             _targetCameraState.Translate(GetMouseLocation());
             _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
             Cursor.lockState = CursorLockMode.Locked;
-        }
-        else if (IsRightMouseButtonUp()) {
+
+            DOTween.Kill(_binocularImage);
+            DOTween.Kill(_binocularImage.GetComponent<RectTransform>());
+            
+            _binocularImage.DOFade(1f, 0.1f);
+            _binocularImage.GetComponent<RectTransform>().DOScale(Vector3.one, 0.8f);
+        } else if (IsRightMouseButtonUp()) {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             _targetCameraState.Reset();
-        }
+            
+            DOTween.Kill(_binocularImage);
+            DOTween.Kill(_binocularImage.GetComponent<RectTransform>());
+            
+            _binocularImage.DOFade(0f, 0.5f);
+            _binocularImage.GetComponent<RectTransform>().DOScale(Vector3.one * 2f, 0.5f);
+        } 
 
         if (RightMouseHeld()) {
             var mouseMovement = GetInputLookRotation() * Settings.MouseRotateSensitivity;
@@ -210,11 +230,24 @@ public class CameraController : MonoBehaviour {
             );
             // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
             // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+        } else if (IsLeftMouseButtonDown()) {
+            _mushroomClicker.CheckForMushroomClick(_camera.ScreenPointToRay(Input.mousePosition));
         }
     }
 
     public void ResetWorldPosition() {
-        _goalRotation = _startingRotation;
+        if (_resettingPosition != null) return;
+        
+        _resettingPosition = StartCoroutine(MoveTowardsReset());
+    }
+
+    private IEnumerator MoveTowardsReset() {
+        while (Vector3.Distance(_goalRotation, _startingRotation) > 0.1f) {
+            _goalRotation = Vector3.Lerp(_goalRotation, _startingRotation, 0.1f);
+            yield return new WaitForEndOfFrame();
+        }
+
+        _resettingPosition = null;
     }
 
     private void LateUpdate() {
@@ -293,7 +326,7 @@ public class CameraController : MonoBehaviour {
 
     private bool IsRightMouseButtonDown() {
 #if ENABLE_INPUT_SYSTEM
-            return Mouse.current != null ? Mouse.current.rightButton.isPressed : false;
+            return Mouse.current != null ? Mouse.current.rightButton.isPressed : true;
 #else
         return Input.GetMouseButtonDown(1);
 #endif
@@ -304,6 +337,22 @@ public class CameraController : MonoBehaviour {
             return Mouse.current != null ? !Mouse.current.rightButton.isPressed : false;
 #else
         return Input.GetMouseButtonUp(1);
+#endif
+    }
+    
+    private bool IsLeftMouseButtonDown() {
+#if ENABLE_INPUT_SYSTEM
+            return Mouse.current != null ? Mouse.current.leftButton.isPressed : true;
+#else
+        return Input.GetMouseButtonDown(0);
+#endif
+    }
+
+    private bool IsLeftMouseButtonUp() {
+#if ENABLE_INPUT_SYSTEM
+            return Mouse.current != null ? !Mouse.current.leftButton.isPressed : false;
+#else
+        return Input.GetMouseButtonUp(0);
 #endif
     }
 }
