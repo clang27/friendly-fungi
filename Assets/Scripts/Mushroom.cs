@@ -18,6 +18,7 @@ public class Mushroom : MonoBehaviour {
 		private Transform _transform;
 		private PlayableDirector _playableDirector;
 		private HeadshotCamera _headshotCamera;
+		private QuickOutline _outline;
 	#endregion
 	
 	#region Private Data
@@ -29,6 +30,7 @@ public class Mushroom : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			_meshRenderer = GetComponent<MeshRenderer>();
+			_outline = GetComponent<QuickOutline>();
 			_meshFilter = GetComponent<MeshFilter>();
 			_playableDirector = GetComponent<PlayableDirector>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
@@ -41,6 +43,9 @@ public class Mushroom : MonoBehaviour {
 	#endregion
 	
 	#region Other Methods
+		public void Highlight(bool b) {
+			_outline.enabled = b;
+		}
 		public void SetMesh(MushroomModel modelData) {
 			_meshFilter.mesh = modelData.Mesh;
 			_meshRenderer.materials[1].mainTexture = modelData.HeadTextures[Data.HeadColorIndex];

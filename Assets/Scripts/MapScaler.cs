@@ -25,13 +25,13 @@ public class MapScaler : MonoBehaviour {
 
     private MeshRenderer[] _meshes;
     private ParticleSystem[] _particles;
-    private PWater _water;
+    private PWater[] _water;
 
     private void Awake() {
         _meshes = GetComponentsInChildren<MeshRenderer>()
             .Where(mr => !mr.gameObject.CompareTag("Mushroom")).ToArray();
         _particles = GetComponentsInChildren<ParticleSystem>();
-        _water = GetComponentInChildren<PWater>();
+        _water = GetComponentsInChildren<PWater>();
     }
 
     private void Start() {
@@ -72,7 +72,9 @@ public class MapScaler : MonoBehaviour {
                 p.Pause();
         }
         
-        _water.enabled = b;
+        foreach (var w in _water) {
+            w.enabled = b;
+        }
     }
 
     private void FixedUpdate() {

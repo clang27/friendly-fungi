@@ -15,11 +15,10 @@ public class MushroomClicker : MonoBehaviour {
 	#endregion
 
 	#region Other Methods
-		public void CheckForMushroomClick(Ray ray) {
-			if (Physics.RaycastNonAlloc(ray, _hits, 100f, mushroomLayerMask) <= 0) return;
-			
-			var mushroom = _hits[0].transform.GetComponent<Mushroom>();
-			GameManager.Instance.OpenJournalToMushroomPage(mushroom);
+		public Mushroom CheckForMushroomWithRay(Ray ray) {
+			return Physics.RaycastNonAlloc(ray, _hits, 100f, mushroomLayerMask) <= 0 ? 
+				null : 
+				_hits[0].transform.GetComponent<Mushroom>();
 		}
 		
 	#endregion

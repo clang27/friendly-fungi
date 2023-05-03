@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour {
 		private CardManager _cardManager;
 		private MushroomManager _mushroomManager;
 		private VictoryParticles _victoryParticles;
-		private MushroomClicker _mushroomClicker;
 	#endregion
 	
 	#region Private Data
@@ -41,7 +40,6 @@ public class GameManager : MonoBehaviour {
 			_uiManager = GetComponent<UiManager>();
 			_cardManager = GetComponent<CardManager>();
 			_mushroomManager = GetComponent<MushroomManager>();
-			_mushroomClicker = GetComponent<MushroomClicker>();
 		}
 
 		private void Start() {

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName: LevelOne
   LevelName: Tutorial
-  StartTime: 7
-  EndTime: 17
+  StartTime: 8
+  EndTime: 10
   Song: {fileID: 8300000, guid: 60678cf1314aa6c4ca988fabe88cbd2b, type: 3}
   NumberOfQuestions: 2
   NumberOfCorrectGuesses: 1

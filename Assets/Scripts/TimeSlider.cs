@@ -39,7 +39,7 @@ public class TimeSlider : MonoBehaviour {
 
             hourSlider.minValue = l.StartTime;
             hourSlider.maxValue = l.EndTime;
-            hourSlider.value = l.StartTime;
+            hourSlider.SetValueWithoutNotify(l.StartTime);
         }
 
     #endregion

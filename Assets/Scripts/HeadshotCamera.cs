@@ -28,7 +28,8 @@ public class HeadshotCamera : MonoBehaviour {
 			_camera = GetComponentInChildren<Camera>();
 			
 			_renderTexture = new RenderTexture(Utility.HeadshotDimension, Utility.HeadshotDimension, 0) {
-				dimension = TextureDimension.Tex2D
+				dimension = TextureDimension.Tex2D,
+				antiAliasing = 2
 			};
 
 			_camera.targetTexture = _renderTexture;

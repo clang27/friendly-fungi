@@ -46,7 +46,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 7889390865115540199}
-    m_Duration: 300
+    m_Duration: 60
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0
@@ -94,10 +94,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 300
+    m_Start: 60.000000000000014
     m_ClipIn: 0
     m_Asset: {fileID: 5424434214290662915}
-    m_Duration: 300.01666666666665
+    m_Duration: 60.01666666666665
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0

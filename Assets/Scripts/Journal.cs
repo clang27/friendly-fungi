@@ -10,14 +10,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Journal : MonoBehaviour {
-	// Since some data is a mystery, it is paired with a value that determines if the data is known
-	private struct Entry {
+	// Since some data is a mystery, it is paired with a value that the player guessed
+	private class Entry {
 		public Sprite Headshot;
-		public KeyValuePair<string, bool> Name;
+		public KeyValuePair<string, string> Name;
+		public string Notes;
 	}
 
 	#region Attributes
-		//public List<Entry> Entries { get; }
+		private bool NoEntry => _selectedEntryIndex == -1;
 	#endregion
 	
 	#region Components
@@ -29,11 +30,13 @@ public class Journal : MonoBehaviour {
 		
 		//Page 2 
 		private Image _headshotSpotlight;
-		private TMP_InputField _nameInputField, miscInputField;
+		private TMP_InputField _miscInputField;
+		private TMP_Dropdown _nameDropdown;
 	#endregion
 	
 	#region Private Data
 		private List<Entry> _entries = new();
+		private int _selectedEntryIndex = -1;
 	#endregion
 	
 	#region Unity Methods
@@ -58,9 +61,9 @@ public class Journal : MonoBehaviour {
 				.ToArray();
 
 			//Page 2
-			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[0];
-			_nameInputField = _leftPages[1].GetComponentsInChildren<TMP_InputField>()[0];
-			miscInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
+			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[1];
+			_nameDropdown = _leftPages[1].GetComponentsInChildren<TMP_Dropdown>()[0];
+			_miscInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
 		}
 	
 	#endregion
@@ -74,10 +77,12 @@ public class Journal : MonoBehaviour {
 				image.gameObject.SetActive(index < _entries.Count);
 
 				if (index < _entries.Count) {
-					image.sprite = _entries[index].Headshot;
-					var n = _entries[index].Name.Key;
-					image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
-					image.GetComponentInChildren<TextMeshProUGUI>().text = _entries[index].Name.Value ? n : "???";
+					if (!image.sprite) {
+						image.sprite = _entries[index].Headshot;
+						var n = _entries[index].Name.Key;
+						image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
+					}
+					image.GetComponentInChildren<TextMeshProUGUI>().text = _entries[index].Name.Value;
 				}
 				
 				index++;
@@ -85,11 +90,33 @@ public class Journal : MonoBehaviour {
 		}
 		public void GoToMushroomPage(string name) {
 			GoToPage(1);
+
+			_selectedEntryIndex = _entries.IndexOf(_entries.First(e => e.Name.Key.Equals(name)));
+			_headshotSpotlight.sprite = _entries[_selectedEntryIndex].Headshot;
 			
-			_headshotSpotlight.sprite = _entries.First(e => e.Name.Key.Equals(name)).Headshot;
-			_nameInputField.text = name;
+			for (var i = 0; i < _nameDropdown.options.Count; i++) {
+				if (_nameDropdown.options[i].text.Equals(_entries[_selectedEntryIndex].Name.Value))
+					_nameDropdown.SetValueWithoutNotify(i);
+			}
+			
+			_miscInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Notes);
 		}
+		public void AddNotes(string s) {
+			if (NoEntry) return;
+
+			_entries[_selectedEntryIndex].Notes = s;
+		}
+
+		public void SetName(int i) {
+			if (NoEntry) return;
+
+			var s = _nameDropdown.options[i].text;
+			_entries[_selectedEntryIndex].Name = new KeyValuePair<string, string>(_entries[_selectedEntryIndex].Name.Key, s);
+		}
+		
 		private void GoToPage(int p) {
+			_selectedEntryIndex = -1;
+			
 			foreach (var lp in _leftPages) {
 				lp.gameObject.SetActive(false);
 			}
@@ -106,10 +133,14 @@ public class Journal : MonoBehaviour {
 			foreach (var shroom in MushroomManager.AllActive) {
 				var e = new Entry() {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
-					Name = new KeyValuePair<string, bool>(shroom.Data.Name, true),
+					Name = new KeyValuePair<string, string>(shroom.Data.Name, "???"),
+					Notes = ""
 				};
 				_entries.Add(e);
 			}
+			
+			_nameDropdown.ClearOptions();
+			_nameDropdown.AddOptions(_entries.Select(e => e.Name.Key).Prepend("???").ToList());
 		}
 	#endregion
 }
