@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 #endif
 
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -74,6 +75,7 @@ public class CameraController : MonoBehaviour {
         }
     }
 
+    private Mushroom _highlightedMushroom;
     private Image _binocularImage;
     private Coroutine _resettingPosition;
     private Camera _camera;
@@ -195,8 +197,11 @@ public class CameraController : MonoBehaviour {
 
     private void Update() {
         if (!Enabled) return;
-        
+
         if (IsRightMouseButtonDown()) {
+            if (_highlightedMushroom)
+                _highlightedMushroom.Highlight(false);
+            
             _targetCameraState.Translate(GetMouseLocation());
             _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
             Cursor.lockState = CursorLockMode.Locked;
@@ -230,10 +235,24 @@ public class CameraController : MonoBehaviour {
             );
             // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
             // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
-        } else if (IsLeftMouseButtonDown()) {
-            _mushroomClicker.CheckForMushroomClick(_camera.ScreenPointToRay(Input.mousePosition));
+        } else if (_highlightedMushroom && IsLeftMouseButtonDown()) {
+            _highlightedMushroom.Highlight(false);
+            GameManager.Instance.OpenJournalToMushroomPage(_highlightedMushroom);
         }
     }
+
+    private void FixedUpdate() {
+        if (!Enabled) return;
+        
+        var newHighlight = _mushroomClicker.CheckForMushroomWithRay(_camera.ScreenPointToRay(Input.mousePosition));
+        if (!newHighlight && _highlightedMushroom)
+            _highlightedMushroom.Highlight(false);
+        else if (newHighlight && !_highlightedMushroom)
+            newHighlight.Highlight(!RightMouseHeld());
+
+        _highlightedMushroom = newHighlight;
+    }
+    
 
     public void ResetWorldPosition() {
         if (_resettingPosition != null) return;
