@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	#region Attributes
 		public static GameManager Instance { get; private set; }
+		public bool Loading { get; private set; }
 		private bool InMainMenu { get; set; } = true;
 	#endregion
 
@@ -167,27 +168,26 @@ public class GameManager : MonoBehaviour {
 			_uiManager.CloseJournal();
 		}
 
-		public IEnumerator LoadLevel(Level lvl) {
+		public void ShowLoading() {
+			Loading = true;
+			
 			_uiManager.ShowLoadingScreen(true);
 			_uiManager.DisableButtonsOnLoading(true);
+		}
 
-			if (LevelSelection.LevelLoaded) {
-				//Debug.Log("Unloading " + LevelSelection.CurrentLevel.SceneName);
-
-				var asyncUnload = SceneManager.UnloadSceneAsync(LevelSelection.CurrentLevel.SceneName);
+		public IEnumerator LoadLevel(Level currentLevel, Level nextLevel) {
+			if (currentLevel) {
+				var asyncUnload = SceneManager.UnloadSceneAsync(currentLevel.SceneName);
 				while (!asyncUnload.isDone || _uiManager.LoadingFadingIn()) {
 					yield return null;
 				}
 			}
 
-			//Debug.Log("Loading " + LevelSelection.CurrentLevel.SceneName);
-			LevelSelection.LevelLoaded = false;
-			var asyncLoad = SceneManager.LoadSceneAsync(lvl.SceneName, LoadSceneMode.Additive);
+			var asyncLoad = SceneManager.LoadSceneAsync(nextLevel.SceneName, LoadSceneMode.Additive);
 			while (!asyncLoad.isDone) {
 				yield return null;
 			}
-
-			LevelSelection.LevelLoaded = true;
+			
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
@@ -201,11 +201,13 @@ public class GameManager : MonoBehaviour {
 			}
 			
 			_timeManager.Init(_mapScaler.transform);
-			_timeManager.SetLevelTime(lvl);
+			_timeManager.SetLevelTime(nextLevel);
 			
 			_mapScaler.GenerateMap();
 			_cameraController.AutoRotate = true;
-			
+
+			Loading = false;
+				
 			while (!_mapScaler.MapReady) {
 				yield return new WaitForSeconds(0.1f);
 			}
