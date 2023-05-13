@@ -10,9 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Journal : MonoBehaviour {
+	[SerializeField] private Material bookImageMaterial;
+	
 	// Since some data is a mystery, it is paired with a value that the player guessed
 	private class Entry {
 		public Sprite Headshot;
+		public Material Mat;
 		public KeyValuePair<string, string> Name;
 		public string Notes;
 	}
@@ -77,11 +80,10 @@ public class Journal : MonoBehaviour {
 				image.gameObject.SetActive(index < _entries.Count);
 
 				if (index < _entries.Count) {
-					if (!image.sprite) {
-						image.sprite = _entries[index].Headshot;
-						var n = _entries[index].Name.Key;
-						image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
-					}
+					image.sprite = _entries[index].Headshot;
+					image.material = _entries[index].Mat;
+					var n = _entries[index].Name.Key;
+					image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
 					image.GetComponentInChildren<TextMeshProUGUI>().text = _entries[index].Name.Value;
 				}
 				
@@ -131,8 +133,12 @@ public class Journal : MonoBehaviour {
 			_entries.Clear();
 			
 			foreach (var shroom in MushroomManager.AllActive) {
+				var mat = new Material(bookImageMaterial);
+				mat.SetTexture("_sprite", shroom.HeadshotCamera.HeadshotTexture);
+				
 				var e = new Entry() {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
+					Mat = mat,
 					Name = new KeyValuePair<string, string>(shroom.Data.Name, "???"),
 					Notes = ""
 				};

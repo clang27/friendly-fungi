@@ -36,7 +36,7 @@ public class HeadshotCamera : MonoBehaviour {
 		}
 
 		private void Start() {
-			_camera.backgroundColor = Color.HSVToRGB(Random.Range(0f, 1f), 0.2f, 0.8f);
+			//_camera.backgroundColor = Color.HSVToRGB(Random.Range(0f, 1f), 0.2f, 0.8f);
 			_camera.gameObject.SetActive(false);
 		}
 
@@ -54,7 +54,7 @@ public class HeadshotCamera : MonoBehaviour {
 
 			_headshotSprite = Sprite.Create(_headshotTexture, new Rect(0f, 0f, Utility.HeadshotDimension, 
 							Utility.HeadshotDimension), Vector2.zero);
-			
+
 			_camera.gameObject.SetActive(false);
 		}
 	#endregion

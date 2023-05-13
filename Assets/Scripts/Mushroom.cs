@@ -3,53 +3,73 @@
  * https://www.knitwitstudios.com/
  */
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour {
 	#region Attributes
 		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActive.IndexOf(this)];
-		public MeshRenderer MeshRenderer => _meshRenderer;
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
 	#endregion
 	
 	#region Components
 		private Transform _transform;
+		private Collider _collider;
 		private PlayableDirector _playableDirector;
 		private HeadshotCamera _headshotCamera;
 		private QuickOutline _outline;
 	#endregion
 	
 	#region Private Data
-		private MeshRenderer _meshRenderer;
-		private MeshFilter _meshFilter;
+		private Renderer[] _meshRenderers;
 		private Material _clonedHeadMaterial, _clonedBodyMaterial;
 	#endregion
 	
 	#region Unity Methods
 		private void Awake() {
-			_meshRenderer = GetComponent<MeshRenderer>();
+			_transform = transform;
+			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
-			_meshFilter = GetComponent<MeshFilter>();
+			_collider = GetComponent<Collider>();
 			_playableDirector = GetComponent<PlayableDirector>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
 		}
 
 		private void Start() {
-			_meshRenderer.enabled = false;
+			EnableRenderers(false);
 		}
 
-	#endregion
+		private void FixedUpdate() {
+			var hits = Physics.RaycastAll(_transform.position + new Vector3(0f, 2f, 0f), Vector3.down, 30f, 1 << 7);
+			// Debug.DrawRay(_transform.position + new Vector3(0f, 3f, 0f), new Vector3(0f, -6f, 0f), Color.red);
+			// Debug.Log(hitCount);
+
+			if (hits.Length == 0) return;
+			
+			var goalY = hits.Max(hit => hit.point.y);
+			var currY = _transform.position.y;
+
+
+
+			var distanceToTranslate = Mathf.Lerp(
+				currY, goalY, ((TimeManager.Running) ? 4f : 16f) * Time.fixedDeltaTime) - currY;
+			_transform.Translate(Vector3.up * distanceToTranslate);
+			
+		}
+
+		#endregion
 	
 	#region Other Methods
+		public void EnableRenderers(bool b) {
+			foreach (var mr in _meshRenderers)
+				mr.enabled = b;
+		}
 		public void Highlight(bool b) {
 			_outline.enabled = b;
-		}
-		public void SetMesh(MushroomModel modelData) {
-			_meshFilter.mesh = modelData.Mesh;
-			_meshRenderer.materials[1].mainTexture = modelData.HeadTextures[Data.HeadColorIndex];
-			_meshRenderer.materials[0].mainTexture = modelData.BodyTextures[Data.BodyColorIndex];
 		}
 		public void SetTimeline(float f) {
 			_playableDirector.time = f;
@@ -57,9 +77,9 @@ public class Mushroom : MonoBehaviour {
 		}
 		
 		public IEnumerator TakeHeadshot(float gap) {
-			transform.position = new Vector3(gap, gap, gap);
+			transform.position = new Vector3(gap, transform.position.y, gap);
 			
-			while (!MeshRenderer.isVisible) {
+			while (!_meshRenderers.All(mr => mr.isVisible)) {
 				yield return null;
 			}
 

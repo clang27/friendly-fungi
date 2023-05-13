@@ -23,7 +23,7 @@ public class TimeSlider : MonoBehaviour {
         public void UpdateTimeUi(float f) {
             CurrentTime = f;
             if (!Mathf.Approximately(hourSlider.value, f))
-                hourSlider.value = f;
+                hourSlider.SetValueWithoutNotify(f);
             
             currentTime.text = Utility.FormatTime(CurrentTime+TimeManager.HourOffset);
         }

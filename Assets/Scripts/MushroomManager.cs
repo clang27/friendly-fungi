@@ -40,9 +40,7 @@ public class MushroomManager : MonoBehaviour {
 
 			var gap = 100f;
 			foreach (var mushroom in AllActive) {
-				var model = mushroomModels.First(model => model.Type == mushroom.Data.Type);
-				mushroom.SetMesh(model);
-				mushroom.MeshRenderer.enabled = true;
+				mushroom.EnableRenderers(true);
 				if(!mushroom.HeadshotCamera.HeadshotTexture)
 					StartCoroutine(mushroom.TakeHeadshot(gap));
 				gap += 100f;
@@ -60,8 +58,8 @@ public class MushroomManager : MonoBehaviour {
 		}
 
 		public void Clear() {
-			foreach (var mr in AllActive.Select(m => m.MeshRenderer))
-				mr.enabled = false;
+			foreach (var m in AllActive)
+				m.EnableRenderers(false);
 			
 			AllActive.Clear();
 		}

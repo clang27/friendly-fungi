@@ -66,7 +66,7 @@ public class LevelSelection : MonoBehaviour {
 			
 			GameManager.Instance.ShowLoading();
 			
-			yield return new WaitForSeconds(0.8f);
+			yield return new WaitForSeconds(0.9f);
 			
 			StartCoroutine(GameManager.Instance.LoadLevel(levels[_currentSelection-amount], levels[_currentSelection]));
 
