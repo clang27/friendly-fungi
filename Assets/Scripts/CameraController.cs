@@ -87,6 +87,7 @@ public class CameraController : MonoBehaviour {
     private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
     
     public bool AutoRotate { get; set; }
+    public static bool Rotating { get; private set; }
     public bool Enabled { get; set; }
     public bool Ready => _resettingPosition == null;
 
@@ -281,7 +282,7 @@ public class CameraController : MonoBehaviour {
         _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, cameraRotationLerpPct, zoomLerpPct);
         _interpolatingCameraState.UpdateTransform(_transform);
         _interpolatingCameraState.UpdateZoom(_camera);
-        
+
         if (_worldTransform) {
             if (AutoRotate) {
                 _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? -1f : 1f) * 0.2f);
@@ -294,6 +295,8 @@ public class CameraController : MonoBehaviour {
             
             _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
         }
+        
+        Rotating = _worldTransform.localRotation != Quaternion.Euler(_goalRotation);
     }
 
     // private float GetZoom() {

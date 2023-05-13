@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowAnswerPanel(false);
 			_uiManager.ClosePrompt();
 			_uiManager.CloseJournal();
+
+			_timeManager.enabled = false;
 		}
 
 	#endregion
@@ -242,6 +244,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
 
+			_timeManager.enabled = true;
 			_timeManager.Play();
 		}
 

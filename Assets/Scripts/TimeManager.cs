@@ -40,6 +40,12 @@ public class TimeManager : MonoBehaviour {
             
             UpdateTime(Hour + Time.deltaTime * multiplier);
         }
+
+        private void LateUpdate() {
+            foreach (var m in MushroomManager.AllActive)
+                m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
+        }
+        
     #endregion
 
     #region Other Methods
@@ -53,10 +59,6 @@ public class TimeManager : MonoBehaviour {
             }
             
             _timeSlider.UpdateTimeUi(Hour);
-            
-            foreach (var m in MushroomManager.AllActive) {
-                m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
-            }
         }
         public void Init(Transform t) {
             _particleSystems = t.GetComponentsInChildren<ParticleSystem>();
