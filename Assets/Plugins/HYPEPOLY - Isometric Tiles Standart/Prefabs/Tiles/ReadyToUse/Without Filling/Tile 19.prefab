@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4803399218982702133}
   - component: {fileID: 5150231588016364553}
   - component: {fileID: 1172190987650082983}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile Top Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5860298635816291607}
   m_RootOrder: 0
@@ -52,10 +53,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +83,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &1172190987650082983
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -105,7 +109,7 @@ GameObject:
   - component: {fileID: 975263707489327482}
   - component: {fileID: 6761959160194280224}
   - component: {fileID: 7709788294571876151}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile Bot Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +126,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5860298635816291607}
   m_RootOrder: 1
@@ -145,10 +150,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -173,6 +180,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7709788294571876151
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -195,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5860298635816291607}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile 19
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -212,6 +220,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8812306147160719979}
   - {fileID: 3997699571897676236}
@@ -231,7 +240,7 @@ GameObject:
   - component: {fileID: 1620810797840518115}
   - component: {fileID: 7446116760257225533}
   - component: {fileID: 7429326814395802547}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile Decor Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,6 +257,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5860298635816291607}
   m_RootOrder: 2
@@ -271,10 +281,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -299,6 +311,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &7429326814395802547
 MeshCollider:
   m_ObjectHideFlags: 0

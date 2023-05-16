@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: LevelOneData
   m_EditorClassIdentifier: 
   SceneName: LevelOne
-  LevelName: Tutorial
+  LevelName: Cloud Lookout
   StartTime: 8
-  EndTime: 10
+  EndTime: 11
   Song: {fileID: 8300000, guid: 60678cf1314aa6c4ca988fabe88cbd2b, type: 3}
   NumberOfQuestions: 2
   NumberOfCorrectGuesses: 1

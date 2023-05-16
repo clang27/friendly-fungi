@@ -204,7 +204,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 6
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 179
   m_InnerSpotAngle: 31.069033
@@ -399,7 +399,7 @@ Camera:
   far clip plane: 5
   field of view: 40
   orthographic: 1
-  orthographic size: 1.2
+  orthographic size: 1
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
@@ -1303,7 +1303,7 @@ Transform:
   m_GameObject: {fileID: 8820441720398238048}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 12.85, y: 1.08, z: -18.78}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6162177374544619203}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9173770102605032910}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile 62
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7605242277689806380}
   - {fileID: 6577621105854889784}
@@ -44,7 +45,7 @@ GameObject:
   - component: {fileID: 207119409729606992}
   - component: {fileID: 7163487047568837806}
   - component: {fileID: 7737324481715685558}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile Bot Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,6 +62,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9173770102605032910}
   m_RootOrder: 1
@@ -84,10 +86,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -112,6 +116,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &7737324481715685558
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,7 +142,7 @@ GameObject:
   - component: {fileID: 8312176217531976258}
   - component: {fileID: 6104257716388757529}
   - component: {fileID: 573091171945922116}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tile Top Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,6 +159,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9173770102605032910}
   m_RootOrder: 0
@@ -177,10 +183,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -205,6 +213,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &573091171945922116
 BoxCollider:
   m_ObjectHideFlags: 0

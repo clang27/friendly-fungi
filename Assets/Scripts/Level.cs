@@ -12,7 +12,7 @@ public class Level : ScriptableObject {
 	public AudioClip Song;
 	public int NumberOfQuestions, NumberOfCorrectGuesses;
 	public bool Unlocked() {
-		if (LevelName.ToLower().Contains("tutorial")) {
+		if (LevelName.ToLower().Contains("cloud")) {
 			return true;
 		}
 
