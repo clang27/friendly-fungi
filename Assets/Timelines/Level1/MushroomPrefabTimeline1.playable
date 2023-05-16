@@ -130,6 +130,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -174,6 +175,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -262,6 +264,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -311,7 +314,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 7889390865115540199}
-    m_Duration: 20
+    m_Duration: 32.516666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0
@@ -359,10 +362,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 20
+    m_Start: 32.516666666666666
     m_ClipIn: 0
     m_Asset: {fileID: -1513231786688298369}
-    m_Duration: 20
+    m_Duration: 7.483333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0
@@ -515,7 +518,7 @@ MonoBehaviour:
     m_Start: 80
     m_ClipIn: 0
     m_Asset: {fileID: 8123166962132329469}
-    m_Duration: 20
+    m_Duration: 9.38333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0
@@ -563,10 +566,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 100
+    m_Start: 89.38333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 3190926720868601870}
-    m_Duration: 20
+    m_Duration: 30.61666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0
@@ -575,25 +578,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -650,7 +635,7 @@ MonoBehaviour:
     m_Start: 160
     m_ClipIn: 0
     m_Asset: {fileID: 72484153510133661}
-    m_Duration: 20
+    m_Duration: 20.01666666666665
     m_TimeScale: 1
     m_ParentTrack: {fileID: 515044568489339900}
     m_EaseInDuration: 0
@@ -752,6 +737,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -796,6 +782,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -886,6 +873,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -930,6 +918,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -974,6 +963,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1018,6 +1008,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
+  climbing: 0
   curve:
     serializedVersion: 2
     m_Curve:

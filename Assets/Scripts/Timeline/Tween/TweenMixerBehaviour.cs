@@ -11,20 +11,22 @@ public class TweenMixerBehaviour : PlayableBehaviour {
     // Performs blend of position and rotation of all clips connected to a track mixer
     // The result is applied to the track binding's (playerData) transform.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData) {
-        var trackBinding = playerData as Transform;
+        var mushroom = playerData as Mushroom;
+        var trackBindingTransform = mushroom.transform;
 
-        if (trackBinding == null)
+        if (mushroom == null)
             return;
 
         // Get the initial position and rotation of the track binding, only when ProcessFrame is first called
-        InitializeIfNecessary(trackBinding);
+        InitializeIfNecessary(trackBindingTransform);
 
         var accumPosition = Vector3.zero;
         var accumRotation = new Quaternion(0f, 0f, 0f, 0f);
 
         var totalPositionWeight = 0.0f;
         var totalRotationWeight = 0.0f;
-
+        var climbing = false;
+        
         // Iterate on all mixer's inputs (ie each clip on the track)
         var inputCount = playable.GetInputCount();
         for (var i = 0; i < inputCount; i++) {
@@ -38,6 +40,7 @@ public class TweenMixerBehaviour : PlayableBehaviour {
             // get the clip's behaviour and evaluate the progression along the curve
             var tweenInput = GetTweenBehaviour(input);
             var tweenProgress = GetCurve(tweenInput).Evaluate(normalizedInputTime);
+            climbing |= tweenInput.climbing;
 
             // calculate the position's progression along the curve according to the input's (clip) weight
             if (tweenInput.shouldTweenPosition) {
@@ -52,12 +55,14 @@ public class TweenMixerBehaviour : PlayableBehaviour {
             }
         }
 
+        mushroom.Climbing = climbing;
+        
         // Apply the final position and rotation values in the track binding
         var newPosition = accumPosition + m_InitialPosition * (1.0f - totalPositionWeight);
-        trackBinding.position = new Vector3(newPosition.x, trackBinding.position.y, newPosition.z);
+        trackBindingTransform.position = new Vector3(newPosition.x, (climbing) ? newPosition.y : trackBindingTransform.position.y, newPosition.z);
         //trackBinding.rotation = accumRotation.Blend(m_InitialRotation, 1.0f - totalRotationWeight);
-        trackBinding.rotation = Quaternion.Slerp(accumRotation, m_InitialRotation, (1.0f - totalRotationWeight));
-        trackBinding.rotation.Normalize();
+        trackBindingTransform.rotation = Quaternion.Slerp(accumRotation, m_InitialRotation, (1.0f - totalRotationWeight));
+        trackBindingTransform.rotation.Normalize();
     }
 
     private void InitializeIfNecessary(Transform transform) {

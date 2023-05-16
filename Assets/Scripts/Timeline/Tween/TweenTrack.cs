@@ -4,7 +4,7 @@ using UnityEngine.Timeline;
 
 
 [TrackColor(1.0f, 0.0f, 0.0f)]
-[TrackBindingType(typeof(Transform))]
+[TrackBindingType(typeof(Mushroom))]
 [TrackClipType(typeof(TweenClip))]
 public class TweenTrack : TrackAsset {
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount) {
