@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private List<Question> Questions;
 		[SerializeField] private List<CardUi> Cards;
 	#endregion
 	

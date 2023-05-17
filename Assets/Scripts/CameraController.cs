@@ -76,7 +76,6 @@ public class CameraController : MonoBehaviour {
     }
 
     private Highlightable _highlightedObject;
-    private Image _binocularImage;
     private Coroutine _resettingPosition;
     private Camera _camera;
     private ClickableObject _clickableObject;
@@ -158,9 +157,6 @@ public class CameraController : MonoBehaviour {
         _transform = transform;
         _camera = GetComponent<Camera>();
         _clickableObject = GetComponent<ClickableObject>();
-        var binObj = GameObject.FindGameObjectWithTag("Binocular");
-        if (binObj)
-            _binocularImage = binObj.GetComponent<Image>();
     }
 
     private void Start() {
@@ -207,22 +203,14 @@ public class CameraController : MonoBehaviour {
             _targetCameraState.Translate(GetMouseLocation());
             _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
             Cursor.lockState = CursorLockMode.Locked;
-
-            DOTween.Kill(_binocularImage);
-            DOTween.Kill(_binocularImage.GetComponent<RectTransform>());
             
-            _binocularImage.DOFade(1f, 0.1f);
-            _binocularImage.GetComponent<RectTransform>().DOScale(Vector3.one, 0.8f);
+            GameManager.Instance.ShowBinoculars();
         } else if (IsRightMouseButtonUp()) {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             _targetCameraState.Reset();
             
-            DOTween.Kill(_binocularImage);
-            DOTween.Kill(_binocularImage.GetComponent<RectTransform>());
-            
-            _binocularImage.DOFade(0f, 0.5f);
-            _binocularImage.GetComponent<RectTransform>().DOScale(Vector3.one * 2f, 0.5f);
+            GameManager.Instance.HideBinoculars();
         } 
 
         if (RightMouseHeld()) {
@@ -250,21 +238,20 @@ public class CameraController : MonoBehaviour {
         var ray = _camera.ScreenPointToRay(Input.mousePosition);
         var objTrans = _clickableObject.TouchingRay(ray);
 
-        if (_highlightedObject != null && !objTrans) {
-            _highlightedObject.Highlight(false);
-            _highlightedObject = null;
-        }
+        _highlightedObject?.Highlight(false);
         
+        if (_highlightedObject != null && !objTrans)
+            _highlightedObject = null;
         if (!objTrans)
             return;
         
         var highlightingMushroom = objTrans.GetComponent<Mushroom>();
-        var highlightingLocation = objTrans.GetComponent<Location>();
+        var highlightingOther = objTrans.GetComponent<Highlightable>();
         
         if (highlightingMushroom) {
             _highlightedObject = highlightingMushroom;
-        } else if (highlightingLocation) {
-            _highlightedObject = highlightingLocation;
+        } else if (highlightingOther != null) {
+            _highlightedObject = highlightingOther;
         }
         
         _highlightedObject?.Highlight(!RightMouseHeld());
@@ -302,7 +289,7 @@ public class CameraController : MonoBehaviour {
         if (_worldTransform) {
             if (AutoRotate) {
                 _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? -1f : 1f) * 0.2f);
-            } else {
+            } else if (Enabled) {
                 _goalRotation += GetInputRotationDirection() * (
                     Settings.RotateSpeed * (IsBoostPressed() ? Settings.BoostMultiplier : 1f) * 
                     (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)

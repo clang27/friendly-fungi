@@ -4,6 +4,7 @@
  */
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowAnswerPanel(false);
 			_uiManager.ClosePrompt();
 			_uiManager.CloseJournal();
+			_uiManager.CloseSign();
 
 			_timeManager.enabled = false;
 		}
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour {
 
 			_cameraController.AutoRotate = true;
 			
+			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ClosePrompt();
 			_uiManager.OpenMainMenu();
 			
@@ -126,6 +129,7 @@ public class GameManager : MonoBehaviour {
 			
 			_uiManager.ShowTopBar(!b);
 			_uiManager.ShowCardPanel(!b);
+			_uiManager.ShowBackgroundBlur(b);
 		}
 		
 		public void OpenSettings() {
@@ -161,6 +165,25 @@ public class GameManager : MonoBehaviour {
 
 			_uiManager.OpenJournalToMushroomPage(m);
 		}
+		
+		public void OpenSign(Location l) {
+			DisableEverythingForPrompt(true, false);
+
+			_uiManager.OpenSign(l);
+		}
+
+		public void CloseSign() {
+			DisableEverythingForPrompt(false);
+			
+			_uiManager.CloseSign();
+		}
+		
+		public void OpenSign(List<Location> l) {
+			DisableEverythingForPrompt(true, false);
+
+			_uiManager.OpenSign(l);
+		}
+		
 		public void CloseJournal() {
 			if (InMainMenu) {
 				_uiManager.OpenMainMenu();
@@ -250,6 +273,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		public void OpenAnswer() {
+			_uiManager.ShowBackgroundBlur(true);
 			_uiManager.ShowAnswerPanel(true);
 			_timeManager.Pause();
 			_timeManager.PauseParticles();
@@ -258,6 +282,7 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		public void CloseAnswer() {
+			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ShowAnswerPanel(false);
 			if (!TimeManager.PausedFlag)
 				_timeManager.Play();
@@ -265,6 +290,14 @@ public class GameManager : MonoBehaviour {
 			_cameraController.Enabled = true;
 		}
 
+		public void ShowBinoculars() {
+			_uiManager.ShowBinoculars(true);
+		}
+
+		public void HideBinoculars() {
+			_uiManager.ShowBinoculars(false);
+		}
+		
 		public void GuessAnswer(bool correct) {
 			if (correct) {
 				_correctGuesses++;

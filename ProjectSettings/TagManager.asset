@@ -7,7 +7,6 @@ TagManager:
   - Tile
   - Map
   - Mushroom
-  - Binocular
   layers:
   - Default
   - TransparentFX

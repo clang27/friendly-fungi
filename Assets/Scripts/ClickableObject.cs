@@ -12,12 +12,26 @@ public class ClickableObject : MonoBehaviour {
 
 	#region Private Data
 		private RaycastHit[] _hits = new RaycastHit[1];
+		private RaycastHit[] _groundHits = new RaycastHit[1];
+		private int _groundMask = 1 << 7;
 	#endregion
 
 	#region Other Methods
 		public Transform TouchingRay(Ray ray) {
-			return Physics.RaycastNonAlloc(ray, _hits, 100f, layerMask) <= 0 ? 
-				null : _hits[0].transform;
+			var targetHit = Physics.RaycastNonAlloc(ray, _hits, 200f, layerMask);
+			
+			if (targetHit == 0)
+				return null;
+			
+			var groundHit = Physics.RaycastNonAlloc(ray, _groundHits, 200f, _groundMask);
+			
+			if (groundHit == 0)
+				return _hits[0].transform;
+
+			var distanceBetweenCameraAndGroundPoint = Vector3.Distance(ray.origin, _groundHits[0].point);
+			var distanceBetweenCameraAndHitPoint = Vector3.Distance(ray.origin, _hits[0].point);
+
+			return distanceBetweenCameraAndGroundPoint < distanceBetweenCameraAndHitPoint ? null : _hits[0].transform;
 		}
 		
 	#endregion

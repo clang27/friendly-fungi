@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEngine;
 public class QuestionQueue : MonoBehaviour {
 	#region Serialized Fields
-	[SerializeField] private Who[] whoQuestions;
+		[SerializeField] private Who[] whoQuestions;
 		[SerializeField] private What[] whatQuestions;
 		[SerializeField] private When[] whenQuestions;
 		[SerializeField] private Where[] whereQuestions;
