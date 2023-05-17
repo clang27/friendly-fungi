@@ -21,7 +21,7 @@ public class MushroomData {
         Type = mt;
     }
     public static void Init() {
-        var file = Resources.Load<TextAsset>("names");
+        var file = Resources.Load<TextAsset>("mushroom_names");
         var names = file.text.Split(",");
         
         if (!PlayerPrefs.HasKey("MushroomDataName0")) {

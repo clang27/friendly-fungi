@@ -8,16 +8,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Mushroom : MonoBehaviour {
+public class Mushroom : MonoBehaviour, Highlightable {
 	#region Attributes
-		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActive.IndexOf(this)];
+		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActiveMushrooms.IndexOf(this)];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
 		public bool Climbing { get; set; }
+		QuickOutline Highlightable.Outline => _outline;
 	#endregion
 	
 	#region Components
 		private Transform _transform;
-		private Collider _collider;
 		private PlayableDirector _playableDirector;
 		private HeadshotCamera _headshotCamera;
 		private QuickOutline _outline;
@@ -33,7 +33,6 @@ public class Mushroom : MonoBehaviour {
 			_transform = transform;
 			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
-			_collider = GetComponent<Collider>();
 			_playableDirector = GetComponent<PlayableDirector>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
 		}
@@ -69,9 +68,6 @@ public class Mushroom : MonoBehaviour {
 			foreach (var mr in _meshRenderers)
 				mr.enabled = b;
 		}
-		public void Highlight(bool b) {
-			_outline.enabled = b;
-		}
 		public void SetTimeline(float f) {
 			_playableDirector.time = f;
 			_playableDirector.DeferredEvaluate();
@@ -85,6 +81,10 @@ public class Mushroom : MonoBehaviour {
 			}
 
 			StartCoroutine(HeadshotCamera.TakeHeadshot());
+		}
+
+		public void Click() {
+			GameManager.Instance.OpenJournalToMushroomPage(this);
 		}
 
 	#endregion

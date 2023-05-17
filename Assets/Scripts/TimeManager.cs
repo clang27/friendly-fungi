@@ -42,7 +42,7 @@ public class TimeManager : MonoBehaviour {
         }
 
         private void LateUpdate() {
-            foreach (var m in MushroomManager.AllActive)
+            foreach (var m in MushroomManager.AllActiveMushrooms)
                 m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
         }
         

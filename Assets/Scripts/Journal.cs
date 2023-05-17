@@ -132,7 +132,7 @@ public class Journal : MonoBehaviour {
 		public void Init() {
 			_entries.Clear();
 			
-			foreach (var shroom in MushroomManager.AllActive) {
+			foreach (var shroom in MushroomManager.AllActiveMushrooms) {
 				var mat = new Material(bookImageMaterial);
 				mat.SetTexture("_sprite", shroom.HeadshotCamera.HeadshotTexture);
 				

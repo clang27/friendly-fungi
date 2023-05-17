@@ -30,7 +30,7 @@ public class AnswerUi : MonoBehaviour {
 			switch (q.Header) {
 				case "Who":
 					nameDropdown.ClearOptions();
-					var options = MushroomManager.AllActive
+					var options = MushroomManager.AllActiveMushrooms
 							.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, m.HeadshotCamera.HeadshotSprite))
 							.ToList();
 					nameDropdown.AddOptions(options);

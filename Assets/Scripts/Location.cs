@@ -3,23 +3,21 @@
  * https://www.knitwitstudios.com/
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Location : MonoBehaviour {
+public class Location : MonoBehaviour, Highlightable {
 	#region Serialized Fields
-		// [SerializeField] private float fieldOne, fieldTwo, fieldThree;
+		[SerializeField] private int locationNumber;
+		[SerializeField] private LocationType locationType;
 	#endregion
 	
 	#region Attributes
-		public string Name { get; private set; }
+		public string Name => LocationData.AllData[locationNumber].Name + " " + locationType;
+		QuickOutline Highlightable.Outline => _outline;
 	#endregion
 	
 	#region Components
-		private Transform _transform;
-		// private Rigidbody2D _rigidbody;
-		// private Collider2D _collider;
+		private QuickOutline _outline;
 	#endregion
 	
 	#region Private Data
@@ -28,25 +26,18 @@ public class Location : MonoBehaviour {
 	
 	#region Unity Methods
 		private void Awake() {
-			_transform = transform;
-			// _rigidbody = GetComponent<Rigidbody2D>();
-			// _collider = GetComponent<Collider2D>();
+			_outline = GetComponent<QuickOutline>();
 		}
 		
 		private void Start() {
 			
 		}
-
-		private void Update() {
-			
-		}
-		
-		private void FixedUpdate() {
-			
-		}
+	
 	#endregion
 	
 	#region Other Methods
-		//private void MethodOne() {}
+		public void Click() {
+			Debug.Log(Name);
+		}
 	#endregion
 }

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
 			
 			Settings.ReadData();
 			MushroomData.Init();
+			LocationData.Init();
 
 			_timeManager = GetComponent<TimeManager>();
 			_audioManager = FindObjectOfType<AudioManager>();

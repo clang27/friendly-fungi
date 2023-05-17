@@ -75,11 +75,11 @@ public class CameraController : MonoBehaviour {
         }
     }
 
-    private Mushroom _highlightedMushroom;
+    private Highlightable _highlightedObject;
     private Image _binocularImage;
     private Coroutine _resettingPosition;
     private Camera _camera;
-    private MushroomClicker _mushroomClicker;
+    private ClickableObject _clickableObject;
     private Transform _transform;
     private Vector3 _goalRotation, _startingRotation;
     private Transform _worldTransform;
@@ -157,8 +157,10 @@ public class CameraController : MonoBehaviour {
     private void Awake() {
         _transform = transform;
         _camera = GetComponent<Camera>();
-        _mushroomClicker = GetComponent<MushroomClicker>();
-        _binocularImage = GameObject.FindGameObjectWithTag("Binocular").GetComponent<Image>();
+        _clickableObject = GetComponent<ClickableObject>();
+        var binObj = GameObject.FindGameObjectWithTag("Binocular");
+        if (binObj)
+            _binocularImage = binObj.GetComponent<Image>();
     }
 
     private void Start() {
@@ -200,8 +202,7 @@ public class CameraController : MonoBehaviour {
         if (!Enabled) return;
 
         if (IsRightMouseButtonDown()) {
-            if (_highlightedMushroom)
-                _highlightedMushroom.Highlight(false);
+            _highlightedObject?.Highlight(false);
             
             _targetCameraState.Translate(GetMouseLocation());
             _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
@@ -236,22 +237,37 @@ public class CameraController : MonoBehaviour {
             );
             // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
             // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
-        } else if (_highlightedMushroom && IsLeftMouseButtonDown()) {
-            _highlightedMushroom.Highlight(false);
-            GameManager.Instance.OpenJournalToMushroomPage(_highlightedMushroom);
+        } else if (_highlightedObject != null && IsLeftMouseButtonDown()) {
+            _highlightedObject.Highlight(false);
+            _highlightedObject.Click();
+            _highlightedObject = null;
         }
     }
 
     private void FixedUpdate() {
         if (!Enabled) return;
-        
-        var newHighlight = _mushroomClicker.CheckForMushroomWithRay(_camera.ScreenPointToRay(Input.mousePosition));
-        if (!newHighlight && _highlightedMushroom)
-            _highlightedMushroom.Highlight(false);
-        else if (newHighlight && !_highlightedMushroom)
-            newHighlight.Highlight(!RightMouseHeld());
 
-        _highlightedMushroom = newHighlight;
+        var ray = _camera.ScreenPointToRay(Input.mousePosition);
+        var objTrans = _clickableObject.TouchingRay(ray);
+
+        if (_highlightedObject != null && !objTrans) {
+            _highlightedObject.Highlight(false);
+            _highlightedObject = null;
+        }
+        
+        if (!objTrans)
+            return;
+        
+        var highlightingMushroom = objTrans.GetComponent<Mushroom>();
+        var highlightingLocation = objTrans.GetComponent<Location>();
+        
+        if (highlightingMushroom) {
+            _highlightedObject = highlightingMushroom;
+        } else if (highlightingLocation) {
+            _highlightedObject = highlightingLocation;
+        }
+        
+        _highlightedObject?.Highlight(!RightMouseHeld());
     }
     
 
