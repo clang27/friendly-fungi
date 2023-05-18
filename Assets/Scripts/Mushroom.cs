@@ -13,7 +13,6 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActiveMushrooms.IndexOf(this)];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
 		public bool Climbing { get; set; }
-		QuickOutline Highlightable.Outline => _outline;
 	#endregion
 	
 	#region Components
@@ -84,7 +83,14 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		}
 
 		public void Click() {
+			AudioManager.Instance.PlayUiSound(UiSound.ButtonClick);
 			GameManager.Instance.OpenJournalToMushroomPage(this);
+		}
+		
+		public void Highlight(bool b) {
+			if (b)
+				AudioManager.Instance.PlayUiSound(UiSound.Hover);
+			_outline.enabled = b;
 		}
 
 	#endregion

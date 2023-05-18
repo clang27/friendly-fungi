@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviour {
 			InMainMenu = true;
 
 			_cameraController.AutoRotate = true;
-			
+			_cameraController.ResetWorldPositionToMenu();
+
 			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ClosePrompt();
 			_uiManager.OpenMainMenu();
@@ -107,7 +108,7 @@ public class GameManager : MonoBehaviour {
 			_incorrectGuesses = 0;
 
 			_victoryParticles.Activate(false);
-			_cameraController.ResetWorldPosition();
+			_cameraController.ResetWorldPositionToPlay();
 			
 			_mushroomManager.Init();
 			
@@ -246,7 +247,6 @@ public class GameManager : MonoBehaviour {
 			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
 			_audioManager.StartAmbience();
 			
-			_cameraController.Enabled = true;
 			_cameraController.AutoRotate = false;
 
 			_correctGuesses = 0;
@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		private IEnumerator FinishLevelGenerationThenStartTime() {
-			_cameraController.ResetWorldPosition();
+			_cameraController.ResetWorldPositionToPlay();
 			
 			_mushroomManager.Init();
 			_cardManager.Init();
@@ -265,6 +265,7 @@ public class GameManager : MonoBehaviour {
 				yield return new WaitForSeconds(0.1f);
 			}
 			
+			_cameraController.Enabled = true;
 			_uiManager.ShowTopBar(true);
 			_uiManager.ShowCardPanel(true);
 

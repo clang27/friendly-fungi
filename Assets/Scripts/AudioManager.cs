@@ -34,6 +34,7 @@ public class AudioManager : MonoBehaviour {
 	#endregion
 	
 	#region Attributes
+		public static AudioManager Instance { get; private set; }
 		private static bool SoundCooldown { get; set; }
 		private const float CooldownThreshold = 0.2f;
 	#endregion
@@ -44,6 +45,8 @@ public class AudioManager : MonoBehaviour {
 
 	#region Unity Methods
 		private void Awake() {
+			Instance = this;
+			
 			_musicSource = GetComponentsInChildren<AudioSource>()[0];
 			_sfxSource = GetComponentsInChildren<AudioSource>()[1];
 			_ambienceSource = GetComponentsInChildren<AudioSource>()[2];

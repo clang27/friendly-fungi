@@ -4,10 +4,6 @@
  */
 
 public interface Highlightable {
-    protected QuickOutline Outline { get; }
-    public void Highlight(bool b) {
-        Outline.enabled = b;
-    }
-
+    public void Highlight(bool b);
     public void Click();
 }

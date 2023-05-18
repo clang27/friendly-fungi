@@ -10,11 +10,7 @@ public class LocationReference : MonoBehaviour, Highlightable {
 	#region Serialized Fields
 		[SerializeField] private List<Location> locationsPointingAt;
 	#endregion
-	
-	#region Attributes
-		QuickOutline Highlightable.Outline => _outline;
-	#endregion
-	
+
 	#region Components
 		private QuickOutline _outline;
 	#endregion
@@ -28,7 +24,14 @@ public class LocationReference : MonoBehaviour, Highlightable {
 	
 	#region Other Methods
 		public void Click() {
+			AudioManager.Instance.PlayUiSound(UiSound.ButtonClick);
 			GameManager.Instance.OpenSign(locationsPointingAt);
+		}
+		
+		public void Highlight(bool b) {
+			if (b)
+				AudioManager.Instance.PlayUiSound(UiSound.Hover);
+			_outline.enabled = b;
 		}
 	#endregion
 }

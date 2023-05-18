@@ -62,14 +62,12 @@ public class UiManager : MonoBehaviour {
 		}
 
 		public void ChangeStartButton(string s, UnityAction a) {
-			startButton.GetComponentInChildren<TextMeshProUGUI>().text = s;
 			startButton.onClick.RemoveAllListeners();
 			startButton.onClick.AddListener(a);
 		}
 
 		public void DisableButtonsOnLoading(bool b) {
 			startButton.interactable = !b;
-			startButton.GetComponentInChildren<TextMeshProUGUI>().text = b ? "Loading..." : "Start";
 		}
 
 		public void OpenMainMenu() {

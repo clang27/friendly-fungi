@@ -16,7 +16,6 @@ public class Location : MonoBehaviour, Highlightable {
 		public string Name => LocationData.AllData[locationNumber].Name + " " + locationType;
 		public bool Known => known;
 		public string CurrentGuess { get; set; } = "???";
-		QuickOutline Highlightable.Outline => _outline;
 	#endregion
 	
 	#region Components
@@ -32,7 +31,14 @@ public class Location : MonoBehaviour, Highlightable {
 	
 	#region Other Methods
 		public void Click() {
+			AudioManager.Instance.PlayUiSound(UiSound.ButtonClick);
 			GameManager.Instance.OpenSign(this);
+		}
+		
+		public void Highlight(bool b) {
+			if (b)
+				AudioManager.Instance.PlayUiSound(UiSound.Hover);
+			_outline.enabled = b;
 		}
 	#endregion
 }

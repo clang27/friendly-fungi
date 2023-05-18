@@ -1,12 +1,10 @@
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
+/*
+ * Copyright (c) Knitwit Studios LLC
+ * https://www.knitwitstudios.com/
+ */
 
-using System;
 using System.Collections;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour {
     private class CameraState {
@@ -67,7 +65,11 @@ public class CameraController : MonoBehaviour {
             Pitch = _initialAngle.x;
             Yaw = _initialAngle.y;
             _roll = _initialAngle.z;
-            
+
+            ResetPosition();
+        }
+        
+        public void ResetPosition() {
             _x = _initialPosition.x;
             _y = _initialPosition.y;
             _z = _initialPosition.z;
@@ -76,11 +78,11 @@ public class CameraController : MonoBehaviour {
     }
 
     private Highlightable _highlightedObject;
-    private Coroutine _resettingPosition;
+    private Coroutine _resettingPositionToPlay, _resettingPositionToMenu;
     private Camera _camera;
     private ClickableObject _clickableObject;
     private Transform _transform;
-    private Vector3 _goalRotation, _startingRotation;
+    private Vector3 _goalRotation, _startingRotation, _goalScale = Vector3.one;
     private Transform _worldTransform;
     private float _initialYaw, _initialPitch;
     private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
@@ -88,8 +90,12 @@ public class CameraController : MonoBehaviour {
     public bool AutoRotate { get; set; }
     public static bool Rotating { get; private set; }
     public bool Enabled { get; set; }
-    public bool Ready => _resettingPosition == null;
+    public bool Ready => _resettingPositionToPlay == null;
 
+    [Header("Menu Settings")]
+    [Range(0.1f, 1f)] public float startingZoomOutPercent = 0.7f;
+    public Vector3 startingTranslation = new Vector3(-10f, -2f, 0f);
+    
     [Header("Lerp Settings")]
     [Tooltip("Time it takes to interpolate camera position 99% of the way to the target.")]
     [Range(0.001f, 1f)]
@@ -104,55 +110,13 @@ public class CameraController : MonoBehaviour {
     [Tooltip("Time it takes to interpolate world rotation 99% of the way to the target.")] [Range(0.001f, 1f)]
     public float worldRotationLerpTime = 0.001f;
 
-    [Header("Zoom Settings")] 
+    [Header("Zoom Settings")]
     public float maxZoomIn = 4f;
     public float minZoomIn = 17f;
     public float zoomTranslationMultiplier = 30f;
 
     [Tooltip("X = Change in mouse position.\nY = Multiplicative factor for camera rotation.")]
     public AnimationCurve mouseSensitivityCurve = new(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
-
-#if ENABLE_INPUT_SYSTEM
-    InputAction movementAction;
-    InputAction verticalMovementAction;
-    InputAction lookAction;
-    InputAction zoomAction;
-    bool        mouseRightButtonPressed;
-
-    private void Start() {
-        var map = new InputActionMap("Simple Camera Controller");
-
-        lookAction = map.AddAction("look", binding: "<Mouse>/delta");
-        movementAction = map.AddAction("move", binding: "<Gamepad>/leftStick");
-        verticalMovementAction = map.AddAction("Vertical Movement");
-        zoomAction = map.AddAction("Boost Factor", binding: "<Mouse>/scroll");
-
-        lookAction.AddBinding("<Gamepad>/rightStick").WithProcessor("scaleVector2(x=15, y=15)");
-        movementAction.AddCompositeBinding("Dpad")
-            .With("Up", "<Keyboard>/w")
-            .With("Up", "<Keyboard>/upArrow")
-            .With("Down", "<Keyboard>/s")
-            .With("Down", "<Keyboard>/downArrow")
-            .With("Left", "<Keyboard>/a")
-            .With("Left", "<Keyboard>/leftArrow")
-            .With("Right", "<Keyboard>/d")
-            .With("Right", "<Keyboard>/rightArrow");
-        verticalMovementAction.AddCompositeBinding("Dpad")
-            .With("Up", "<Keyboard>/pageUp")
-            .With("Down", "<Keyboard>/pageDown")
-            .With("Up", "<Keyboard>/e")
-            .With("Down", "<Keyboard>/q")
-            .With("Up", "<Gamepad>/rightshoulder")
-            .With("Down", "<Gamepad>/leftshoulder");
-        zoomAction.AddBinding("<Gamepad>/Dpad").WithProcessor("scaleVector2(x=1, y=4)");
-
-        movementAction.Enable();
-        lookAction.Enable();
-        verticalMovementAction.Enable();
-        zoomAction.Enable();
-    }
-
-#endif
     private void Awake() {
         _transform = transform;
         _camera = GetComponent<Camera>();
@@ -165,32 +129,20 @@ public class CameraController : MonoBehaviour {
         _worldTransform = GameObject.FindGameObjectWithTag("Map").transform;
         _goalRotation = _worldTransform.localRotation.eulerAngles;
         _startingRotation = _worldTransform.localRotation.eulerAngles;
+        
+        _goalScale = Vector3.one * startingZoomOutPercent;
+        _targetCameraState.Translate(startingTranslation);
+        _interpolatingCameraState.Translate(startingTranslation);
     }
 
     private Vector3 GetInputRotationDirection() {
         var direction = Vector3.zero;
-#if ENABLE_INPUT_SYSTEM
-        var moveDelta = movementAction.ReadValue<Vector2>();
-        direction.x = moveDelta.x;
-        direction.z = moveDelta.y;
-        direction.y = verticalMovementAction.ReadValue<Vector2>().y;
-#else
-        // if (Input.GetKey(KeyCode.W))
-        //     direction += Vector3.up;
+        
         if (Input.GetKey(KeyCode.A))
             direction += Vector3.up;
         if (Input.GetKey(KeyCode.D))
             direction += Vector3.down;
-        // } if (Input.GetKey(KeyCode.S)) {
-        //     direction += Vector3.right;
-        // } 
-        //
-        // if (Input.GetKey(KeyCode.Q)) {
-        //     direction += Vector3.down;
-        // } if (Input.GetKey(KeyCode.E)) {
-        //     direction += Vector3.up;
-        // }
-#endif
+        
         return direction;
     }
 
@@ -237,47 +189,82 @@ public class CameraController : MonoBehaviour {
 
         var ray = _camera.ScreenPointToRay(Input.mousePosition);
         var objTrans = _clickableObject.TouchingRay(ray);
+        var wasHighlighted = _highlightedObject != null;
 
-        _highlightedObject?.Highlight(false);
-        
-        if (_highlightedObject != null && !objTrans)
+        if (wasHighlighted && !objTrans) {
+            _highlightedObject?.Highlight(false);
             _highlightedObject = null;
+        }
+            
         if (!objTrans)
             return;
         
-        var highlightingMushroom = objTrans.GetComponent<Mushroom>();
-        var highlightingOther = objTrans.GetComponent<Highlightable>();
+        var newHighlightedObject = objTrans.GetComponent<Highlightable>();
         
-        if (highlightingMushroom) {
-            _highlightedObject = highlightingMushroom;
-        } else if (highlightingOther != null) {
-            _highlightedObject = highlightingOther;
+        if (newHighlightedObject != null) {
+            _highlightedObject = newHighlightedObject;
+            if (!wasHighlighted)
+                _highlightedObject.Highlight(!RightMouseHeld());
         }
         
-        _highlightedObject?.Highlight(!RightMouseHeld());
     }
     
-
-    public void ResetWorldPosition() {
-        if (_resettingPosition != null) return;
+    public void ResetWorldPositionToPlay() {
+        if (_resettingPositionToMenu != null) {
+            StopCoroutine(_resettingPositionToMenu);
+            _resettingPositionToMenu = null;
+        }
         
-        _resettingPosition = StartCoroutine(MoveTowardsReset());
+        if (_resettingPositionToPlay != null) return;
+
+        _resettingPositionToPlay = StartCoroutine(MoveTowardsReset());
+    }
+    
+    public void ResetWorldPositionToMenu() {
+        if (_resettingPositionToPlay != null) {
+            StopCoroutine(_resettingPositionToPlay);
+            _resettingPositionToPlay = null;
+        }
+        
+        if (_resettingPositionToMenu != null) return;
+
+        _resettingPositionToMenu = StartCoroutine(MoveTowardsMenu());
     }
 
     private IEnumerator MoveTowardsReset() {
-        while (Vector3.Distance(_goalRotation, _startingRotation) > 0.1f) {
-            _goalRotation = Vector3.Lerp(_goalRotation, _startingRotation, 0.1f);
+        _targetCameraState.ResetPosition();
+        
+        while (Mathf.Abs(Mathf.DeltaAngle(_goalRotation.y, _startingRotation.y)) > 0.5f || 
+               Vector3.Distance(_goalScale, Vector3.one) > 0.01f) {
+            _goalRotation = new Vector3(
+                _startingRotation.x, 
+                Mathf.LerpAngle(_goalRotation.y, _startingRotation.y, Time.deltaTime * 3f),
+                _startingRotation.z);
+
+            _goalScale = Vector3.Slerp(_goalScale, Vector3.one, Time.deltaTime * 3f);
+            
             yield return new WaitForEndOfFrame();
         }
 
-        _resettingPosition = null;
+        _resettingPositionToPlay = null;
+    }
+    
+    private IEnumerator MoveTowardsMenu() {
+        _targetCameraState.Translate(startingTranslation);
+        
+        while (Vector3.Distance(_goalScale, Vector3.one * startingZoomOutPercent) > 0.01f) {
+            _goalScale = Vector3.Slerp(_goalScale, Vector3.one * startingZoomOutPercent, Time.deltaTime * 3f);
+            
+            yield return new WaitForEndOfFrame();
+        }
+
+        _resettingPositionToMenu = null;
     }
 
     private void LateUpdate() {
-        //_targetCameraState.AddZoom(GetZoom(), minZoomIn, maxZoomIn);
-
         // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time
         var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
+        
         var positionLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / positionLerpTime * Time.deltaTime);
         var cameraRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / rotationLerpTime * Time.deltaTime);
         var zoomLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / zoomLerpTime * Time.deltaTime);
@@ -295,52 +282,24 @@ public class CameraController : MonoBehaviour {
                     (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)
                 );
             }
-            
+
+            _worldTransform.localScale = _goalScale;
             _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
         }
         
         Rotating = _worldTransform.localRotation != Quaternion.Euler(_goalRotation);
     }
 
-    // private float GetZoom() {
-    //     #if ENABLE_INPUT_SYSTEM
-    //         return zoomAction.ReadValue<Vector2>().y * -mouseZoomSensitivity;
-    //     #else
-    //         //return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
-    //         return Input.mouseScrollDelta.y * -mouseZoomSensitivity;
-    //     #endif
-    // }
-
-    private Vector2 GetInputLookRotation() {
-        // try to compensate the diff between the two input systems by multiplying with empirical values
-#if ENABLE_INPUT_SYSTEM
-            var delta = lookAction.ReadValue<Vector2>();
-            delta *= 0.5f; // Account for scaling applied directly in Windows code by old input system.
-            delta *= 0.1f; // Account for sensitivity setting on old Mouse X and Y axes.
-            return delta;
-#else
+    private Vector2 GetInputLookRotation() { 
         return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-#endif
     }
 
     private bool IsBoostPressed() {
-#if ENABLE_INPUT_SYSTEM
-            bool boost = Keyboard.current != null ? Keyboard.current.leftShiftKey.isPressed : false;
-            boost |= Gamepad.current != null ? Gamepad.current.xButton.isPressed : false;
-            return boost;
-#else
         return Input.GetKey(KeyCode.LeftShift);
-#endif
     }
 
     private bool RightMouseHeld() {
-#if ENABLE_INPUT_SYSTEM
-            bool canRotate = Mouse.current != null ? Mouse.current.rightButton.isPressed : false;
-            canRotate |= Gamepad.current != null ? Gamepad.current.rightStick.ReadValue().magnitude > 0 : false;
-            return canRotate;
-#else
         return Input.GetMouseButton(1);
-#endif
     }
 
     private Vector2 GetMouseLocation() {
@@ -350,34 +309,14 @@ public class CameraController : MonoBehaviour {
     }
 
     private bool IsRightMouseButtonDown() {
-#if ENABLE_INPUT_SYSTEM
-            return Mouse.current != null ? Mouse.current.rightButton.isPressed : true;
-#else
         return Input.GetMouseButtonDown(1);
-#endif
     }
 
     private bool IsRightMouseButtonUp() {
-#if ENABLE_INPUT_SYSTEM
-            return Mouse.current != null ? !Mouse.current.rightButton.isPressed : false;
-#else
         return Input.GetMouseButtonUp(1);
-#endif
     }
     
     private bool IsLeftMouseButtonDown() {
-#if ENABLE_INPUT_SYSTEM
-            return Mouse.current != null ? Mouse.current.leftButton.isPressed : true;
-#else
         return Input.GetMouseButtonDown(0);
-#endif
-    }
-
-    private bool IsLeftMouseButtonUp() {
-#if ENABLE_INPUT_SYSTEM
-            return Mouse.current != null ? !Mouse.current.leftButton.isPressed : false;
-#else
-        return Input.GetMouseButtonUp(0);
-#endif
     }
 }
