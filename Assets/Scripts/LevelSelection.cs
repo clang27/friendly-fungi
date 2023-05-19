@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class LevelSelection : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private Level[] levels;
+		[SerializeField] private Button leftButton, rightButton;
 	#endregion
 	
 	#region Attributes
@@ -23,7 +24,6 @@ public class LevelSelection : MonoBehaviour {
 	
 	#region Private Data
 		private int _currentSelection = 0;
-		private Button _leftButton, _rightButton;
 		private TextMeshProUGUI _levelNameText;
 		private static readonly int Spin = Animator.StringToHash("Spin");
 	#endregion
@@ -32,8 +32,6 @@ public class LevelSelection : MonoBehaviour {
 		private void Awake() {
 			CurrentLevel = levels[0];
 			_levelNameText = GetComponentsInChildren<TextMeshProUGUI>()[0];
-			_leftButton = transform.GetChild(0).GetComponent<Button>();
-			_rightButton = transform.GetChild(2).GetComponent<Button>();
 			_animator = GetComponent<Animator>();
 		}
 
@@ -50,14 +48,14 @@ public class LevelSelection : MonoBehaviour {
 			_levelNameText.color = CurrentLevel.Unlocked() ? Color.white : Color.red;
 		}
 		public void UpdateButtonsUI() {
-			_rightButton.gameObject.SetActive(_currentSelection < levels.Length-1);
-			_leftButton.gameObject.SetActive(_currentSelection > 0);
+			rightButton.gameObject.SetActive(_currentSelection < levels.Length-1);
+			leftButton.gameObject.SetActive(_currentSelection > 0);
 		}
 
 		private IEnumerator IncreaseSelection(int amount) {
 			_animator.ResetTrigger(Spin);
-			_leftButton.gameObject.SetActive(false);
-			_rightButton.gameObject.SetActive(false);
+			leftButton.gameObject.SetActive(false);
+			rightButton.gameObject.SetActive(false);
 			_animator.SetTrigger(Spin);
 			
 			_currentSelection+=amount;

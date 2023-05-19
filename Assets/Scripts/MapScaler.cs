@@ -30,7 +30,8 @@ public class MapScaler : MonoBehaviour {
     private void Awake() {
         _meshes = GetComponentsInChildren<MeshRenderer>()
             .Where(mr => !mr.gameObject.CompareTag("Mushroom")).ToArray();
-        _particles = GetComponentsInChildren<ParticleSystem>();
+        _particles = GetComponentsInChildren<ParticleSystem>()
+            .Where(mr => !mr.gameObject.CompareTag("Tornado")).ToArray();;
         _water = GetComponentsInChildren<PWater>();
     }
 
@@ -145,7 +146,7 @@ public class MapScaler : MonoBehaviour {
         for (var i = 0; i < parent.childCount; i++)
             if (parent.GetChild(i).name.Contains("Tile"))
                 tilesTransforms.Add(parent.GetChild(i));
-            else
+            else if (!parent.GetChild(i).name.Contains("Cloud"))
                 otherTransforms.Add(parent.GetChild(i));
 
         switch (Random.Range(0, 2)) {

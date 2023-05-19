@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEditor;
+using MenuCommand = UnityEditor.MenuCommand;
 
 namespace Pinwheel.Jupiter
 {

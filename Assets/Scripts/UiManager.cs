@@ -12,11 +12,10 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour {
 	#region Serialized Fields
-
-		[SerializeField] private RawImage loadingScreen;
 		[SerializeField] private Button startButton;
 
 		[SerializeField] private CanvasGroup menuPanel,
+			loadingPanel,
 			cardPanel,
 			settingsPanel,
 			audioPanel,
@@ -53,12 +52,15 @@ public class UiManager : MonoBehaviour {
 
 	#region Other Methods
 		public void ShowLoadingScreen(bool b) {
-			loadingScreen.DOFade(b ? 1f : 0f, b ? 0.2f : 1f);
-			DOTween.Play(loadingScreen);
-		}
-
-		public bool LoadingFadingIn() {
-			return DOTween.IsTweening(loadingScreen);
+			var rect = loadingPanel.GetComponent<RectTransform>();
+			rect.DOKill();
+			
+			if (b) {
+				OpenPanel(loadingPanel, true);
+				rect.DOLocalMoveX(480f, 1f).SetEase(Ease.InOutCirc);
+			} else {
+				rect.DOLocalMoveX(1000f, 1f).SetEase(Ease.InOutCirc).OnComplete(() => OpenPanel(loadingPanel, false));
+			}
 		}
 
 		public void ChangeStartButton(string s, UnityAction a) {
@@ -72,10 +74,15 @@ public class UiManager : MonoBehaviour {
 
 		public void OpenMainMenu() {
 			OpenPanel(menuPanel, true);
+			var rect = menuPanel.GetComponent<RectTransform>();
+			rect.DOKill();
+			rect.DOMoveX(0f, 1f).SetEase(Ease.OutBounce);
 		}
 
 		public void CloseMainMenu() {
-			OpenPanel(menuPanel, false);
+			var rect = menuPanel.GetComponent<RectTransform>();
+			rect.DOKill();
+			rect.DOMoveX(-480f, 1f).SetEase(Ease.OutBounce).OnComplete(() => OpenPanel(menuPanel, false));
 		}
 		public void OpenSettings() {
 			OpenPanel(settingsPanel, true);
@@ -196,7 +203,7 @@ public class UiManager : MonoBehaviour {
 				_binocularRectTransform.DOScale(Vector3.one * 2f, 0.5f);
 			}
 		}
-			
+		
 		private void OpenPanel(CanvasGroup panel, bool b) {
 			panel.alpha = b ? 1f : 0f;
 			panel.interactable = b;

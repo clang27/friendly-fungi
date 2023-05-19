@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour {
 		public IEnumerator LoadLevel(Level currentLevel, Level nextLevel) {
 			if (currentLevel) {
 				var asyncUnload = SceneManager.UnloadSceneAsync(currentLevel.SceneName);
-				while (!asyncUnload.isDone || _uiManager.LoadingFadingIn()) {
+				while (!asyncUnload.isDone) {
 					yield return null;
 				}
 			}
