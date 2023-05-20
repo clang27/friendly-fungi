@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.Rendering;
 
 namespace Pinwheel.Jupiter
@@ -15,24 +13,15 @@ namespace Pinwheel.Jupiter
         private JSkyProfile profile;
         public JSkyProfile Profile
         {
-            get
-            {
-                return profile;
-            }
-            set
-            {
-                profile = value;
-            }
+            get => profile;
+            set => profile = value;
         }
 
         [SerializeField]
         private Light sunLightSource;
         public Light SunLightSource
         {
-            get
-            {
-                return sunLightSource;
-            }
+            get => sunLightSource;
             set
             {
                 Light src = value;

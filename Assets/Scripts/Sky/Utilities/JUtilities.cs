@@ -28,7 +28,7 @@ namespace Pinwheel.Jupiter
             }
         }
 
-        public static string ListElementsToString<T>(this IEnumerable<T> list, string separator)
+        public static string ListElementsToString<T>(IEnumerable<T> list, string separator)
         {
             IEnumerator<T> i = list.GetEnumerator();
             System.Text.StringBuilder s = new System.Text.StringBuilder();
@@ -722,12 +722,6 @@ namespace Pinwheel.Jupiter
             HashSet<ushort> b = new HashSet<ushort>(setB);
             return a.SetEquals(b);
         }
-
-        public static void Distinct<T>(this List<T> list)
-        {
-            list.Distinct();
-        }
-
         public static void AddIfNotContains<T>(this IList<T> list, IEnumerable<T> items)
         {
             IEnumerator<T> iter = items.GetEnumerator();
