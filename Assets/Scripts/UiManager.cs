@@ -8,12 +8,14 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private Button startButton;
-
+		[SerializeField] private RectTransform logo;
+		
 		[SerializeField] private CanvasGroup menuPanel,
 			loadingPanel,
 			cardPanel,
@@ -30,7 +32,7 @@ public class UiManager : MonoBehaviour {
 
 		[SerializeField] private Image binocularImage;
 		[SerializeField] private List<CanvasGroup> thingsToHideWhenUsingBinoculars;
-	#endregion
+		#endregion
 
 	#region Private Data
 		private CanvasGroup _activePanel, _lastPanelOpen;
@@ -46,6 +48,11 @@ public class UiManager : MonoBehaviour {
 			_journal = journalPanel.GetComponent<Journal>();
 			_sign = signPanel.GetComponent<Sign>();
 			_binocularRectTransform = binocularImage.GetComponent<RectTransform>();
+		}
+
+		private void Start() {
+			logo.DOScale(1.08f, 1.8f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo);
+			logo.DOLocalMoveY(logo.localPosition.y - 8f, 1.8f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo);
 		}
 
 	#endregion
@@ -196,11 +203,11 @@ public class UiManager : MonoBehaviour {
 			}
 			
 			if (b) {
-				binocularImage.DOFade(1f, 0.1f);
-				_binocularRectTransform.DOScale(Vector3.one, 0.8f);
+				binocularImage.DOFade(1f, 0.25f);
+				_binocularRectTransform.DOScale(Vector3.one, 0.7f);
 			} else {
 				binocularImage.DOFade(0f, 0.5f);
-				_binocularRectTransform.DOScale(Vector3.one * 2f, 0.5f);
+				_binocularRectTransform.DOScale(Vector3.one * 2f, 0.4f);
 			}
 		}
 		
@@ -219,6 +226,29 @@ public class UiManager : MonoBehaviour {
 				
 			OpenPanel(_activePanel, false);
 			_activePanel = null;
+		}
+
+		public void ShakePlaySign() {
+			if (!startButton.interactable) return;
+
+			var im = startButton.GetComponent<Image>();
+			var ogPadding = im.raycastPadding;
+			im.raycastPadding = Vector4.zero;
+			startButton.GetComponent<RectTransform>().DOPunchRotation(Vector3.forward * 3f, 0.3f, 10, 3f)
+				.OnComplete(() => im.raycastPadding = ogPadding);
+		}
+
+		public void HoverButtonShrink(RectTransform rt) {
+			var im = rt.GetComponent<Image>();
+			im.raycastPadding = Vector4.one * -8f;
+			rt.DOScale(Vector3.one * 0.8f, 0.3f).SetEase(Ease.OutCubic).OnComplete(() => im.raycastPadding = Vector4.zero);
+		}
+		
+		public void UnhoverButtonGrow(RectTransform rt) {
+			var im = rt.GetComponent<Image>();
+			im.raycastPadding = Vector4.one * 8f;
+			rt.DOScale(Vector3.one, 0.3f).OnComplete(() => im.raycastPadding = Vector4.zero);
+			
 		}
 	#endregion
 }

@@ -48,14 +48,14 @@ public class LevelSelection : MonoBehaviour {
 			_levelNameText.color = CurrentLevel.Unlocked() ? Color.white : Color.red;
 		}
 		public void UpdateButtonsUI() {
-			rightButton.gameObject.SetActive(_currentSelection < levels.Length-1);
-			leftButton.gameObject.SetActive(_currentSelection > 0);
+			rightButton.interactable = _currentSelection < levels.Length - 1;
+			leftButton.interactable = _currentSelection > 0;
 		}
 
 		private IEnumerator IncreaseSelection(int amount) {
 			_animator.ResetTrigger(Spin);
-			leftButton.gameObject.SetActive(false);
-			rightButton.gameObject.SetActive(false);
+			rightButton.interactable = false;
+			leftButton.interactable = false;
 			_animator.SetTrigger(Spin);
 			
 			_currentSelection+=amount;

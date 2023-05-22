@@ -11,6 +11,7 @@ public class TimeManager : MonoBehaviour {
     #region Components
         [SerializeField] private float multiplier = 0.1f;
         [SerializeField] private Button playButton;
+        [SerializeField] private Sprite playSprite, pauseSprite;
         [SerializeField] private TimeSlider _timeSlider;
     #endregion
     
@@ -23,17 +24,12 @@ public class TimeManager : MonoBehaviour {
     #endregion
 
     #region Private Data
-        private TextMeshProUGUI _buttonText;
         private ParticleSystem[] _particleSystems;
     #endregion
 
     #region Unity Methods
-        private void Awake() {
-            _buttonText = playButton.GetComponentInChildren<TextMeshProUGUI>();
-        }
-
         private void Start() {
-            playButton.onClick.AddListener(Play);
+            playButton.onClick.AddListener(Pause);
         }
         private void Update() {
             if (!Running) return;
@@ -71,7 +67,7 @@ public class TimeManager : MonoBehaviour {
         public void Play() {
             Running = true;
             PausedFlag = false;
-            _buttonText.text = "||";
+            playButton.GetComponent<Image>().sprite = pauseSprite;
             
             playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(Pause);
@@ -81,7 +77,7 @@ public class TimeManager : MonoBehaviour {
 
         public void Pause() {
             Running = false;
-            _buttonText.text = ">";
+            playButton.GetComponent<Image>().sprite = playSprite;
             
             playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(Play);

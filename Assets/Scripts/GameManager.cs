@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour {
 		private CardManager _cardManager;
 		private MushroomManager _mushroomManager;
 		private VictoryParticles _victoryParticles;
+		private Volume _volume;
 	#endregion
 	
 	#region Private Data
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager = GetComponent<UiManager>();
 			_cardManager = GetComponent<CardManager>();
 			_mushroomManager = GetComponent<MushroomManager>();
+			_volume = GetComponent<Volume>();
 		}
 
 		private void Start() {
@@ -292,10 +295,12 @@ public class GameManager : MonoBehaviour {
 		}
 
 		public void ShowBinoculars() {
+			_volume.profile.components[1].active = true;
 			_uiManager.ShowBinoculars(true);
 		}
 
 		public void HideBinoculars() {
+			_volume.profile.components[1].active = false;
 			_uiManager.ShowBinoculars(false);
 		}
 		
