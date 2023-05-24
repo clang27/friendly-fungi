@@ -8,7 +8,6 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour {
@@ -32,7 +31,7 @@ public class UiManager : MonoBehaviour {
 
 		[SerializeField] private Image binocularImage;
 		[SerializeField] private List<CanvasGroup> thingsToHideWhenUsingBinoculars;
-		#endregion
+	#endregion
 
 	#region Private Data
 		private CanvasGroup _activePanel, _lastPanelOpen;

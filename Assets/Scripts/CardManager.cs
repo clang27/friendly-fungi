@@ -3,28 +3,35 @@
  * https://www.knitwitstudios.com/
  */
 
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private List<CardUi> Cards;
+		[SerializeField] private CanvasGroup QuestionBackdrop;
 	#endregion
 	
 	#region Attributes
-		// public float AttributeOne { get; set; }
-	#endregion
-	
-	#region Components
 		public static List<CardUi> AllCards { get; private set; }
+		public bool Ready { get; private set; }
 	#endregion
-	
+
 	#region Private Data
+		private List<Question> _randomQuestions = new();
+		private TextMeshProUGUI _prompt, _questionAmount;
+		private RectTransform _promptRect, _questionAmountRect;
 	#endregion
 	
 	#region Unity Methods
 		private void Awake() {
+			_prompt = QuestionBackdrop.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+			_promptRect = _prompt.GetComponent<RectTransform>();
+			_questionAmount = QuestionBackdrop.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+			_questionAmountRect = _questionAmount.GetComponent<RectTransform>();
 			AllCards = Cards;
 		}
 		private void Start() {
@@ -35,22 +42,15 @@ public class CardManager : MonoBehaviour {
 	
 	#region Other Methods
 		public void Init() {
-			var randomQuestions = new List<Question>();
+			_randomQuestions.Clear();
 			
 			for (var i = 0; i < LevelSelection.CurrentLevel.NumberOfQuestions; i++) {
 				var randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
-				while (randomQuestions.Contains(randomQuestion)) {
+				while (_randomQuestions.Contains(randomQuestion)) {
 					randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
 				}
 
-				randomQuestions.Add(randomQuestion);
-			}
-
-			var index = 0;
-			foreach (var q in randomQuestions) {
-				Cards[index].SetQuestion(q);
-				Cards[index].ShowCard(true);
-				index++;
+				_randomQuestions.Add(randomQuestion);
 			}
 		}
 
@@ -58,7 +58,49 @@ public class CardManager : MonoBehaviour {
 			foreach (var card in Cards) {
 				card.HighlightCard(false);
 				card.ShowCard( false);
+				card.MakeCardInteractable(false);
 			}
+		}
+		
+		public void StartQuestionCardIntro() {
+			ResetCards();
+			Ready = false;
+
+			_promptRect.anchoredPosition = new Vector2(0f, 40f);
+			_questionAmountRect.localRotation = Quaternion.identity;
+			_questionAmountRect.anchoredPosition = new Vector2(_questionAmountRect.anchoredPosition.x, 40f);
+			_questionAmount.text = LevelSelection.CurrentLevel.NumberOfCorrectGuesses.ToString();
+			
+			var i = 0;
+			var s1 = DOTween.Sequence();
+			var s2 = DOTween.Sequence();
+			foreach (var q in _randomQuestions) {
+				Cards[i].SetQuestion(q);
+				Cards[i].ShowCard(true);
+				Cards[i].HideToRightOfScreen();
+				Cards[i].PlayFlyInAnimation(s2);
+				i++;
+			}
+
+			s2.PrependInterval(1.5f);
+			s2.AppendCallback(() => {
+				Ready = true;
+				var j = 0;
+				foreach (var q in _randomQuestions) {
+					Cards[j].MakeCardInteractable(true);
+					j++;
+				}
+
+				QuestionBackdrop.DOFade(0f, 2f).OnComplete(() => s1.Kill());
+			});
+
+			s1.Join(QuestionBackdrop.DOFade(1f, 0.5f));
+			s1.Append(_promptRect.DOAnchorPosY(-100f, 1f));			
+			s1.Join(_questionAmountRect.DOAnchorPosY(-100f, 1.5f));
+			s1.AppendCallback(() => s2.Play());
+			s1.Append(_questionAmountRect.DOAnchorPosY(-95f, 0.5f).SetEase(Ease.InOutBounce).SetLoops(20, LoopType.Yoyo));
+			
+			s1.Play();
 		}
 	#endregion
 }

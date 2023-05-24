@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,11 @@ public class CardUi : MonoBehaviour {
 		private int _index;
 	#endregion
 	
+	#region Private Data
+
+	private Vector3 _localStartingPosition;
+	#endregion
+	
 	#region Unity Methods
 		private void Awake() {
 			_rectTransform = GetComponent<RectTransform>();
@@ -38,6 +44,7 @@ public class CardUi : MonoBehaviour {
 		}
 
 		private void Start() {
+			_localStartingPosition = _rectTransform.localPosition;
 			_index = int.Parse(name[^1].ToString()) - 1;
 		}
 		
@@ -46,6 +53,9 @@ public class CardUi : MonoBehaviour {
 	#region Other Methods
 		public void ShowCard(bool b) {
 			_canvasGroup.alpha = b ? 0.8f : 0f;
+		}
+		
+		public void MakeCardInteractable(bool b) {
 			_canvasGroup.interactable = b;
 			_canvasGroup.blocksRaycasts = b;
 		}
@@ -63,6 +73,22 @@ public class CardUi : MonoBehaviour {
 		}
 		public void MoveRectX(Single x) {
 			_rectTransform.DOLocalMoveX(x, 0.5f).SetEase(Ease.OutQuad);
+		}
+
+		public void HideToRightOfScreen() {
+			_rectTransform.position = new Vector3(Screen.width+_rectTransform.rect.width/2f, Screen.height/2f, 0f);
+		}
+
+		public void PlayFlyInAnimation(in Sequence s) {
+			s.PrependCallback(() => { _canvasGroup.alpha = 1f; });
+			s.Append(
+				_rectTransform.DOJump(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f), 20f, 3, 2f)
+			);
+			s.AppendInterval(1f);
+			s.Append(
+				_rectTransform.DOLocalMove(_localStartingPosition, 0.5f).SetEase(Ease.Linear)
+			);
+			s.AppendCallback(() => _canvasGroup.DOFade(0.8f, 0.5f));
 		}
 
 		public void HighlightCard(bool b) {

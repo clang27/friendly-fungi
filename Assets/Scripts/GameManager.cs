@@ -262,15 +262,16 @@ public class GameManager : MonoBehaviour {
 			_cameraController.ResetWorldPositionToPlay();
 			
 			_mushroomManager.Init();
+			_uiManager.ShowCardPanel(true);
 			_cardManager.Init();
+			_cardManager.StartQuestionCardIntro();
 			
-			while (!_mapScaler.MapReady || !_cameraController.Ready) {
+			while (!_mapScaler.MapReady || !_cameraController.Ready || !_cardManager.Ready) {
 				yield return new WaitForSeconds(0.1f);
 			}
 			
 			_cameraController.Enabled = true;
 			_uiManager.ShowTopBar(true);
-			_uiManager.ShowCardPanel(true);
 
 			_timeManager.enabled = true;
 			_timeManager.Play();
