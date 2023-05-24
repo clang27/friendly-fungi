@@ -11,13 +11,13 @@ using UnityEngine;
 using UnityEngine.Pool;
 
 
-[Serializable]
-public enum MushroomType {
-	Amanita, Porcini, Shiitake, Morel
-}
+// [Serializable]
+// public enum MushroomType {
+// 	Amanita, Porcini, Shiitake, Morel
+// }
 public class MushroomManager : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private List<MushroomModel> mushroomModels;
+		//[SerializeField] private List<MushroomModel> mushroomModels;
 	#endregion
 	
 	#region Attributes

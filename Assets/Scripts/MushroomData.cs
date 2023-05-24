@@ -12,13 +12,12 @@ public class MushroomData {
     public int HeadColorIndex { get; }
     public int BodyColorIndex { get; }
     public string Name { get; }
-    public MushroomType Type { get; }
+    //public MushroomType Type { get; }
 
-    private MushroomData(int hc, int bc, string n, MushroomType mt) {
+    private MushroomData(int hc, int bc, string n) {
         HeadColorIndex = hc;
         BodyColorIndex = bc;
         Name = n;
-        Type = mt;
     }
     public static void Init() {
         var file = Resources.Load<TextAsset>("mushroom_names");
@@ -31,20 +30,18 @@ public class MushroomData {
                 var hc = Random.Range(0,6);
                 var bc = Random.Range(0,6);
                 var n = names[Random.Range(0, names.Length)];
-                //TODO: Add more types
-                var mt = (MushroomType)Random.Range(0, 1);
                 
                 while (usedNames.Contains(n)) {
                     n = names[Random.Range(0, names.Length)];
                 }
                 usedNames.Add(n);
 
-                AllData.Add(new MushroomData(hc, bc, n, mt));
+                AllData.Add(new MushroomData(hc, bc, n));
                 
                 PlayerPrefs.SetString("MushroomDataName"+i, n);
                 PlayerPrefs.SetInt("MushroomDataHeadColorIndex"+i, hc);
                 PlayerPrefs.SetInt("MushroomDataBodyColorIndex"+i, bc);
-                PlayerPrefs.SetInt("MushroomDataType"+i, (int)mt);
+                //PlayerPrefs.SetInt("MushroomDataType"+i, (int)mt);
             }
             
             PlayerPrefs.Save();
@@ -53,8 +50,8 @@ public class MushroomData {
                 var hc =  PlayerPrefs.GetInt("MushroomDataHeadColorIndex"+i);
                 var bc =  PlayerPrefs.GetInt("MushroomDataBodyColorIndex"+i);
                 var n = PlayerPrefs.GetString("MushroomDataName"+i);
-                var mt = (MushroomType)PlayerPrefs.GetInt("MushroomDataType"+i);
-                AllData.Add(new MushroomData(hc, bc, n, mt));
+                //var mt = (MushroomType)PlayerPrefs.GetInt("MushroomDataType"+i);
+                AllData.Add(new MushroomData(hc, bc, n));
             }
         }
     }
