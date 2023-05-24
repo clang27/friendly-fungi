@@ -63,6 +63,10 @@ Material:
     - _ZTest: 7
     - _ZWrite: 0
     - _ZWriteControl: 0
+    - _highlightPercent: 0.5
+    - _highlighted: 0
+    - _hightlightAmount: 4
+    - _lightenAmount: -0.5
     m_Colors:
     - _backgroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
