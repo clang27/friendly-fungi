@@ -8,6 +8,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 public class HeadshotCamera : MonoBehaviour {
+	#region Serialized Fields
+		[SerializeField] [Range(0.5f, 3f)] private float zoomOutFactor = 1.5f;
+	#endregion
+	
 	#region Attributes
 		public Texture2D HeadshotTexture => _headshotTexture;
 		public Sprite HeadshotSprite => _headshotSprite;
@@ -15,6 +19,7 @@ public class HeadshotCamera : MonoBehaviour {
 	
 	#region Components
 		private Camera _camera;
+		private Light _light;
 	#endregion
 	
 	#region Private Data
@@ -26,10 +31,11 @@ public class HeadshotCamera : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			_camera = GetComponentInChildren<Camera>();
+			_light = _camera.transform.GetChild(0).GetComponent<Light>();
 			
 			_renderTexture = new RenderTexture(Utility.HeadshotDimension, Utility.HeadshotDimension, 0) {
 				dimension = TextureDimension.Tex2D,
-				antiAliasing = 2
+				antiAliasing = 4
 			};
 
 			_camera.targetTexture = _renderTexture;
@@ -38,6 +44,8 @@ public class HeadshotCamera : MonoBehaviour {
 		private void Start() {
 			//_camera.backgroundColor = Color.HSVToRGB(Random.Range(0f, 1f), 0.2f, 0.8f);
 			_camera.gameObject.SetActive(false);
+			_camera.orthographicSize = Mathf.Sqrt(transform.localScale.x)*zoomOutFactor;
+			_light.intensity = transform.localScale.x * 12.5f;
 		}
 
 	#endregion
