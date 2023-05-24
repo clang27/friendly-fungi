@@ -70,7 +70,7 @@ MonoBehaviour:
   horizonCloudEndPosition: 1
   horizonCloudSize: 3
   horizonCloudStep: 50
-  horizonCloudAnimationSpeed: 25
+  horizonCloudAnimationSpeed: 50
   enableOverheadCloud: 0
   overheadCloudColor: {r: 1, g: 1, b: 1, a: 1}
   overheadCloudAltitude: 0
@@ -147,7 +147,7 @@ Material:
     m_Floats:
     - _DetailOverlayLayer: 0
     - _DetailOverlayRotationSpeed: 0
-    - _HorizonCloudAnimationSpeed: 25
+    - _HorizonCloudAnimationSpeed: 50
     - _HorizonCloudEndPosition: 1
     - _HorizonCloudSize: 3
     - _HorizonCloudStartPosition: -1

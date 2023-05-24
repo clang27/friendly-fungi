@@ -219,6 +219,7 @@ public class UiManager : MonoBehaviour {
 		public void ShowBackgroundBlur(bool b) {
 			backgroundBlurPanel.DOKill();
 			backgroundBlurPanel.DOFade(b ? 1f : 0f, 0.5f);
+			backgroundBlurPanel.blocksRaycasts = b;
 		}
 
 		private void CloseActivePanel() {
@@ -234,7 +235,7 @@ public class UiManager : MonoBehaviour {
 			var im = startButton.GetComponent<Image>();
 			var ogPadding = im.raycastPadding;
 			im.raycastPadding = Vector4.zero;
-			startButton.GetComponent<RectTransform>().DOPunchRotation(Vector3.forward * 3f, 0.3f, 10, 3f)
+			startButton.GetComponent<RectTransform>().DOPunchRotation(Vector3.forward * 3f, 0.2f, 1, 10f)
 				.OnComplete(() => im.raycastPadding = ogPadding);
 		}
 

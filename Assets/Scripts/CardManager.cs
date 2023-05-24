@@ -45,7 +45,7 @@ public class CardManager : MonoBehaviour {
 
 				randomQuestions.Add(randomQuestion);
 			}
-			
+
 			var index = 0;
 			foreach (var q in randomQuestions) {
 				Cards[index].SetQuestion(q);
@@ -58,7 +58,6 @@ public class CardManager : MonoBehaviour {
 			foreach (var card in Cards) {
 				card.HighlightCard(false);
 				card.ShowCard( false);
-				card.MoveRectX(-20f);
 			}
 		}
 	#endregion

@@ -12,6 +12,7 @@ public class LevelSelection : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private Level[] levels;
 		[SerializeField] private Button leftButton, rightButton;
+		[SerializeField] private CanvasGroup lockedPanel;
 	#endregion
 	
 	#region Attributes
@@ -45,9 +46,10 @@ public class LevelSelection : MonoBehaviour {
 	#region Other Methods
 		public void UpdateNameUI() {
 			_levelNameText.text = CurrentLevel.LevelName;
-			_levelNameText.color = CurrentLevel.Unlocked() ? Color.white : Color.red;
+			// _levelNameText.color = CurrentLevel.Unlocked() ? Color.white : new Color(0.5f, 0.5f, 0.5f, 0.5f);
 		}
 		public void UpdateButtonsUI() {
+			lockedPanel.alpha = CurrentLevel.Unlocked() ? 0f : 1f;
 			rightButton.interactable = _currentSelection < levels.Length - 1;
 			leftButton.interactable = _currentSelection > 0;
 		}

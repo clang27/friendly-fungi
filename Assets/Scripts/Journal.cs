@@ -17,7 +17,7 @@ public class Journal : MonoBehaviour {
 		public Sprite Headshot;
 		public Material Mat;
 		public KeyValuePair<string, string> Name;
-		public string Notes;
+		public string Likes, Dislikes, OtherFacts;
 	}
 
 	#region Attributes
@@ -33,7 +33,7 @@ public class Journal : MonoBehaviour {
 		
 		//Page 2 
 		private Image _headshotSpotlight;
-		private TMP_InputField _miscInputField;
+		private TMP_InputField _likesInputField, _dislikesInputField, _otherInputField;
 		private TMP_Dropdown _nameDropdown;
 	#endregion
 	
@@ -64,9 +64,11 @@ public class Journal : MonoBehaviour {
 				.ToArray();
 
 			//Page 2
-			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[1];
+			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[0];
 			_nameDropdown = _leftPages[1].GetComponentsInChildren<TMP_Dropdown>()[0];
-			_miscInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
+			_likesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
+			_dislikesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[1];
+			_otherInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[2];
 		}
 	
 	#endregion
@@ -95,18 +97,33 @@ public class Journal : MonoBehaviour {
 
 			_selectedEntryIndex = _entries.IndexOf(_entries.First(e => e.Name.Key.Equals(name)));
 			_headshotSpotlight.sprite = _entries[_selectedEntryIndex].Headshot;
+			_headshotSpotlight.material = _entries[_selectedEntryIndex].Mat;
 			
 			for (var i = 0; i < _nameDropdown.options.Count; i++) {
 				if (_nameDropdown.options[i].text.Equals(_entries[_selectedEntryIndex].Name.Value))
 					_nameDropdown.SetValueWithoutNotify(i);
 			}
 			
-			_miscInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Notes);
+			_likesInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Likes);
+			_dislikesInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Dislikes);
+			_otherInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].OtherFacts);
 		}
-		public void AddNotes(string s) {
+		public void AddLikeFact(string s) {
 			if (NoEntry) return;
 
-			_entries[_selectedEntryIndex].Notes = s;
+			_entries[_selectedEntryIndex].Likes = s;
+		}
+		
+		public void AddDislikeFact(string s) {
+			if (NoEntry) return;
+
+			_entries[_selectedEntryIndex].Dislikes = s;
+		}
+		
+		public void AddOtherFact(string s) {
+			if (NoEntry) return;
+
+			_entries[_selectedEntryIndex].OtherFacts = s;
 		}
 
 		public void SetName(int i) {
@@ -140,13 +157,23 @@ public class Journal : MonoBehaviour {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
 					Mat = mat,
 					Name = new KeyValuePair<string, string>(shroom.Data.Name, "???"),
-					Notes = ""
+					Likes = "",
+					Dislikes = "",
+					OtherFacts = ""
 				};
 				_entries.Add(e);
 			}
 			
 			_nameDropdown.ClearOptions();
 			_nameDropdown.AddOptions(_entries.Select(e => e.Name.Key).Prepend("???").ToList());
+		}
+
+		public void HighlightImage(Image im) {
+			im.material.SetInt("_highlighted", 1);
+		}
+		
+		public void UnhighlightImage(Image im) {
+			im.material.SetInt("_highlighted", 0);
 		}
 	#endregion
 }

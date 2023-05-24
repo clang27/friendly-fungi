@@ -20,18 +20,15 @@ public class CardUi : MonoBehaviour {
 		private CanvasGroup _canvasGroup;
 		private TextMeshProUGUI _header, _body;
 		private AnswerUi _answerUi;
-		private Image _image;
+		private Image _backdropImage, _borderImage;
 		private int _index;
-	#endregion
-	
-	#region Private Data
-		// private float _dataOne, _dataTwo;
 	#endregion
 	
 	#region Unity Methods
 		private void Awake() {
 			_rectTransform = GetComponent<RectTransform>();
-			_image = GetComponent<Image>();
+			_backdropImage = GetComponent<Image>();
+			_borderImage = transform.GetChild(0).GetComponent<Image>();
 			_canvasGroup = GetComponent<CanvasGroup>();
 			_header = GetComponentsInChildren<TextMeshProUGUI>()[0];
 			_body = GetComponentsInChildren<TextMeshProUGUI>()[1];
@@ -48,7 +45,7 @@ public class CardUi : MonoBehaviour {
 	
 	#region Other Methods
 		public void ShowCard(bool b) {
-			_canvasGroup.alpha = b ? 1f : 0f;
+			_canvasGroup.alpha = b ? 0.8f : 0f;
 			_canvasGroup.interactable = b;
 			_canvasGroup.blocksRaycasts = b;
 		}
@@ -58,21 +55,25 @@ public class CardUi : MonoBehaviour {
 			
 			Selectable = true;
 			
-			_image.color = Color.HSVToRGB(60f / 360f, .27f, 1f);
+			_backdropImage.color = GetBGColor(q);
+			_borderImage.color = GetBorderColor(q);
 			_header.text = Question.Header;
+			_header.color = GetTextColor(q);
 			_body.text = Question.ReplaceNameTemplate();
 		}
 		public void MoveRectX(Single x) {
-			_rectTransform.DOMoveX(x, 0.5f);
-			DOTween.Play(_rectTransform);
+			_rectTransform.DOLocalMoveX(x, 0.5f).SetEase(Ease.OutQuad);
 		}
 
 		public void HighlightCard(bool b) {
 			for (var i = 0; i < CardManager.AllCards.Count; i++) {
 				if (!CardManager.AllCards[i]._canvasGroup.interactable) continue; // Don't change alpha of unselected cards
-				CardManager.AllCards[i]._canvasGroup.DOFade((!b || i == _index) ? 1f : 0.5f, 0.5f);
+				
+				if (!b)
+					CardManager.AllCards[i]._canvasGroup.DOFade(0.8f, 0.5f);
+				else 
+					CardManager.AllCards[i]._canvasGroup.DOFade((i == _index) ? 1f : 0.5f, 0.5f);
 			}
-			DOTween.PlayAll();
 
 			if (b) {
 				transform.SetAsLastSibling();
@@ -89,7 +90,49 @@ public class CardUi : MonoBehaviour {
 
 		public void Finished(bool b) {
 			Selectable = false;
-			_image.color = Color.HSVToRGB(b ? 120f / 360f : 0f, .27f, 1f);
+			_backdropImage.color = Color.HSVToRGB(b ? 120f / 360f : 0f, .27f, 1f);
+		}
+
+		private Color GetBorderColor(Question q) {
+			if (q.Header.Equals("What")) {
+				return Color.HSVToRGB(216f / 360f, 1f, 0.8f);
+			}
+			if (q.Header.Equals("When")) {
+				return Color.HSVToRGB(266f / 360f, 1f, 0.8f);
+			}
+			if (q.Header.Equals("Where")) {
+				return Color.HSVToRGB(166f / 360f, 1f, 0.8f);
+			}
+				
+			return Color.HSVToRGB(116f / 360f, 1f, 0.8f);
+		}
+		
+		private Color GetTextColor(Question q) {
+			if (q.Header.Equals("What")) {
+				return Color.HSVToRGB(216f / 360f, 0.48f, 1f);
+			}
+			if (q.Header.Equals("When")) {
+				return Color.HSVToRGB(266f / 360f, 0.48f, 1f);
+			}
+			if (q.Header.Equals("Where")) {
+				return Color.HSVToRGB(166f / 360f, 0.48f, 1f);
+			}
+				
+			return Color.HSVToRGB(116f / 360f, 0.48f, 1f);
+		}
+		
+		private Color GetBGColor(Question q) {
+			if (q.Header.Equals("What")) {
+				return Color.HSVToRGB(216f / 360f, 0.05f, 0.9f);
+			}
+			if (q.Header.Equals("When")) {
+				return Color.HSVToRGB(266f / 360f, 0.05f, 0.9f);
+			}
+			if (q.Header.Equals("Where")) {
+				return Color.HSVToRGB(166f / 360f, 0.05f, 0.9f);
+			}
+				
+			return Color.HSVToRGB(116f / 360f, 0.05f, 0.9f);
 		}
 		
 	#endregion

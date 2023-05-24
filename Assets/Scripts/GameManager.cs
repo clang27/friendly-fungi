@@ -137,21 +137,19 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		public void OpenSettings() {
-			if (InMainMenu) {
-				_uiManager.CloseMainMenu();
-			} else {
+			if (!InMainMenu)
 				DisableEverythingForPrompt(true);
-			}
-				
+			else
+				_uiManager.ShowBackgroundBlur(true);
+
 			_uiManager.OpenSettings();
 		}
 		public void CloseSettings() {
-			if (InMainMenu) {
-				_uiManager.OpenMainMenu();
-			} else {
+			if (!InMainMenu)
 				DisableEverythingForPrompt(false);
-			}
-				
+			else
+				_uiManager.ShowBackgroundBlur(false);
+
 			_uiManager.CloseSettings();
 		}
 		
@@ -217,6 +215,8 @@ public class GameManager : MonoBehaviour {
 			while (!asyncLoad.isDone) {
 				yield return null;
 			}
+
+			yield return new WaitForSeconds(0.1f);
 			
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
