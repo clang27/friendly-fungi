@@ -26,7 +26,7 @@ public class UiSetAwake : MonoBehaviour {
 		
 		private void Start() {
 			if (_slider) {
-				_slider.value = settingsType switch {
+				_slider.SetValueWithoutNotify(settingsType switch {
 					SettingsType.AmbienceVolume => Settings.AmbienceVolume,
 					SettingsType.MasterVolume => Settings.MasterVolume,
 					SettingsType.MusicVolume => Settings.MusicVolume,
@@ -35,13 +35,13 @@ public class UiSetAwake : MonoBehaviour {
 					SettingsType.RotateSpeed => Settings.RotateSpeed,
 					SettingsType.MouseRotateSensitivity => Settings.MouseRotateSensitivity,
 					_ => throw new ArgumentOutOfRangeException()
-				};
+				});
 			} else if (_toggle) {
-				_toggle.isOn = settingsType switch {
+				_toggle.SetIsOnWithoutNotify(settingsType switch {
 					SettingsType.InvertWorldRotation => Settings.InvertWorldRotation,
 					SettingsType.InvertLookY => Settings.InvertLookY,
 					_ => throw new ArgumentOutOfRangeException()
-				};
+				});
 			}
 		}
 		
