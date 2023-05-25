@@ -18,8 +18,9 @@ public class LocationData {
     }
     
     public static void Init() {
+        AllData.Clear();
+        
         var file = Resources.Load<TextAsset>("location_names");
-
         var names = file.text.Split(",");
         
         if (!PlayerPrefs.HasKey("LocationDataName0")) {
@@ -45,5 +46,15 @@ public class LocationData {
                 AllData.Add(new LocationData(n));
             }
         }
+    }
+    
+    public static void DeleteAllSaves() {
+        var file = Resources.Load<TextAsset>("location_names");
+        var names = file.text.Split(",");
+        
+        if (PlayerPrefs.HasKey("LocationDataName0")) {
+            for (var i = 0; i < names.Length; i++)
+                PlayerPrefs.DeleteKey("LocationDataName"+i);
+        } 
     }
 }

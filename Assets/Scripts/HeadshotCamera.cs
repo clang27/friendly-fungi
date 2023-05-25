@@ -3,9 +3,11 @@
  * https://www.knitwitstudios.com/
  */
 
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 public class HeadshotCamera : MonoBehaviour {
 	#region Serialized Fields
@@ -48,11 +50,20 @@ public class HeadshotCamera : MonoBehaviour {
 			_light.intensity = transform.localScale.x * 12.5f;
 		}
 
-	#endregion
+		#endregion
 	
 	#region Other Methods
 		public IEnumerator TakeHeadshot() {
 			_camera.gameObject.SetActive(true);
+			var goalMagnitude = Vector3.Magnitude(_camera.transform.localPosition);
+			
+			do {
+				var randomPos = new Vector3(Random.Range(-3f, 3f), Random.Range(1f, 3f), Random.Range(-3f, -6f));
+				_camera.transform.localPosition = Vector3.ClampMagnitude(randomPos, goalMagnitude);
+			} while (Vector3.Magnitude(_camera.transform.localPosition) < goalMagnitude);
+			
+			_camera.transform.LookAt(transform.GetChild(0));
+			//Debug.Log(Vector3.Magnitude(_camera.transform.localPosition) + " == " + goalMagnitude);
 			yield return new WaitForEndOfFrame();
 
 			_headshotTexture = new Texture2D(Utility.HeadshotDimension, Utility.HeadshotDimension, 
@@ -66,6 +77,11 @@ public class HeadshotCamera : MonoBehaviour {
 							Utility.HeadshotDimension), Vector2.zero);
 
 			_camera.gameObject.SetActive(false);
+		}
+
+		public void ClearHeadshot() {
+			_headshotTexture = null;
+			_headshotSprite = null;
 		}
 	#endregion
 }

@@ -18,6 +18,9 @@ public class Journal : MonoBehaviour {
 		public Material Mat;
 		public KeyValuePair<string, string> Name;
 		public string Likes, Dislikes, OtherFacts;
+		public override string ToString() {
+			return Name.Key;
+		}
 	}
 
 	#region Attributes
@@ -38,7 +41,7 @@ public class Journal : MonoBehaviour {
 	#endregion
 	
 	#region Private Data
-		private List<Entry> _entries = new();
+		private static List<Entry> _entries = new();
 		private int _selectedEntryIndex = -1;
 	#endregion
 	
@@ -85,6 +88,7 @@ public class Journal : MonoBehaviour {
 					image.sprite = _entries[index].Headshot;
 					image.material = _entries[index].Mat;
 					var n = _entries[index].Name.Key;
+					image.GetComponent<Button>().onClick.RemoveAllListeners();
 					image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
 					image.GetComponentInChildren<TextMeshProUGUI>().text = _entries[index].Name.Value;
 				}
@@ -93,6 +97,11 @@ public class Journal : MonoBehaviour {
 			}
 		}
 		public void GoToMushroomPage(string name) {
+			// Debug.Log("Seeing if " + name + " matches with the following:");
+			// foreach (var e in _entries) {
+			// 	Debug.Log(e);
+			// }
+			
 			GoToPage(1);
 
 			_selectedEntryIndex = _entries.IndexOf(_entries.First(e => e.Name.Key.Equals(name)));
@@ -147,12 +156,18 @@ public class Journal : MonoBehaviour {
 			_rightPages[p].gameObject.SetActive(true);
 		}
 		public void Init() {
-			_entries.Clear();
-			
 			foreach (var shroom in MushroomManager.AllActiveMushrooms) {
 				var mat = new Material(bookImageMaterial);
 				mat.SetTexture("_sprite", shroom.HeadshotCamera.HeadshotTexture);
 				
+				// Reapply new headshot on each shroom, but don't restart text data if already exists
+				if (_entries.Any(e => shroom.Data.Name.Equals(e.Name.Key))) {
+					var s = _entries.First(e => shroom.Data.Name.Equals(e.Name.Key));
+					s.Headshot = shroom.HeadshotCamera.HeadshotSprite;
+					s.Mat = mat;
+					continue;
+				}
+
 				var e = new Entry() {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
 					Mat = mat,
@@ -166,6 +181,10 @@ public class Journal : MonoBehaviour {
 			
 			_nameDropdown.ClearOptions();
 			_nameDropdown.AddOptions(_entries.Select(e => e.Name.Key).Prepend("???").ToList());
+		}
+
+		public static void ClearData() {
+			_entries.Clear();
 		}
 
 		public void HighlightImage(Image im) {

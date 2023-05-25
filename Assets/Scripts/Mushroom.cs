@@ -9,6 +9,13 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour, Highlightable {
+	#region Serialized Data
+		[SerializeField] private Texture[] headTextures;
+		[SerializeField] private Color[] bodyTints;
+		[SerializeField] private MeshRenderer headTopMeshRenderer;
+		[SerializeField] private SkinnedMeshRenderer bodyMeshRenderer;
+	#endregion
+	
 	#region Attributes
 		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActiveMushrooms.IndexOf(this)];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
@@ -63,6 +70,12 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		#endregion
 	
 	#region Other Methods
+		public void ApplyUniqueMaterials() {
+			//Debug.Log("Applying " + name + "'s " + Data.HeadColorIndex + " and " + Data.BodyColorIndex + " data to material.");
+			
+			headTopMeshRenderer.materials[1].mainTexture = headTextures[Data.HeadColorIndex];
+			bodyMeshRenderer.material.color = bodyTints[Data.BodyColorIndex]; 
+		}
 		public void EnableRenderers(bool b) {
 			foreach (var mr in _meshRenderers)
 				mr.enabled = b;
@@ -73,12 +86,11 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		}
 		
 		public IEnumerator TakeHeadshot(float gap) {
+			//Debug.Log("Taking " + name + "'s headshot.");
 			transform.position = new Vector3(gap, transform.position.y, gap);
 			
-			while (!_meshRenderers.All(mr => mr.isVisible)) {
-				yield return null;
-			}
-
+			yield return new WaitForSeconds(1f);
+			
 			StartCoroutine(HeadshotCamera.TakeHeadshot());
 		}
 

@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			Instance = this;
-			
+
 			Settings.ReadData();
 			MushroomData.Init();
 			LocationData.Init();
@@ -58,25 +58,46 @@ public class GameManager : MonoBehaviour {
 			_uiManager.CloseSign();
 
 			_timeManager.enabled = false;
+			
+			ShowLoading();
 		}
 
 	#endregion
 
 	#region Other Methods
+		private void ResetData() {
+			Journal.ClearData();
+			MushroomData.DeleteAllSaves();
+			LocationData.DeleteAllSaves();
+
+			MushroomData.Init();
+			LocationData.Init();
+			
+			_uiManager.ShowBackgroundBlur(false);
+			_uiManager.ClosePrompt();
+		}
+		public void OpenResetDataPrompt() {
+			_uiManager.ShowBackgroundBlur(true);
+
+			_uiManager.OpenPrompt(
+				"This refreshes & randomizes the Shroos' names, colors, and locations.\n\nDo you want to do this?",
+				"Yes", "No",
+				ResetData, () => {
+					_uiManager.ShowBackgroundBlur(false);
+					_uiManager.ClosePrompt();
+				});
+		}
 		public void OpenQuitPrompt() {
 			DisableEverythingForPrompt(true, false);
 				
 			_uiManager.OpenPrompt(
 				"Are you sure you want to exit to menu? You will lose this level's progress.",
 				"Yes", "No",
-				QuitGame, CloseQuitPrompt
+				QuitGame, () => {
+					DisableEverythingForPrompt(false);
+					_uiManager.ClosePrompt();
+				}
 			);
-		}
-
-		private void CloseQuitPrompt() {
-			DisableEverythingForPrompt(false);
-			
-			_uiManager.ClosePrompt();
 		}
 
 		private void QuitGame() {
@@ -135,7 +156,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowCardPanel(!b);
 			_uiManager.ShowBackgroundBlur(b);
 		}
-		
+
 		public void OpenSettings() {
 			if (!InMainMenu)
 				DisableEverythingForPrompt(true);

@@ -41,8 +41,8 @@ public class MushroomManager : MonoBehaviour {
 			var gap = 100f;
 			foreach (var mushroom in AllActiveMushrooms) {
 				mushroom.EnableRenderers(true);
-				if(!mushroom.HeadshotCamera.HeadshotTexture)
-					StartCoroutine(mushroom.TakeHeadshot(gap));
+				mushroom.ApplyUniqueMaterials();
+				StartCoroutine(mushroom.TakeHeadshot(gap));
 				gap += 100f;
 			}
 
@@ -58,10 +58,13 @@ public class MushroomManager : MonoBehaviour {
 		}
 
 		public void Clear() {
-			foreach (var m in AllActiveMushrooms)
+			foreach (var m in AllActiveMushrooms) {
+				m.HeadshotCamera.ClearHeadshot();
 				m.EnableRenderers(false);
+			}
 			
 			AllActiveMushrooms.Clear();
 		}
+	
 	#endregion
 }
