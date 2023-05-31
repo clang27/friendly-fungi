@@ -12,8 +12,14 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	#region Serialized Data
 		[SerializeField] private Texture[] headTextures;
 		[SerializeField] private Color[] bodyTints;
+		
 		[SerializeField] private MeshRenderer headTopMeshRenderer;
 		[SerializeField] private SkinnedMeshRenderer bodyMeshRenderer;
+
+		[Header("Accessories")] 
+		[SerializeField] private bool IsCatcher;
+		[SerializeField] private Color[] accessoryTints;
+		[SerializeField] private MeshRenderer fannyPack, butterflyNet, glasses, hat, headband;
 	#endregion
 	
 	#region Attributes
@@ -71,14 +77,28 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	
 	#region Other Methods
 		public void ApplyUniqueMaterials() {
-			//Debug.Log("Applying " + name + "'s " + Data.HeadColorIndex + " and " + Data.BodyColorIndex + " data to material.");
+			Debug.Log(Data);
 			
 			headTopMeshRenderer.materials[1].mainTexture = headTextures[Data.HeadColorIndex];
-			bodyMeshRenderer.material.color = bodyTints[Data.BodyColorIndex]; 
+			bodyMeshRenderer.material.color = bodyTints[Data.BodyColorIndex];
+			
+			if (Data.GlassesColorIndex > 0)
+				glasses.material.color = accessoryTints[Data.GlassesColorIndex - 1];
+			if (Data.HatColorIndex > 0)
+				hat.materials[1].color = accessoryTints[Data.HatColorIndex - 1];
+			if (Data.HeadbandColorIndex > 0)
+				headband.materials[0].color = accessoryTints[Data.HeadbandColorIndex - 1];
 		}
 		public void EnableRenderers(bool b) {
 			foreach (var mr in _meshRenderers)
 				mr.enabled = b;
+			
+			fannyPack.gameObject.SetActive(b && IsCatcher);
+			butterflyNet.gameObject.SetActive(b && IsCatcher);
+
+			glasses.gameObject.SetActive(b && !IsCatcher && Data.GlassesColorIndex > 0);
+			hat.gameObject.SetActive(b && !IsCatcher && Data.HatColorIndex > 0);
+			headband.gameObject.SetActive(b && !IsCatcher && Data.HeadbandColorIndex > 0);
 		}
 		public void SetTimeline(float f) {
 			_playableDirector.time = f;

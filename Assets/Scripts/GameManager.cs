@@ -237,20 +237,11 @@ public class GameManager : MonoBehaviour {
 				yield return null;
 			}
 
-			yield return new WaitForSeconds(0.1f);
-			
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
 			_victoryParticles = FindObjectOfType<VictoryParticles>();
-			
-			if (LevelSelection.CurrentLevel.Unlocked()) {
-				_uiManager.DisableButtonsOnLoading(false);
-				_uiManager.ChangeStartButton("Start", StartLevel);
-			} else {
-				_uiManager.ChangeStartButton("Locked", () => { });
-			}
-			
+
 			_timeManager.Init(_mapScaler.transform);
 			_timeManager.SetLevelTime(nextLevel);
 			
@@ -258,9 +249,16 @@ public class GameManager : MonoBehaviour {
 			_cameraController.AutoRotate = true;
 
 			Loading = false;
-				
+			
 			while (!_mapScaler.MapReady) {
 				yield return new WaitForSeconds(0.1f);
+			}
+			
+			if (LevelSelection.CurrentLevel.Unlocked()) {
+				_uiManager.DisableButtonsOnLoading(false);
+				_uiManager.ChangeStartButton("Start", StartLevel);
+			} else {
+				_uiManager.ChangeStartButton("Locked", () => { });
 			}
 		}
 		public void StartLevel() {

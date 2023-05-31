@@ -29,7 +29,7 @@ public class MapScaler : MonoBehaviour {
 
     private void Awake() {
         _meshes = GetComponentsInChildren<MeshRenderer>()
-            .Where(mr => !(mr.transform.parent && mr.transform.parent.CompareTag("Mushroom"))).ToArray();
+            .Where(mr => mr.gameObject.layer != LayerMask.NameToLayer("Mushroom")).ToArray();
         _particles = GetComponentsInChildren<ParticleSystem>()
             .Where(mr => !mr.gameObject.CompareTag("Tornado")).ToArray();
         _water = GetComponentsInChildren<PWater>();
