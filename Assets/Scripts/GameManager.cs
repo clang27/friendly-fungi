@@ -7,9 +7,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+	#region Serialized Fields
+		[SerializeField] private UniversalRenderPipelineAsset[] urpQualities;
+	#endregion
+	
 	#region Attributes
 		public static GameManager Instance { get; private set; }
 		public bool Loading { get; private set; }
@@ -49,6 +54,8 @@ public class GameManager : MonoBehaviour {
 		}
 
 		private void Start() {
+			UpdateQuality(Settings.Quality);
+			
 			_audioManager.MainMenuTheme();
 			_uiManager.ShowTopBar(false);
 			_uiManager.ShowCardPanel(false);
@@ -376,6 +383,12 @@ public class GameManager : MonoBehaviour {
 		
 		public void UpdateInvertLookY(bool b) {
 			Settings.SetData(SettingsType.InvertLookY, b ? 1 : 0);
+		}
+		
+		public void UpdateQuality(int i) {
+			QualitySettings.renderPipeline = urpQualities[i];
+			Settings.SetData(SettingsType.Quality, i);
+			infiniteParticleLifeSM.UpdateQuality();
 		}
 		
 	#endregion

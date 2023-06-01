@@ -8,7 +8,7 @@ using UnityEngine;
 
 [Serializable]
 public enum SettingsType {
-	MasterVolume, MusicVolume, SfxVolume, AmbienceVolume, MouseRotateSensitivity, BoostMultiplier, InvertWorldRotation, InvertLookY, RotateSpeed
+	MasterVolume, MusicVolume, SfxVolume, AmbienceVolume, MouseRotateSensitivity, BoostMultiplier, InvertWorldRotation, InvertLookY, RotateSpeed, Quality
 }
 public static class Settings {
 	
@@ -25,6 +25,9 @@ public static class Settings {
 		public static float MusicVolume { get; private set; }
 		public static float SfxVolume { get; private set; }
 		public static float AmbienceVolume { get; private set; }
+		
+		// Graphics
+		public static int Quality { get; private set; }
 	#endregion
 
 	#region Other Methods
@@ -39,6 +42,8 @@ public static class Settings {
 			MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
 			SfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1f);
 			AmbienceVolume = PlayerPrefs.GetFloat("AmbienceVolume", 1f);
+			
+			Quality = PlayerPrefs.GetInt("Quality", 2);
 		}
 
 		public static void SaveAllData() {
@@ -72,6 +77,8 @@ public static class Settings {
 					PlayerPrefs.SetInt("InvertWorldRotation", i); InvertWorldRotation = i==1; break;
 				case SettingsType.InvertLookY:
 					PlayerPrefs.SetInt("InvertLookY", i); InvertLookY = i==1; break;
+				case SettingsType.Quality:
+					PlayerPrefs.SetInt("Quality", i); Quality = i; break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(st), st, null);
 			}

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour {
 	#region Serialized Fields
-		[SerializeField] private Button startButton;
+		[SerializeField] private Button startButton, audioButton, gameplayButton, graphicsButton;
 		[SerializeField] private RectTransform logo;
 		
 		[SerializeField] private CanvasGroup menuPanel,
@@ -93,7 +93,7 @@ public class UiManager : MonoBehaviour {
 		public void OpenSettings() {
 			OpenPanel(settingsPanel, true);
 			OpenPanel(_lastPanelOpen, true);
-			_activePanel = _lastPanelOpen;
+			SetActivePanel(_lastPanelOpen);
 		}
 
 		public void CloseSettings() {
@@ -149,17 +149,17 @@ public class UiManager : MonoBehaviour {
 		public void OpenAudio() {
 			CloseActivePanel();
 			OpenPanel(audioPanel, true);
-			_activePanel = audioPanel;
+			SetActivePanel(audioPanel);
 		}
 		public void OpenGameplay() {
 			CloseActivePanel();
 			OpenPanel(gameplayPanel, true);
-			_activePanel = gameplayPanel;
+			SetActivePanel(gameplayPanel);
 		}
 		public void OpenGraphics() {
 			CloseActivePanel();
 			OpenPanel(graphicsPanel, true);
-			_activePanel = graphicsPanel;
+			SetActivePanel(graphicsPanel);
 		}
 		public void OpenPrompt(string question, string optionOneLabel, string optionTwoLabel, UnityAction optionOneAction, UnityAction optionTwoAction) {
 			OpenPanel(promptPanel, true);
@@ -217,7 +217,7 @@ public class UiManager : MonoBehaviour {
 		}
 		public void ShowBackgroundBlur(bool b) {
 			backgroundBlurPanel.DOKill();
-			backgroundBlurPanel.DOFade(b ? 1f : 0f, 0.5f);
+			backgroundBlurPanel.DOFade(b ? 1f : 0f, b ? 0.25f : 0.5f);
 			backgroundBlurPanel.blocksRaycasts = b;
 		}
 
@@ -249,6 +249,14 @@ public class UiManager : MonoBehaviour {
 			im.raycastPadding = Vector4.one * 8f;
 			rt.DOScale(Vector3.one, 0.3f).OnComplete(() => im.raycastPadding = Vector4.zero);
 			
+		}
+		
+		private void SetActivePanel(CanvasGroup cg) {
+			_activePanel = cg;
+			
+			audioButton.interactable = !cg.Equals(audioPanel);
+			gameplayButton.interactable = !cg.Equals(gameplayPanel);
+			graphicsButton.interactable = !cg.Equals(graphicsPanel);
 		}
 	#endregion
 }

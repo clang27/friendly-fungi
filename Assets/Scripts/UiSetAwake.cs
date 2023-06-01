@@ -15,6 +15,7 @@ public class UiSetAwake : MonoBehaviour {
 	#region Components
 		private Slider _slider;
 		private Toggle _toggle;
+		private Incrementer _incrementer;
 	#endregion
 	
 	
@@ -22,6 +23,7 @@ public class UiSetAwake : MonoBehaviour {
 		private void Awake() {
 			_slider = GetComponent<Slider>();
 			_toggle = GetComponent<Toggle>();
+			_incrementer = GetComponent<Incrementer>();
 		}
 		
 		private void Start() {
@@ -40,6 +42,11 @@ public class UiSetAwake : MonoBehaviour {
 				_toggle.SetIsOnWithoutNotify(settingsType switch {
 					SettingsType.InvertWorldRotation => Settings.InvertWorldRotation,
 					SettingsType.InvertLookY => Settings.InvertLookY,
+					_ => throw new ArgumentOutOfRangeException()
+				});
+			} else if (_incrementer) {
+				_incrementer.SetValueWithoutNotify(settingsType switch {
+					SettingsType.Quality => Settings.Quality,
 					_ => throw new ArgumentOutOfRangeException()
 				});
 			}
