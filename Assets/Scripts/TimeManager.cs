@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour {
     #region Components
         [SerializeField] private float multiplier = 0.1f;
-        [SerializeField] private Button playButton;
+        [SerializeField] private Button playButton, oneMultiButton, twoMultiButton, fourMultiButton;
         [SerializeField] private Sprite playSprite, pauseSprite;
         [SerializeField] private TimeSlider _timeSlider;
     #endregion
@@ -25,16 +25,18 @@ public class TimeManager : MonoBehaviour {
 
     #region Private Data
         private ParticleSystem[] _particleSystems;
+        private float _secondMultiplier = 1.0f;
     #endregion
 
     #region Unity Methods
         private void Start() {
             playButton.onClick.AddListener(Pause);
+            UpdateMultiplier(1f);
         }
         private void Update() {
             if (!Running) return;
             
-            UpdateTime(Hour + Time.deltaTime * multiplier);
+            UpdateTime(Hour + Time.deltaTime * multiplier * _secondMultiplier);
         }
 
         private void LateUpdate() {
@@ -45,6 +47,13 @@ public class TimeManager : MonoBehaviour {
     #endregion
 
     #region Other Methods
+        public void UpdateMultiplier(float f) {
+            _secondMultiplier = f;
+            
+            oneMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 1f);
+            twoMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 2f);
+            fourMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 4f);
+        }
         public void UpdateTime(float f) {
             Hour = f;
             if (Hour >= _timeSlider.EndTime) {
