@@ -17,7 +17,7 @@ public class Journal : MonoBehaviour {
 		public Sprite Headshot;
 		public Material Mat;
 		public KeyValuePair<string, string> Name;
-		public string Likes, Dislikes, OtherFacts;
+		public string Notes;
 		public override string ToString() {
 			return Name.Key;
 		}
@@ -36,7 +36,7 @@ public class Journal : MonoBehaviour {
 		
 		//Page 2 
 		private Image _headshotSpotlight;
-		private TMP_InputField _likesInputField, _dislikesInputField, _otherInputField;
+		private TMP_InputField _notesInputField;
 		private TMP_Dropdown _nameDropdown;
 	#endregion
 	
@@ -69,9 +69,7 @@ public class Journal : MonoBehaviour {
 			//Page 2
 			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[0];
 			_nameDropdown = _leftPages[1].GetComponentsInChildren<TMP_Dropdown>()[0];
-			_likesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
-			_dislikesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[1];
-			_otherInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[2];
+			_notesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
 		}
 	
 	#endregion
@@ -113,26 +111,12 @@ public class Journal : MonoBehaviour {
 					_nameDropdown.SetValueWithoutNotify(i);
 			}
 			
-			_likesInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Likes);
-			_dislikesInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Dislikes);
-			_otherInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].OtherFacts);
+			_notesInputField.SetTextWithoutNotify(_entries[_selectedEntryIndex].Notes);
 		}
-		public void AddLikeFact(string s) {
+		public void AddNote(string s) {
 			if (NoEntry) return;
 
-			_entries[_selectedEntryIndex].Likes = s;
-		}
-		
-		public void AddDislikeFact(string s) {
-			if (NoEntry) return;
-
-			_entries[_selectedEntryIndex].Dislikes = s;
-		}
-		
-		public void AddOtherFact(string s) {
-			if (NoEntry) return;
-
-			_entries[_selectedEntryIndex].OtherFacts = s;
+			_entries[_selectedEntryIndex].Notes = s;
 		}
 
 		public void SetName(int i) {
@@ -172,9 +156,7 @@ public class Journal : MonoBehaviour {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
 					Mat = mat,
 					Name = new KeyValuePair<string, string>(shroom.Data.Name, "???"),
-					Likes = "",
-					Dislikes = "",
-					OtherFacts = ""
+					Notes = ""
 				};
 				_entries.Add(e);
 			}

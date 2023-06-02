@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(true, false);
 				
 			_uiManager.OpenPrompt(
-				"Are you sure you want to exit to menu? You will lose this level's progress.",
+				"Are you sure you want to exit to menu?\n\nYou will lose this level's progress.",
 				"Yes", "No",
 				QuitGame, () => {
 					DisableEverythingForPrompt(false);
