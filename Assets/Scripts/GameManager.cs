@@ -107,13 +107,14 @@ public class GameManager : MonoBehaviour {
 			);
 		}
 
-		private void QuitGame() {
+		public void QuitGame() {
 			InMainMenu = true;
 
 			_cameraController.AutoRotate = true;
 			_cameraController.ResetWorldPositionToMenu();
 
 			_uiManager.ShowBackgroundBlur(false);
+			_uiManager.ShowLevelComplete(false);
 			_uiManager.ClosePrompt();
 			_uiManager.OpenMainMenu();
 			
@@ -147,7 +148,7 @@ public class GameManager : MonoBehaviour {
 			_cardManager.Init();
 		}
 		
-		private void DisableEverythingForPrompt(bool b, bool autoRotate = true) {
+		private void DisableEverythingForPrompt(bool b, bool autoRotate = true, float blurBgAmount = 1f) {
 			if (b) {
 				_timeManager.Pause();
 				_timeManager.PauseParticles();
@@ -161,7 +162,7 @@ public class GameManager : MonoBehaviour {
 			
 			_uiManager.ShowTopBar(!b);
 			_uiManager.ShowCardPanel(!b);
-			_uiManager.ShowBackgroundBlur(b);
+			_uiManager.ShowBackgroundBlur(b, blurBgAmount);
 		}
 
 		public void OpenSettings() {
@@ -309,6 +310,7 @@ public class GameManager : MonoBehaviour {
 			_timeManager.Pause();
 			_timeManager.PauseParticles();
 			_uiManager.ShowCardPanel(false);
+			_uiManager.ShowTopBar(false);
 			_cameraController.Enabled = false;
 		}
 		
@@ -318,6 +320,7 @@ public class GameManager : MonoBehaviour {
 			if (!TimeManager.PausedFlag)
 				_timeManager.Play();
 			_uiManager.ShowCardPanel(true);
+			_uiManager.ShowTopBar(true);
 			_cameraController.Enabled = true;
 		}
 
@@ -337,11 +340,10 @@ public class GameManager : MonoBehaviour {
 				if (_correctGuesses == LevelSelection.CurrentLevel.NumberOfCorrectGuesses) {
 					_audioManager.VictoryTheme();
 					_victoryParticles.Activate(true);
+					_cameraController.ResetWorldPositionToVictory();
 					_uiManager.ShowAnswerPanel(false);
-					DisableEverythingForPrompt(true);
-					_uiManager.OpenPrompt("Congrats!", 
-						"Restart", "Menu",
-						RestartLevel, QuitGame);
+					DisableEverythingForPrompt(true, true, 0.4f);
+					_uiManager.ShowLevelComplete(true);
 				} else {
 					_audioManager.PlayCorrect(true);
 					CloseAnswer();

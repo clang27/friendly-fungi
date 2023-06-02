@@ -22,16 +22,14 @@ public class CardManager : MonoBehaviour {
 
 	#region Private Data
 		private List<Question> _randomQuestions = new();
-		private TextMeshProUGUI _prompt, _questionAmount;
-		private RectTransform _promptRect, _questionAmountRect;
+		private TextMeshProUGUI _prompt;
+		private RectTransform _promptRect;
 	#endregion
 	
 	#region Unity Methods
 		private void Awake() {
 			_prompt = QuestionBackdrop.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 			_promptRect = _prompt.GetComponent<RectTransform>();
-			_questionAmount = QuestionBackdrop.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-			_questionAmountRect = _questionAmount.GetComponent<RectTransform>();
 			AllCards = Cards;
 		}
 		private void Start() {
@@ -67,9 +65,8 @@ public class CardManager : MonoBehaviour {
 			Ready = false;
 
 			_promptRect.anchoredPosition = new Vector2(0f, 40f);
-			_questionAmountRect.localRotation = Quaternion.identity;
-			_questionAmountRect.anchoredPosition = new Vector2(_questionAmountRect.anchoredPosition.x, 40f);
-			_questionAmount.text = LevelSelection.CurrentLevel.NumberOfCorrectGuesses.ToString();
+			_prompt.text = "<swing>Answer  </swing><bounce><cyan>" + LevelSelection.CurrentLevel.NumberOfCorrectGuesses + 
+			               "</cyan></bounce><swing>  of these to win!</swing>";
 			
 			var i = 0;
 			var s1 = DOTween.Sequence();
@@ -95,10 +92,8 @@ public class CardManager : MonoBehaviour {
 			});
 
 			s1.Join(QuestionBackdrop.DOFade(1f, 0.5f));
-			s1.Append(_promptRect.DOAnchorPosY(-100f, 1f));			
-			s1.Join(_questionAmountRect.DOAnchorPosY(-100f, 1.5f));
+			s1.Append(_promptRect.DOAnchorPosY(-100f, 1f));		
 			s1.AppendCallback(() => s2.Play());
-			s1.Append(_questionAmountRect.DOAnchorPosY(-95f, 0.5f).SetEase(Ease.InOutBounce).SetLoops(20, LoopType.Yoyo));
 			
 			s1.Play();
 		}

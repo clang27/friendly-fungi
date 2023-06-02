@@ -3,6 +3,7 @@
  * https://www.knitwitstudios.com/
  */
 
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -27,7 +28,8 @@ public class UiManager : MonoBehaviour {
 			journalPanel,
 			signPanel,
 			promptPanel,
-			backgroundBlurPanel;
+			backgroundBlurPanel,
+			levelCompletePanel;
 
 		[SerializeField] private Image binocularImage;
 		[SerializeField] private List<CanvasGroup> thingsToHideWhenUsingBinoculars;
@@ -63,9 +65,9 @@ public class UiManager : MonoBehaviour {
 			
 			if (b) {
 				OpenPanel(loadingPanel, true);
-				rect.DOLocalMoveX(480f, 1f).SetEase(Ease.InOutCirc);
+				rect.DOLocalMoveX(480f, 0.8f).SetEase(Ease.OutCirc);
 			} else {
-				rect.DOLocalMoveX(1000f, 1f).SetEase(Ease.InOutCirc).OnComplete(() => OpenPanel(loadingPanel, false));
+				rect.DOLocalMoveX(1000f, 0.35f).SetEase(Ease.InCirc).OnComplete(() => OpenPanel(loadingPanel, false));
 			}
 		}
 
@@ -215,9 +217,9 @@ public class UiManager : MonoBehaviour {
 			panel.interactable = b;
 			panel.blocksRaycasts = b;
 		}
-		public void ShowBackgroundBlur(bool b) {
+		public void ShowBackgroundBlur(bool b, float amount = 1f) {
 			backgroundBlurPanel.DOKill();
-			backgroundBlurPanel.DOFade(b ? 1f : 0f, b ? 0.25f : 0.5f);
+			backgroundBlurPanel.DOFade(b ? amount : 0f, b ? 0.25f : 0.5f);
 			backgroundBlurPanel.blocksRaycasts = b;
 		}
 
@@ -257,6 +259,24 @@ public class UiManager : MonoBehaviour {
 			audioButton.interactable = !cg.Equals(audioPanel);
 			gameplayButton.interactable = !cg.Equals(gameplayPanel);
 			graphicsButton.interactable = !cg.Equals(graphicsPanel);
+		}
+
+		public void ShowLevelComplete(bool b) {
+			OpenPanel(levelCompletePanel, b);
+			
+			var tmp = levelCompletePanel.GetComponentInChildren<TextMeshProUGUI>();
+			tmp.text = "";
+			
+			if (b) {
+				StartCoroutine(LevelCompleteBanner(tmp, 0.1f));				
+			}
+		}
+
+		private IEnumerator LevelCompleteBanner(TextMeshProUGUI tmp, float time) {
+			foreach (var c in "Level Complete") {
+				tmp.text += c;
+				yield return new WaitForSeconds(time);
+			}
 		}
 	#endregion
 }

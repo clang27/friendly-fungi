@@ -4,6 +4,7 @@
  */
 
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
@@ -78,11 +79,11 @@ public class CameraController : MonoBehaviour {
     }
 
     private Highlightable _highlightedObject;
-    private Coroutine _resettingPositionToPlay, _resettingPositionToMenu;
+    private Coroutine _resettingPositionToPlay;
     private Camera _camera;
     private ClickableObject _clickableObject;
     private Transform _transform;
-    private Vector3 _goalRotation, _startingRotation, _goalScale = Vector3.one;
+    private Vector3 _goalRotation, _startingRotation, _startingPosition;
     private Transform _worldTransform;
     private float _initialYaw, _initialPitch;
     private readonly CameraState _targetCameraState = new(), _interpolatingCameraState = new();
@@ -94,6 +95,7 @@ public class CameraController : MonoBehaviour {
 
     [Header("Menu Settings")]
     [Range(0.1f, 1f)] public float startingZoomOutPercent = 0.7f;
+    [Range(0.1f, 1f)] public float victoryZoomOutPercent = 0.9f;
     public Vector3 startingTranslation = new Vector3(-10f, -2f, 0f);
     
     [Header("Lerp Settings")]
@@ -129,8 +131,9 @@ public class CameraController : MonoBehaviour {
         _worldTransform = GameObject.FindGameObjectWithTag("Map").transform;
         _goalRotation = _worldTransform.localRotation.eulerAngles;
         _startingRotation = _worldTransform.localRotation.eulerAngles;
+        _startingPosition = _worldTransform.localPosition;
         
-        _goalScale = Vector3.one * startingZoomOutPercent;
+        _worldTransform.localScale = Vector3.one * startingZoomOutPercent;
         _targetCameraState.Translate(startingTranslation);
         _interpolatingCameraState.Translate(startingTranslation);
     }
@@ -210,13 +213,11 @@ public class CameraController : MonoBehaviour {
     }
     
     public void ResetWorldPositionToPlay() {
-        if (_resettingPositionToMenu != null) {
-            StopCoroutine(_resettingPositionToMenu);
-            _resettingPositionToMenu = null;
-        }
+        _targetCameraState.ResetPosition();
         
-        if (_resettingPositionToPlay != null) return;
-
+        _worldTransform.DOKill();
+        _worldTransform.DOScale(Vector3.one, 1f);
+        
         _resettingPositionToPlay = StartCoroutine(MoveTowardsReset());
     }
     
@@ -226,39 +227,30 @@ public class CameraController : MonoBehaviour {
             _resettingPositionToPlay = null;
         }
         
-        if (_resettingPositionToMenu != null) return;
-
-        _resettingPositionToMenu = StartCoroutine(MoveTowardsMenu());
+        _targetCameraState.Translate(startingTranslation);
+        
+        _worldTransform.DOKill();
+        _worldTransform.DOScale(Vector3.one * startingZoomOutPercent, 1f);
+        _worldTransform.DOLocalMove(_startingPosition, 1f);
+    }
+    
+    public void ResetWorldPositionToVictory() {
+        _worldTransform.DOKill();
+        _worldTransform.DOScale(Vector3.one * victoryZoomOutPercent, 3f);
+        _worldTransform.DOLocalMoveY(_startingPosition.y + 3f, 2f);
     }
 
     private IEnumerator MoveTowardsReset() {
-        _targetCameraState.ResetPosition();
-        
-        while (Mathf.Abs(Mathf.DeltaAngle(_goalRotation.y, _startingRotation.y)) > 0.5f || 
-               Vector3.Distance(_goalScale, Vector3.one) > 0.01f) {
+        while (Mathf.Abs(Mathf.DeltaAngle(_goalRotation.y, _startingRotation.y)) > 0.5f) {
             _goalRotation = new Vector3(
                 _startingRotation.x, 
                 Mathf.LerpAngle(_goalRotation.y, _startingRotation.y, Time.deltaTime * 3f),
                 _startingRotation.z);
-
-            _goalScale = Vector3.Slerp(_goalScale, Vector3.one, Time.deltaTime * 3f);
             
             yield return new WaitForEndOfFrame();
         }
 
         _resettingPositionToPlay = null;
-    }
-    
-    private IEnumerator MoveTowardsMenu() {
-        _targetCameraState.Translate(startingTranslation);
-        
-        while (Vector3.Distance(_goalScale, Vector3.one * startingZoomOutPercent) > 0.01f) {
-            _goalScale = Vector3.Slerp(_goalScale, Vector3.one * startingZoomOutPercent, Time.deltaTime * 3f);
-            
-            yield return new WaitForEndOfFrame();
-        }
-
-        _resettingPositionToMenu = null;
     }
 
     private void LateUpdate() {
@@ -282,8 +274,7 @@ public class CameraController : MonoBehaviour {
                     (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)
                 );
             }
-
-            _worldTransform.localScale = _goalScale;
+            
             _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
         }
         
