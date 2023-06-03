@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class TimeSlider : MonoBehaviour {
     #region Components
-        [SerializeField] private TextMeshProUGUI startTime, currentTime, endTime;
+        [SerializeField] private TextMeshProUGUI currentTimeTextMesh;
         [SerializeField] private Slider hourSlider;
     #endregion
     
@@ -25,7 +25,7 @@ public class TimeSlider : MonoBehaviour {
             if (!Mathf.Approximately(hourSlider.value, f))
                 hourSlider.SetValueWithoutNotify(f);
             
-            currentTime.text = Utility.FormatTime(CurrentTime+TimeManager.HourOffset);
+            currentTimeTextMesh.text = Utility.FormatTime(CurrentTime+TimeManager.HourOffset);
         }
 
         public void SetLevelTime(Level l) {
@@ -33,9 +33,7 @@ public class TimeSlider : MonoBehaviour {
             EndTime = l.EndTime;
             CurrentTime = l.StartTime;
 
-            startTime.text = Utility.FormatTime(StartTime+TimeManager.HourOffset);
-            endTime.text = Utility.FormatTime(EndTime+TimeManager.HourOffset);
-            currentTime.text = Utility.FormatTime(StartTime+TimeManager.HourOffset);
+            currentTimeTextMesh.text = Utility.FormatTime(StartTime+TimeManager.HourOffset);
 
             hourSlider.minValue = l.StartTime;
             hourSlider.maxValue = l.EndTime;
