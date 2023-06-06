@@ -36,7 +36,7 @@ public static class Settings {
 			InvertWorldRotation = PlayerPrefs.GetInt("InvertWorldRotation", 0) == 1;
 			MouseRotateSensitivity = PlayerPrefs.GetFloat("MouseRotateSensitivity", 0.1f);
 			RotateSpeed = PlayerPrefs.GetFloat("RotateSpeed", 1f);
-			BoostMultiplier = PlayerPrefs.GetFloat("BoostMultiplier", 4f);
+			BoostMultiplier = PlayerPrefs.GetFloat("BoostMultiplier", 3f);
 			
 			MasterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
 			MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);

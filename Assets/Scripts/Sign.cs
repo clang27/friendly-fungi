@@ -8,10 +8,6 @@ using TMPro;
 using UnityEngine;
 
 public class Sign : MonoBehaviour {
-	#region Serialized Fields
-		[SerializeField] private int _normalPointSize = 64, _refPointSize = 42;
-	#endregion
-	
 	#region Components
 		private TMP_InputField _nameInput;
 		private GameObject _normalSign, _refSign;
@@ -40,9 +36,8 @@ public class Sign : MonoBehaviour {
 			_normalSign.SetActive(true);
 			_refSign.SetActive(false);
 			
-			_nameInput.SetTextWithoutNotify(l.Known ? l.Name : l.CurrentGuess);
+			_nameInput.SetTextWithoutNotify(l.Known ? l.Name : (string.IsNullOrEmpty(l.CurrentGuess) ? "" : l.CurrentGuess));
 			_nameInput.interactable = !l.Known;
-			_nameInput.pointSize = _normalPointSize;
 			_nameInput.readOnly = l.Known;
 
 			if (!l.Known) {
@@ -56,7 +51,6 @@ public class Sign : MonoBehaviour {
 			_refSign.SetActive(true);
 
 			_nameInput.interactable = false;
-			_nameInput.pointSize = _refPointSize;
 			_nameInput.readOnly = true;
 			var t = "";
 			
