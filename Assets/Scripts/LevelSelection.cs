@@ -17,6 +17,7 @@ public class LevelSelection : MonoBehaviour {
 	
 	#region Attributes
 		public static Level CurrentLevel { get; private set; }
+		public static Level NextLevel { get; private set; }
 	#endregion
 	
 	#region Components
@@ -32,6 +33,8 @@ public class LevelSelection : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			CurrentLevel = levels[0];
+			NextLevel = levels[1];
+				
 			_levelNameText = GetComponentsInChildren<TextMeshProUGUI>()[0];
 			_animator = GetComponent<Animator>();
 		}
@@ -62,6 +65,7 @@ public class LevelSelection : MonoBehaviour {
 			
 			_currentSelection+=amount;
 			CurrentLevel = levels[_currentSelection];
+			NextLevel = (_currentSelection != levels.Length - 1) ? levels[_currentSelection+1] : null;
 			UpdateNameUI();
 			
 			GameManager.Instance.ShowLoading();
@@ -75,11 +79,11 @@ public class LevelSelection : MonoBehaviour {
 
 			UpdateButtonsUI();
 		}
-		public void NextLevel() {
+		public void SelectNextLevel() {
 			StartCoroutine(IncreaseSelection(1));
 		}
 		
-		public void PreviousLevel() {
+		public void SelectPreviousLevel() {
 			StartCoroutine(IncreaseSelection(-1));
 		}
 	#endregion

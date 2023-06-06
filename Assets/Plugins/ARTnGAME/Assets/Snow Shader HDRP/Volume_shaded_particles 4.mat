@@ -68,23 +68,23 @@ Material:
     - _DstBlend: 0
     - _EmissionScaleUI: 0
     - _Glossiness: 0.5
-    - _Glow: 4.9
-    - _InvFade: 0.39
-    - _LightIntensity: 23.8
+    - _Glow: 3.4
+    - _InvFade: 3
+    - _LightIntensity: 50
     - _Metallic: 0
-    - _MinLight: -0.71
+    - _MinLight: -1.2
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SrcBlend: 1
-    - _SunLightIntensity: 0.71955323
+    - _SunLightIntensity: 0.5193114
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - ForwLight: {r: -0, g: 0.5000001, b: -0.8660253, a: 0}
+    - ForwLight: {r: -0.05412352, g: 0.86602545, b: 0.49706206, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmisColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
-    - _SunColor: {r: 0.9603488, g: 0.82412565, b: 0.777797, a: 1}
+    - _SunColor: {r: 0.8903112, g: 0.7899445, b: 0.74347556, a: 1}
   m_BuildTextureStacks: []

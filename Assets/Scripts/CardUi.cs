@@ -100,7 +100,11 @@ public class CardUi : MonoBehaviour {
 				else 
 					CardManager.AllCards[i]._canvasGroup.DOFade((i == _index) ? 1f : 0.5f, 0.5f);
 			}
+			
+			ResetOrder(b);
+		}
 
+		public void ResetOrder(bool b) {
 			if (b) {
 				transform.SetAsLastSibling();
 			} else {
@@ -120,45 +124,33 @@ public class CardUi : MonoBehaviour {
 		}
 
 		private Color GetBorderColor(Question q) {
-			if (q.Header.Equals("What")) {
-				return Color.HSVToRGB(216f / 360f, 1f, 0.8f);
-			}
-			if (q.Header.Equals("When")) {
-				return Color.HSVToRGB(266f / 360f, 1f, 0.8f);
-			}
-			if (q.Header.Equals("Where")) {
-				return Color.HSVToRGB(166f / 360f, 1f, 0.8f);
-			}
-				
-			return Color.HSVToRGB(116f / 360f, 1f, 0.8f);
+			return q.Header switch {
+				"HowMany" => Color.HSVToRGB(316f / 360f, 1f, 0.8f),
+				"What" => Color.HSVToRGB(216f / 360f, 1f, 0.8f),
+				"When" => Color.HSVToRGB(266f / 360f, 1f, 0.8f),
+				"Where" => Color.HSVToRGB(166f / 360f, 1f, 0.8f),
+				_ => Color.HSVToRGB(116f / 360f, 1f, 0.8f)
+			};
 		}
 		
 		private Color GetTextColor(Question q) {
-			if (q.Header.Equals("What")) {
-				return Color.HSVToRGB(216f / 360f, 0.48f, 1f);
-			}
-			if (q.Header.Equals("When")) {
-				return Color.HSVToRGB(266f / 360f, 0.48f, 1f);
-			}
-			if (q.Header.Equals("Where")) {
-				return Color.HSVToRGB(166f / 360f, 0.48f, 1f);
-			}
-				
-			return Color.HSVToRGB(116f / 360f, 0.48f, 1f);
+			return q.Header switch {
+				"HowMany" => Color.HSVToRGB(316f / 360f, 0.48f, 1f),
+				"What" => Color.HSVToRGB(216f / 360f, 0.48f, 1f),
+				"When" => Color.HSVToRGB(266f / 360f, 0.48f, 1f),
+				"Where" => Color.HSVToRGB(166f / 360f, 0.48f, 1f),
+				_ => Color.HSVToRGB(116f / 360f, 0.48f, 1f)
+			};
 		}
 		
 		private Color GetBGColor(Question q) {
-			if (q.Header.Equals("What")) {
-				return Color.HSVToRGB(216f / 360f, 0.05f, 0.9f);
-			}
-			if (q.Header.Equals("When")) {
-				return Color.HSVToRGB(266f / 360f, 0.05f, 0.9f);
-			}
-			if (q.Header.Equals("Where")) {
-				return Color.HSVToRGB(166f / 360f, 0.05f, 0.9f);
-			}
-				
-			return Color.HSVToRGB(116f / 360f, 0.05f, 0.9f);
+			return q.Header switch {
+				"HowMany" => Color.HSVToRGB(316f / 360f, 0.05f, 0.9f),
+				"What" => Color.HSVToRGB(216f / 360f, 0.05f, 0.9f),
+				"When" => Color.HSVToRGB(266f / 360f, 0.05f, 0.9f),
+				"Where" => Color.HSVToRGB(166f / 360f, 0.05f, 0.9f),
+				_ => Color.HSVToRGB(116f / 360f, 0.05f, 0.9f)
+			};
 		}
 		
 	#endregion

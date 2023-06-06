@@ -54,7 +54,7 @@ public class CardManager : MonoBehaviour {
 
 		public void ResetCards() {
 			foreach (var card in Cards) {
-				card.HighlightCard(false);
+				card.ResetOrder(false);
 				card.ShowCard( false);
 				card.MakeCardInteractable(false);
 			}
@@ -72,6 +72,7 @@ public class CardManager : MonoBehaviour {
 			var s1 = DOTween.Sequence();
 			var s2 = DOTween.Sequence();
 			foreach (var q in _randomQuestions) {
+				Debug.Log("Showing " + Cards[i].name);
 				Cards[i].SetQuestion(q);
 				Cards[i].ShowCard(true);
 				Cards[i].HideToRightOfScreen();

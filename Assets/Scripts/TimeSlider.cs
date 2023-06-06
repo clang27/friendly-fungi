@@ -5,12 +5,14 @@
 
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TimeSlider : MonoBehaviour {
     #region Components
         [SerializeField] private TextMeshProUGUI currentTimeTextMesh;
         [SerializeField] private Slider hourSlider;
+        [SerializeField] private UnityEvent<float> onUpdate;
     #endregion
     
     #region Attributes
@@ -31,13 +33,20 @@ public class TimeSlider : MonoBehaviour {
         public void SetLevelTime(Level l) {
             StartTime = l.StartTime;
             EndTime = l.EndTime;
-            CurrentTime = l.StartTime;
-
-            currentTimeTextMesh.text = Utility.FormatTime(StartTime+TimeManager.HourOffset);
-
+            
+            //Stupid workaround bc minvalue triggers on update
+            RemoveOnUpdate();
             hourSlider.minValue = l.StartTime;
             hourSlider.maxValue = l.EndTime;
-            hourSlider.SetValueWithoutNotify(l.StartTime);
+            UpdateTimeUi(l.StartTime);
+            AddOnUpdate();
+        }
+        public void RemoveOnUpdate() {
+            hourSlider.onValueChanged.RemoveAllListeners();
+        }
+        
+        public void AddOnUpdate() {
+            hourSlider.onValueChanged.AddListener(onUpdate.Invoke);
         }
 
     #endregion

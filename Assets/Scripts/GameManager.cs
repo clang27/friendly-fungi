@@ -344,6 +344,8 @@ public class GameManager : MonoBehaviour {
 					_uiManager.ShowAnswerPanel(false);
 					DisableEverythingForPrompt(true, true, 0.4f);
 					_uiManager.ShowLevelComplete(true);
+					if (LevelSelection.NextLevel)
+						LevelSelection.NextLevel.SaveLevelComplete();
 				} else {
 					_audioManager.PlayCorrect(true);
 					CloseAnswer();

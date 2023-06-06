@@ -10,7 +10,8 @@ using UnityEngine;
 public class AnswerUi : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private TextMeshProUGUI header;
-		[SerializeField] private TMP_Dropdown nameDropdown;
+		[SerializeField] private TMP_Dropdown dropdown;
+		[SerializeField] private Incrementer incrementer;
 		[SerializeField] private TimeSlider timeSlider;
 	#endregion
 	
@@ -24,17 +25,26 @@ public class AnswerUi : MonoBehaviour {
 			var q = PartneredCard.Question;
 			
 			header.text = q.Header + " " + q.ReplaceNameTemplate();
-			nameDropdown.gameObject.SetActive(false);
+			dropdown.gameObject.SetActive(false);
 			timeSlider.gameObject.SetActive(false);
+			incrementer.gameObject.SetActive(false);
 			
 			switch (q.Header) {
+				case "Can":
+					dropdown.ClearOptions();
+					dropdown.AddOptions(new[]{"Yes", "No"}.ToList());
+					dropdown.gameObject.SetActive(true);
+					break;
+				case "HowMany":
+					incrementer.gameObject.SetActive(true);
+					break;
 				case "Who":
-					nameDropdown.ClearOptions();
+					dropdown.ClearOptions();
 					var options = MushroomManager.AllActiveMushrooms
-							.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, m.HeadshotCamera.HeadshotSprite))
+							.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, null))
 							.ToList();
-					nameDropdown.AddOptions(options);
-					nameDropdown.gameObject.SetActive(true);
+					dropdown.AddOptions(options);
+					dropdown.gameObject.SetActive(true);
 					break;
 				case "When":
 					timeSlider.SetLevelTime(LevelSelection.CurrentLevel);
@@ -48,7 +58,9 @@ public class AnswerUi : MonoBehaviour {
 			var q = PartneredCard.Question;
 			
 			var answer = q.Header switch {
-				"Who" => nameDropdown.options[nameDropdown.value].text,
+				"Can" => dropdown.options[dropdown.value].text,
+				"HowMany" => incrementer.Value,
+				"Who" => dropdown.options[dropdown.value].text,
 				"When" => Utility.FormatTime(timeSlider.CurrentTime+TimeManager.HourOffset),
 				_ => ""
 			};

@@ -144,9 +144,9 @@ public class MapScaler : MonoBehaviour {
         var tilesTransforms = new List<Transform>();
         var otherTransforms = new List<Transform>();
         for (var i = 0; i < parent.childCount; i++)
-            if (parent.GetChild(i).name.Contains("Tile"))
+            if (parent.GetChild(i).CompareTag("Tile"))
                 tilesTransforms.Add(parent.GetChild(i));
-            else if (!parent.GetChild(i).name.Contains("Cloud"))
+            else if (!parent.GetChild(i).CompareTag("Tornado"))
                 otherTransforms.Add(parent.GetChild(i));
 
         switch (Random.Range(0, 2)) {

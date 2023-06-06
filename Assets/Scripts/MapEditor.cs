@@ -52,7 +52,9 @@ public class MapEditor : MonoBehaviour {
 		private int _height = 1;
 		private float _spaceBetweenMisc = 0.5f;
 		private int _roadNumber = 0;
-		private bool _cooldown = false;
+		private bool _cooldownMisc = false;
+		private bool _cooldownBlock = false;
+		private int _blockCount = 0;
 	#endregion
 	
 	#region Unity Methods
@@ -112,14 +114,20 @@ public class MapEditor : MonoBehaviour {
 	#endregion
 	
 	#region Other Methods
-		private IEnumerator Cooldown() {
-			_cooldown = true;
+		private IEnumerator CooldownMisc() {
+			_cooldownMisc = true;
 			yield return new WaitForSeconds(0.5f);
-			_cooldown = false;
+			_cooldownMisc = false;
+		}
+		
+		private IEnumerator CooldownBlock() {
+			_cooldownBlock = true;
+			yield return new WaitForSeconds(0.5f);
+			_cooldownBlock = false;
 		}
 		private void PlaceRoad(GameObject prefab, LayerMask lm, Ray r, RaycastHit groundInfo, float offset, bool d, bool rotate) {
-			if (_cooldown && !rotate) return;
-			StartCoroutine(Cooldown());
+			if (_cooldownMisc && !rotate) return;
+			StartCoroutine(CooldownMisc());
 				
 			var hitRoad = Physics.Raycast(r, out var roadInfo, 100f, lm);
 			var previousRotation = Quaternion.identity;
@@ -133,7 +141,7 @@ public class MapEditor : MonoBehaviour {
 				
 			if (d || groundInfo.transform.name.Contains("Bot")) 
 				return;
-			if (!rotate && Physics.OverlapBox(groundInfo.point, Vector3.one/2f, Quaternion.identity, lm).Length > 0)
+			if (!rotate && Physics.OverlapBox(groundInfo.point, Vector3.one/2f, _transform.rotation, lm).Length > 0)
 				return;
 
 			var road = Instantiate(prefab);
@@ -146,8 +154,8 @@ public class MapEditor : MonoBehaviour {
 		}
 
 		private void PlaceMisc(GameObject prefab, LayerMask lm, Ray r, RaycastHit groundInfo, float offset, bool d) {
-			if (_cooldown) return;
-			StartCoroutine(Cooldown());
+			if (_cooldownMisc) return;
+			StartCoroutine(CooldownMisc());
 			
 			var hitMisc = Physics.Raycast(r, out var miscInfo, 100f, lm);
 			var previousRotation = Quaternion.identity;
@@ -160,7 +168,7 @@ public class MapEditor : MonoBehaviour {
 			if (d || groundInfo.transform.name.Contains("Bot")) return;
 			
 			if (!hitMisc) {
-				if (Physics.OverlapBox(groundInfo.point, Vector3.one * _spaceBetweenMisc, Quaternion.identity, lm).Length > 0) {
+				if (Physics.OverlapBox(groundInfo.point, Vector3.one * _spaceBetweenMisc, _transform.rotation, lm).Length > 0) {
 					return;
 				}
 
@@ -176,9 +184,14 @@ public class MapEditor : MonoBehaviour {
 		}
 	
 		private void PlaceBlock(bool hg, int ph, RaycastHit rh) {
+			if (_cooldownBlock) return;
+			
 			if (ph > 0 && _height > 0 && !hg) {
 				Debug.Log("Didn't hit ground, placing block.");
 				var block = Instantiate(blockPrefabs[Random.Range(0, blockPrefabs.Count)]);
+
+				_blockCount++;
+				block.name = _blockCount.ToString();
 
 				// Set to mouse point
 				var bTransform = block.transform;
@@ -196,10 +209,15 @@ public class MapEditor : MonoBehaviour {
 				bTransform.GetChild(1).localPosition = Vector3.down * (0.7f * (_height-1));
 				bTransform.GetChild(1).localScale = new Vector3(1f, 1f + ((_height-1) * 1.2f), 1f);
 				bTransform.SetLocalPositionAndRotation(p, Quaternion.identity);
-				
-				if (Physics.OverlapBox(p, Vector3.one, Quaternion.identity, groundLayerMask).Length > 0)
+
+				var colliders = Physics.OverlapBox(bTransform.position, Vector3.one * 0.6f, _transform.rotation, groundLayerMask);
+				if (colliders.Length > 0 && !colliders.All(c => c.transform.parent.name.Equals(block.name))) {
+					Debug.Log(colliders[0].transform.parent.name + " near " + p + ". Destroying this new block.");
+					_blockCount--;
 					Destroy(block);
-				
+				} else {
+					StartCoroutine(CooldownBlock());
+				}
 			} else if (_height > 0 && hg) {
 				var bTransform = rh.collider.transform.parent;
 				var lp = bTransform.localPosition;
@@ -213,7 +231,6 @@ public class MapEditor : MonoBehaviour {
 			} else if (_height == 0 && hg) {
 				Debug.Log("Hit ground, destroying block.");
 				var bTransform = rh.collider.transform.parent;
-
 				Destroy(bTransform.gameObject);
 			}
 		}
@@ -242,7 +259,7 @@ public class MapEditor : MonoBehaviour {
 		}
 
 		public void UpdateMapSize(Single i) {
-			var width = (int)i * 2;
+			var width = ((int)i * 4) - 6;
 			_plateTransform.localScale = new Vector3(width, 0.1f, width);
 		}
 		

@@ -16,6 +16,7 @@ public class Incrementer : MonoBehaviour {
 	
 	#region Attributes
 		public int ChoiceIndex { get; private set; }
+		public string Value { get; private set; }
 	#endregion
 	
 	#region Components
@@ -41,8 +42,9 @@ public class Incrementer : MonoBehaviour {
 			if (i >= values.Length || i < 0) return;
 			
 			ChoiceIndex = i;
+			Value = values[ChoiceIndex];
 			
-			_textMesh.text = values[ChoiceIndex];
+			_textMesh.text = Value;
 			OnUpdate.Invoke(ChoiceIndex);
 			UpdateButtonsInteractable();
 		}
@@ -51,8 +53,9 @@ public class Incrementer : MonoBehaviour {
 			if (i >= values.Length || i < 0) return;
 			
 			ChoiceIndex = i;
+			Value = values[ChoiceIndex];
 			
-			_textMesh.text = values[ChoiceIndex];
+			_textMesh.text = Value;
 			UpdateButtonsInteractable();
 		}
 
