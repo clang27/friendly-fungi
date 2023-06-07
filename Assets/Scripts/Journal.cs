@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,8 @@ public class Journal : MonoBehaviour {
 	#region Private Data
 		private static List<Entry> _entries = new();
 		private int _selectedEntryIndex = -1;
+		private static readonly int Highlighted = Shader.PropertyToID("_Highlighted");
+		private static readonly int MainTex = Shader.PropertyToID("_MainTex");
 	#endregion
 	
 	#region Unity Methods
@@ -67,7 +70,7 @@ public class Journal : MonoBehaviour {
 				.ToArray();
 
 			//Page 2
-			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[0];
+			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[1];
 			_nameDropdown = _leftPages[1].GetComponentsInChildren<TMP_Dropdown>()[0];
 			_notesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
 		}
@@ -83,8 +86,15 @@ public class Journal : MonoBehaviour {
 				image.gameObject.SetActive(index < _entries.Count);
 
 				if (index < _entries.Count) {
-					image.sprite = _entries[index].Headshot;
+					Debug.Log($"Setting TOC #{index}");
+					//image.sprite = _entries[index].Headshot;
 					image.material = _entries[index].Mat;
+
+					var rt = image.GetComponent<RectTransform>();
+					rt.DOKill();
+					rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
+					rt.DOLocalMoveZ(-1f, 0.1f);
+
 					var n = _entries[index].Name.Key;
 					image.GetComponent<Button>().onClick.RemoveAllListeners();
 					image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
@@ -94,7 +104,7 @@ public class Journal : MonoBehaviour {
 				index++;
 			}
 		}
-		public void GoToMushroomPage(string name) {
+		public void GoToMushroomPage(string mushroomName) {
 			// Debug.Log("Seeing if " + name + " matches with the following:");
 			// foreach (var e in _entries) {
 			// 	Debug.Log(e);
@@ -102,9 +112,14 @@ public class Journal : MonoBehaviour {
 			
 			GoToPage(1);
 
-			_selectedEntryIndex = _entries.IndexOf(_entries.First(e => e.Name.Key.Equals(name)));
-			_headshotSpotlight.sprite = _entries[_selectedEntryIndex].Headshot;
+			_selectedEntryIndex = _entries.IndexOf(_entries.First(e => e.Name.Key.Equals(mushroomName)));
+			//_headshotSpotlight.sprite = _entries[_selectedEntryIndex].Headshot;
 			_headshotSpotlight.material = _entries[_selectedEntryIndex].Mat;
+			
+			var rt = _headshotSpotlight.GetComponent<RectTransform>();
+			rt.DOKill();
+			rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
+			rt.DOLocalMoveZ(-1f, 0.1f);
 			
 			for (var i = 0; i < _nameDropdown.options.Count; i++) {
 				if (_nameDropdown.options[i].text.Equals(_entries[_selectedEntryIndex].Name.Value))
@@ -141,9 +156,14 @@ public class Journal : MonoBehaviour {
 		}
 		public void Init() {
 			foreach (var shroom in MushroomManager.AllActiveMushrooms) {
-				var mat = new Material(bookImageMaterial);
-				mat.SetTexture("_sprite", shroom.HeadshotCamera.HeadshotTexture);
-				
+				var mat = new Material(bookImageMaterial) {
+					mainTexture = shroom.HeadshotCamera.HeadshotTexture,
+					name = $"{shroom.Data.Name}sJournalMaterial"
+				};
+
+				Debug.Log($"Adding {shroom.Data.Name}sJournalMaterial");
+				mat.SetTexture(MainTex, shroom.HeadshotCamera.HeadshotTexture);
+
 				// Reapply new headshot on each shroom, but don't restart text data if already exists
 				if (_entries.Any(e => shroom.Data.Name.Equals(e.Name.Key))) {
 					var s = _entries.First(e => shroom.Data.Name.Equals(e.Name.Key));
@@ -166,15 +186,16 @@ public class Journal : MonoBehaviour {
 		}
 
 		public static void ClearData() {
+			Debug.Log("Clearing entries from journal.");
 			_entries.Clear();
 		}
 
 		public void HighlightImage(Image im) {
-			im.material.SetInt("_highlighted", 1);
+			im.material.SetInt(Highlighted, 1);
 		}
 		
 		public void UnhighlightImage(Image im) {
-			im.material.SetInt("_highlighted", 0);
+			im.material.SetInt(Highlighted, 0);
 		}
 	#endregion
 }

@@ -150,17 +150,17 @@ public class UiManager : MonoBehaviour {
 
 		public void OpenAudio() {
 			CloseActivePanel();
-			OpenPanel(audioPanel, true);
+			OpenPanelQuick(audioPanel, true);
 			SetActivePanel(audioPanel);
 		}
 		public void OpenGameplay() {
 			CloseActivePanel();
-			OpenPanel(gameplayPanel, true);
+			OpenPanelQuick(gameplayPanel, true);
 			SetActivePanel(gameplayPanel);
 		}
 		public void OpenGraphics() {
 			CloseActivePanel();
-			OpenPanel(graphicsPanel, true);
+			OpenPanelQuick(graphicsPanel, true);
 			SetActivePanel(graphicsPanel);
 		}
 		public void OpenPrompt(string question, string optionOneLabel, string optionTwoLabel, UnityAction optionOneAction, UnityAction optionTwoAction) {
@@ -213,20 +213,29 @@ public class UiManager : MonoBehaviour {
 		}
 		
 		private void OpenPanel(CanvasGroup panel, bool b) {
+			panel.DOKill();
+			panel.DOFade(b ? 1f : 0f, 0.2f);
+			panel.interactable = b;
+			panel.blocksRaycasts = b;
+		}
+		
+		private void OpenPanelQuick(CanvasGroup panel, bool b) {
+			panel.DOKill();
 			panel.alpha = b ? 1f : 0f;
 			panel.interactable = b;
 			panel.blocksRaycasts = b;
 		}
+		
 		public void ShowBackgroundBlur(bool b, float amount = 1f) {
 			backgroundBlurPanel.DOKill();
-			backgroundBlurPanel.DOFade(b ? amount : 0f, b ? 0.25f : 0.5f);
+			backgroundBlurPanel.DOFade(b ? amount : 0f, b ? 0.2f : 0.5f);
 			backgroundBlurPanel.blocksRaycasts = b;
 		}
 
 		private void CloseActivePanel() {
 			if (!_activePanel) return;
 				
-			OpenPanel(_activePanel, false);
+			OpenPanelQuick(_activePanel, false);
 			_activePanel = null;
 		}
 
@@ -236,8 +245,12 @@ public class UiManager : MonoBehaviour {
 			var im = startButton.GetComponent<Image>();
 			var ogPadding = im.raycastPadding;
 			im.raycastPadding = Vector4.zero;
-			startButton.GetComponent<RectTransform>().DOPunchRotation(Vector3.forward * 3f, 0.2f, 1, 10f)
-				.OnComplete(() => im.raycastPadding = ogPadding);
+			
+			var signRect = startButton.GetComponent<RectTransform>();
+			if (!DOTween.IsTweening(signRect)) {
+				signRect.DOPunchRotation(Vector3.forward * 8f, 0.25f, 1, 12f)
+					.OnComplete(() => im.raycastPadding = ogPadding);
+			}
 		}
 
 		public void HoverButtonShrink(RectTransform rt) {

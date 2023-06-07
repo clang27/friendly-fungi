@@ -10,7 +10,7 @@ public class Level : ScriptableObject {
 	public string SceneName, LevelName;
 	public float StartTime, EndTime;
 	public AudioClip Song;
-	public int NumberOfQuestions, NumberOfCorrectGuesses;
+	public int NumberOfCorrectGuesses;
 	public bool Unlocked() {
 		if (LevelName.ToLower().Contains("tutorial"))
 			return true;

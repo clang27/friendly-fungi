@@ -26,8 +26,7 @@ public class CardUi : MonoBehaviour {
 	#endregion
 	
 	#region Private Data
-
-	private Vector3 _localStartingPosition;
+		private Vector3 _localStartingPosition;
 	#endregion
 	
 	#region Unity Methods
@@ -93,12 +92,21 @@ public class CardUi : MonoBehaviour {
 
 		public void HighlightCard(bool b) {
 			for (var i = 0; i < CardManager.AllCards.Count; i++) {
-				if (!CardManager.AllCards[i]._canvasGroup.interactable) continue; // Don't change alpha of unselected cards
+				var c = CardManager.AllCards[i];
+				var cg = c._canvasGroup;
 				
-				if (!b)
-					CardManager.AllCards[i]._canvasGroup.DOFade(0.8f, 0.5f);
-				else 
-					CardManager.AllCards[i]._canvasGroup.DOFade((i == _index) ? 1f : 0.5f, 0.5f);
+				if (!cg.interactable) continue; // Don't change alpha of unselected cards
+
+				var bi = c._backdropImage;
+				
+				cg.DOKill();
+				if (!b) {
+					bi.raycastPadding = new Vector4(0f, 0f, 0f, 0f);
+					cg.DOFade(0.8f, 0.5f);
+				} else {
+					bi.raycastPadding = new Vector4(0f, (_index != QuestionQueue.AllQuestions.Count - 1) ? 110f : 0f, 0f, 0f);
+					cg.DOFade((i == _index) ? 1f : 0.5f, 0.5f);
+				}
 			}
 			
 			ResetOrder(b);
@@ -145,11 +153,11 @@ public class CardUi : MonoBehaviour {
 		
 		private Color GetBGColor(Question q) {
 			return q.Header switch {
-				"HowMany" => Color.HSVToRGB(316f / 360f, 0.05f, 0.9f),
-				"What" => Color.HSVToRGB(216f / 360f, 0.05f, 0.9f),
-				"When" => Color.HSVToRGB(266f / 360f, 0.05f, 0.9f),
-				"Where" => Color.HSVToRGB(166f / 360f, 0.05f, 0.9f),
-				_ => Color.HSVToRGB(116f / 360f, 0.05f, 0.9f)
+				"HowMany" => Color.HSVToRGB(316f / 360f, 0.05f, 0.95f),
+				"What" => Color.HSVToRGB(216f / 360f, 0.05f, 0.95f),
+				"When" => Color.HSVToRGB(266f / 360f, 0.05f, 0.95f),
+				"Where" => Color.HSVToRGB(166f / 360f, 0.05f, 0.95f),
+				_ => Color.HSVToRGB(116f / 360f, 0.05f, 0.95f)
 			};
 		}
 		

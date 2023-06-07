@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.7071879, g: 0.7434596, b: 0.7752887, a: 1}
+  m_FogColor: {r: 0.7607843, g: 0.8901961, b: 0.9529411, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 621550937}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.1527194, g: 0.18643807, b: 0.21096821, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.18793406, g: 0.25098813, b: 0.2915424, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6978,8 +6978,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8903112, g: 0.7899445, b: 0.74347556, a: 1}
-  m_Intensity: 0.5193114
+  m_Color: {r: 0.8878886, g: 0.8502397, b: 0.8094119, a: 1}
+  m_Intensity: 0.5809115
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -7036,7 +7036,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalRotation: {x: 0, y: 0.8660254, z: -0.49999997, w: 0}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -42146,13 +42146,45 @@ PrefabInstance:
       value: Amanita
       objectReference: {fileID: 0}
     - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_PlayableAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
       propertyPath: m_SceneBindings.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[0].key
+      value: 
+      objectReference: {fileID: 515044568489339900, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[1].key
+      value: 
+      objectReference: {fileID: -2089776399645805115, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
       propertyPath: m_SceneBindings.Array.data[2].key
       value: 
-      objectReference: {fileID: 3006163294275613935, guid: 47e8b2f823c9c7342a5dd8502821f110, type: 2}
+      objectReference: {fileID: 3006163294275613935, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[3].key
+      value: 
+      objectReference: {fileID: 515044568489339900, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[4].key
+      value: 
+      objectReference: {fileID: -2089776399645805115, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[5].key
+      value: 
+      objectReference: {fileID: 3006163294275613935, guid: e39dcd60c6bc0004ca8390bca3e436ac, type: 2}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[0].value
+      value: 
+      objectReference: {fileID: 2980493366277477323}
+    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+      propertyPath: m_SceneBindings.Array.data[1].value
+      value: 
+      objectReference: {fileID: 2980493366277477324}
     - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
       propertyPath: m_SceneBindings.Array.data[2].value
       value: 

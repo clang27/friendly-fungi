@@ -42,13 +42,17 @@ public class CardManager : MonoBehaviour {
 		public void Init() {
 			_randomQuestions.Clear();
 			
-			for (var i = 0; i < LevelSelection.CurrentLevel.NumberOfQuestions; i++) {
-				var randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
-				while (_randomQuestions.Contains(randomQuestion)) {
-					randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
-				}
+			// for (var i = 0; i < LevelSelection.CurrentLevel.NumberOfQuestions; i++) {
+			// 	var randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
+			// 	while (_randomQuestions.Contains(randomQuestion)) {
+			// 		randomQuestion = QuestionQueue.AllQuestions[Random.Range(0, QuestionQueue.AllQuestions.Count)];
+			// 	}
+			//
+			// 	_randomQuestions.Add(randomQuestion);
+			// }
 
-				_randomQuestions.Add(randomQuestion);
+			foreach (var q in QuestionQueue.AllQuestions) {
+				_randomQuestions.Add(q);
 			}
 		}
 

@@ -3,11 +3,9 @@
  * https://www.knitwitstudios.com/
  */
 
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Random = UnityEngine.Random;
 
 public class HeadshotCamera : MonoBehaviour {
 	#region Serialized Fields
@@ -37,7 +35,7 @@ public class HeadshotCamera : MonoBehaviour {
 			
 			_renderTexture = new RenderTexture(Utility.HeadshotDimension, Utility.HeadshotDimension, 0) {
 				dimension = TextureDimension.Tex2D,
-				antiAliasing = 4
+				antiAliasing = 2
 			};
 
 			_camera.targetTexture = _renderTexture;

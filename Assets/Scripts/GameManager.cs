@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -95,6 +96,7 @@ public class GameManager : MonoBehaviour {
 				});
 		}
 		public void OpenQuitPrompt() {
+			_timeManager.enabled = false;
 			DisableEverythingForPrompt(true, false);
 				
 			_uiManager.OpenPrompt(
@@ -103,6 +105,7 @@ public class GameManager : MonoBehaviour {
 				QuitGame, () => {
 					DisableEverythingForPrompt(false);
 					_uiManager.ClosePrompt();
+					_timeManager.enabled = true;
 				}
 			);
 		}
@@ -120,7 +123,7 @@ public class GameManager : MonoBehaviour {
 			
 			_audioManager.MainMenuTheme();
 			_audioManager.StopAmbience();
-
+			
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
 			_timeManager.PlayParticles();
 			
@@ -131,21 +134,9 @@ public class GameManager : MonoBehaviour {
 
 		private void RestartLevel() {
 			_uiManager.ClosePrompt();
-			DisableEverythingForPrompt(false);
-			
-			_audioManager.LevelTheme(LevelSelection.CurrentLevel);
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
-
-			_correctGuesses = 0;
-			_incorrectGuesses = 0;
-
-			_victoryParticles.Activate(false);
-			_cameraController.ResetWorldPositionToPlay();
 			
-			_mushroomManager.Init();
-			
-			_cardManager.ResetCards();
-			_cardManager.Init();
+			StartLevel();
 		}
 		
 		private void DisableEverythingForPrompt(bool b, bool autoRotate = true, float blurBgAmount = 1f) {
@@ -245,6 +236,10 @@ public class GameManager : MonoBehaviour {
 				yield return null;
 			}
 
+			foreach (var m in GameObject.FindGameObjectsWithTag("Mushroom").Select(m => m.GetComponent<Mushroom>())) {
+				m.EnableRenderers(false);
+			}
+			
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
@@ -312,6 +307,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowCardPanel(false);
 			_uiManager.ShowTopBar(false);
 			_cameraController.Enabled = false;
+			_timeManager.enabled = false;
 		}
 		
 		public void CloseAnswer() {
@@ -322,6 +318,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowCardPanel(true);
 			_uiManager.ShowTopBar(true);
 			_cameraController.Enabled = true;
+			_timeManager.enabled = true;
 		}
 
 		public void ShowBinoculars() {
@@ -352,7 +349,7 @@ public class GameManager : MonoBehaviour {
 				}
 			} else {
 				_incorrectGuesses++;
-				if (_incorrectGuesses == LevelSelection.CurrentLevel.NumberOfQuestions - LevelSelection.CurrentLevel.NumberOfCorrectGuesses + 1) {
+				if (_incorrectGuesses == QuestionQueue.AllQuestions.Count - LevelSelection.CurrentLevel.NumberOfCorrectGuesses + 1) {
 					_audioManager.DefeatTheme();
 					_uiManager.ShowAnswerPanel(false);
 					DisableEverythingForPrompt(true);

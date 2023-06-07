@@ -38,6 +38,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	#region Private Data
 		private Renderer[] _meshRenderers;
 		private Material _clonedHeadMaterial, _clonedBodyMaterial;
+		private Vector3 _startingPosition;
 	#endregion
 	
 	#region Unity Methods
@@ -47,10 +48,8 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			_outline = GetComponent<QuickOutline>();
 			_playableDirector = GetComponent<PlayableDirector>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
-		}
 
-		private void Start() {
-			EnableRenderers(false);
+			_startingPosition = _transform.localPosition;
 		}
 
 		private void FixedUpdate() {
@@ -65,10 +64,8 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			var goalY = hits.Max(hit => hit.point.y);
 			var currY = _transform.position.y;
 
-
-
 			var distanceToTranslate = Mathf.Lerp(
-				currY, goalY, ((TimeManager.Running) ? 4f : 16f) * Time.fixedDeltaTime) - currY;
+				currY, goalY, ((TimeManager.Running) ? 12f : 24f) * Time.fixedDeltaTime) - currY;
 			_transform.Translate(Vector3.up * distanceToTranslate);
 			
 		}
@@ -101,17 +98,27 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			headband.gameObject.SetActive(b && !IsCatcher && Data.HeadbandColorIndex > 0);
 		}
 		public void SetTimeline(float f) {
+			//Debug.Log("Setting time to " + f);
 			_playableDirector.time = f;
 			_playableDirector.DeferredEvaluate();
 		}
+
+		public void ResetPosition() {
+			_transform.localPosition = _startingPosition;
+		}
 		
-		public IEnumerator TakeHeadshot(float gap) {
-			//Debug.Log("Taking " + name + "'s headshot.");
-			transform.position = new Vector3(gap, transform.position.y, gap);
-			
+		public IEnumerator TakeHeadshot() {
 			yield return new WaitForSeconds(1f);
 			
+			Debug.Log("Taking " + Data.Name + "'s headshot.");
 			StartCoroutine(HeadshotCamera.TakeHeadshot());
+		}
+
+		public void MoveAside(float gap) {
+			var pos = new Vector3(gap, transform.position.y, gap);
+			
+			Debug.Log("Moving aside to " + pos);
+			_transform.position = pos;
 		}
 
 		public void Click() {

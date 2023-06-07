@@ -15,7 +15,7 @@ public class Location : MonoBehaviour, Highlightable {
 	#region Attributes
 		public string Name => LocationData.AllData[locationNumber].Name + " " + locationType;
 		public bool Known => known;
-		public string CurrentGuess { get; set; } = "???";
+		public string CurrentGuess { get; set; }
 	#endregion
 	
 	#region Components

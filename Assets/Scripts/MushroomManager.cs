@@ -42,7 +42,8 @@ public class MushroomManager : MonoBehaviour {
 			foreach (var mushroom in AllActiveMushrooms) {
 				mushroom.EnableRenderers(true);
 				mushroom.ApplyUniqueMaterials();
-				StartCoroutine(mushroom.TakeHeadshot(gap));
+				mushroom.MoveAside(gap);
+				StartCoroutine(mushroom.TakeHeadshot());
 				gap += 100f;
 			}
 
@@ -56,7 +57,6 @@ public class MushroomManager : MonoBehaviour {
 			// Populate Journal data
 			_journal.Init();
 		}
-
 		public void Clear() {
 			foreach (var m in AllActiveMushrooms) {
 				m.HeadshotCamera.ClearHeadshot();
