@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d4f2594ebcf7a7547ac681385bc9d2b1
+guid: 002376d6e474f0c46be1664ac809c1e2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
@@ -70,8 +70,8 @@ TextureImporter:
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
-    compressionQuality: 100
+    textureCompression: 0
+    compressionQuality: 50
     crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
@@ -151,7 +151,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: stickynote_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 13
+        width: 230
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 32, y: 32, z: 32, w: 32}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e42093a442090ec4e9b9a37bdd677110
+      internalID: -1457966471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -162,7 +183,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      stickynote_0: -1457966471
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

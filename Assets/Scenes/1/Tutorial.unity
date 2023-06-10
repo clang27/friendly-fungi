@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.44696862, g: 0.62050307, b: 0.74108344, a: 1}
+  m_FogColor: {r: 0.4630757, g: 0.6470573, b: 0.76843435, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 956425074}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.16416346, g: 0.2165511, b: 0.26295486, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.17243384, g: 0.22985923, b: 0.27784142, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5681,7 +5681,7 @@ MonoBehaviour:
   worldRotationLerpTime: 0.4
   maxZoomIn: 3
   minZoomIn: 9
-  zoomTranslationMultiplier: 0.045
+  zoomTranslationMultiplier: 0.033
   mouseSensitivityCurve:
     serializedVersion: 2
     m_Curve:
@@ -6540,8 +6540,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9614708, g: 0.95548624, b: 0.91385055, a: 1}
-  m_Intensity: 0.7673348
+  m_Color: {r: 0.96666914, g: 0.960694, b: 0.9187279, a: 1}
+  m_Intensity: 0.77719206
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -6598,7 +6598,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: -0.1776552, y: 0.81829107, z: -0.4288976, w: -0.3389472}
+  m_LocalRotation: {x: -0.1913417, y: 0.8001032, z: -0.46193975, w: -0.33141354}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

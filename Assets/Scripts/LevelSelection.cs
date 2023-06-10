@@ -18,6 +18,7 @@ public class LevelSelection : MonoBehaviour {
 	#region Attributes
 		public static Level CurrentLevel { get; private set; }
 		public static Level NextLevel { get; private set; }
+		public static Level[] AllLevels { get; private set; }
 	#endregion
 	
 	#region Components
@@ -32,8 +33,9 @@ public class LevelSelection : MonoBehaviour {
 	
 	#region Unity Methods
 		private void Awake() {
-			CurrentLevel = levels[0];
-			NextLevel = levels[1];
+			AllLevels = levels;
+			CurrentLevel = AllLevels[0];
+			NextLevel = AllLevels[1];
 				
 			_levelNameText = GetComponentsInChildren<TextMeshProUGUI>()[0];
 			_animator = GetComponent<Animator>();
@@ -52,8 +54,8 @@ public class LevelSelection : MonoBehaviour {
 			// _levelNameText.color = CurrentLevel.Unlocked() ? Color.white : new Color(0.5f, 0.5f, 0.5f, 0.5f);
 		}
 		public void UpdateButtonsUI() {
-			lockedPanel.alpha = CurrentLevel.Unlocked() ? 0f : 1f;
-			rightButton.interactable = _currentSelection < levels.Length - 1;
+			lockedPanel.alpha = CurrentLevel.Unlocked ? 0f : 1f;
+			rightButton.interactable = _currentSelection < AllLevels.Length - 1;
 			leftButton.interactable = _currentSelection > 0;
 		}
 
@@ -64,15 +66,15 @@ public class LevelSelection : MonoBehaviour {
 			_animator.SetTrigger(Spin);
 			
 			_currentSelection+=amount;
-			CurrentLevel = levels[_currentSelection];
-			NextLevel = (_currentSelection != levels.Length - 1) ? levels[_currentSelection+1] : null;
+			CurrentLevel = AllLevels[_currentSelection];
+			NextLevel = (_currentSelection != AllLevels.Length - 1) ? AllLevels[_currentSelection+1] : null;
 			UpdateNameUI();
 			
 			GameManager.Instance.ShowLoading();
 			
 			yield return new WaitForSeconds(0.9f);
 			
-			StartCoroutine(GameManager.Instance.LoadLevel(levels[_currentSelection-amount], levels[_currentSelection]));
+			StartCoroutine(GameManager.Instance.LoadLevel(AllLevels[_currentSelection-amount], AllLevels[_currentSelection]));
 
 			while (GameManager.Instance.Loading)
 				yield return null;

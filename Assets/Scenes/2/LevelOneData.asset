@@ -17,5 +17,6 @@ MonoBehaviour:
   StartTime: 8
   EndTime: 11
   Song: {fileID: 8300000, guid: 60678cf1314aa6c4ca988fabe88cbd2b, type: 3}
-  NumberOfQuestions: 2
   NumberOfCorrectGuesses: 1
+  Tutorial: 0
+  Entry: {fileID: 11400000, guid: 3d4a1f616dfabc54ca825414c5489621, type: 2}

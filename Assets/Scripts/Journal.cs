@@ -14,7 +14,7 @@ public class Journal : MonoBehaviour {
 	[SerializeField] private Material bookImageMaterial;
 	
 	// Since some data is a mystery, it is paired with a value that the player guessed
-	private class Entry {
+	private class ShrooEntry {
 		public Sprite Headshot;
 		public Material Mat;
 		public KeyValuePair<string, string> Name;
@@ -33,17 +33,26 @@ public class Journal : MonoBehaviour {
 		private RectTransform[] _leftPages, _rightPages;
 		
 		//Page 1
+		private Button[] _infoButtons;
+		
+		//Page 2
+		private TextMeshProUGUI _titleText, _infoText;
+		private Button _prevPageButton, _nextPageButton;
+		
+		//Page 3
 		private Image[] _headshotImageSpots;
 		
-		//Page 2 
+		//Page 4 
 		private Image _headshotSpotlight;
 		private TMP_InputField _notesInputField;
 		private TMP_Dropdown _nameDropdown;
 	#endregion
 	
 	#region Private Data
-		private static List<Entry> _entries = new();
+		private static List<ShrooEntry> _entries = new();
 		private int _selectedEntryIndex = -1;
+		private int _infoPageNumber, _infoPageLevel;
+		
 		private static readonly int Highlighted = Shader.PropertyToID("_Highlighted");
 		private static readonly int MainTex = Shader.PropertyToID("_MainTex");
 	#endregion
@@ -65,14 +74,25 @@ public class Journal : MonoBehaviour {
 
 		private void Start() {
 			//Page 1
-			_headshotImageSpots = _leftPages[0].GetComponentsInChildren<Image>()
-				.Concat(_rightPages[0].GetComponentsInChildren<Image>())
+			_infoButtons = _leftPages[0].GetComponentsInChildren<Button>()
+				.Concat(_rightPages[0].GetComponentsInChildren<Button>())
+				.ToArray();
+			
+			//Page 2
+			_titleText = _leftPages[1].GetComponentInChildren<TextMeshProUGUI>();
+			_infoText =  _rightPages[1].GetComponentInChildren<TextMeshProUGUI>();
+			_prevPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[0];
+			_nextPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[1];
+
+			//Page 3
+			_headshotImageSpots = _leftPages[2].GetComponentsInChildren<Image>()
+				.Concat(_rightPages[2].GetComponentsInChildren<Image>())
 				.ToArray();
 
-			//Page 2
-			_headshotSpotlight = _leftPages[1].GetComponentsInChildren<Image>()[1];
-			_nameDropdown = _leftPages[1].GetComponentsInChildren<TMP_Dropdown>()[0];
-			_notesInputField = _rightPages[1].GetComponentsInChildren<TMP_InputField>()[0];
+			//Page 4
+			_headshotSpotlight = _leftPages[3].GetComponentsInChildren<Image>()[0];
+			_nameDropdown = _leftPages[3].GetComponentsInChildren<TMP_Dropdown>()[0];
+			_notesInputField = _rightPages[3].GetComponentsInChildren<TMP_InputField>()[0];
 		}
 	
 	#endregion
@@ -80,6 +100,39 @@ public class Journal : MonoBehaviour {
 	#region Other Methods
 		public void GoToHomePage() {
 			GoToPage(0);
+			
+			var index = 0;
+			foreach (var button in _infoButtons) {
+				var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+				var active = index < LevelSelection.AllLevels.Length && LevelSelection.AllLevels[index].Unlocked;
+
+				buttonText.DOFade(active ? 1f : 0.5f, 0f);
+				buttonText.text = active ? LevelSelection.AllLevels[index].LevelName : "???";
+				button.interactable = active;
+
+				index++;
+			}
+		}
+
+		public void GoToInfoPage(int levelNumber) {
+			GoToPage(1);
+			_infoPageLevel = levelNumber;
+			GoToSubInfo(0);
+		}
+
+		private void GoToSubInfo(int i) {
+			_infoPageNumber = i;
+			
+			var l = LevelSelection.AllLevels[_infoPageLevel];
+			_titleText.text = l.Entry.Title;
+			_infoText.text = l.Entry.Pages[_infoPageNumber].Replace("\\n", "\n");
+			
+			_prevPageButton.interactable = _infoPageNumber > 0;
+			_nextPageButton.interactable = _infoPageNumber < l.Entry.Pages.Length - 1;
+		}
+
+		public void GoToTableOfContents() {
+			GoToPage(2);
 			
 			var index = 0;
 			foreach (var image in _headshotImageSpots) {
@@ -110,7 +163,7 @@ public class Journal : MonoBehaviour {
 			// 	Debug.Log(e);
 			// }
 			
-			GoToPage(1);
+			GoToPage(3);
 
 			_selectedEntryIndex = _entries.IndexOf(_entries.First(e => e.Name.Key.Equals(mushroomName)));
 			//_headshotSpotlight.sprite = _entries[_selectedEntryIndex].Headshot;
@@ -172,7 +225,7 @@ public class Journal : MonoBehaviour {
 					continue;
 				}
 
-				var e = new Entry() {
+				var e = new ShrooEntry() {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
 					Mat = mat,
 					Name = new KeyValuePair<string, string>(shroom.Data.Name, "???"),
@@ -196,6 +249,14 @@ public class Journal : MonoBehaviour {
 		
 		public void UnhighlightImage(Image im) {
 			im.material.SetInt(Highlighted, 0);
+		}
+
+		public void SelectNextPage() {
+			GoToSubInfo(_infoPageNumber+1);
+		}
+		
+		public void SelectPrevPage() {
+			GoToSubInfo(_infoPageNumber-1);
 		}
 	#endregion
 }

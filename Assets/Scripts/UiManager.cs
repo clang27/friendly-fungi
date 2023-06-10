@@ -90,7 +90,7 @@ public class UiManager : MonoBehaviour {
 		public void CloseMainMenu() {
 			var rect = menuPanel.GetComponent<RectTransform>();
 			rect.DOKill();
-			rect.DOMoveX(-480f, 1f).SetEase(Ease.OutBounce).OnComplete(() => OpenPanel(menuPanel, false));
+			rect.DOMoveX(-Screen.width/2f, 1f).SetEase(Ease.OutBounce).OnComplete(() => OpenPanel(menuPanel, false));
 		}
 		public void OpenSettings() {
 			OpenPanel(settingsPanel, true);
@@ -185,6 +185,11 @@ public class UiManager : MonoBehaviour {
 		public void ShowTopBar(bool b) {
 			OpenPanel(topBar, b);
 		}
+		public void HideAllButTime(bool b) {
+			foreach (var cg in thingsToHideWhenUsingBinoculars) {
+				OpenPanelQuick(cg, !b);
+			}
+		}
 		
 		public void ShowCardPanel(bool b) {
 			OpenPanel(cardPanel, b);
@@ -200,7 +205,7 @@ public class UiManager : MonoBehaviour {
 
 			foreach (var cg in thingsToHideWhenUsingBinoculars) {
 				cg.DOKill();
-				cg.DOFade(b ? 0f : 1f, 0.5f);
+				cg.DOFade(b || !cg.interactable ? 0f : 1f, 0.5f);
 			}
 			
 			if (b) {

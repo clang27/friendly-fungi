@@ -75,7 +75,7 @@ public class CardUi : MonoBehaviour {
 		}
 
 		public void HideToRightOfScreen() {
-			_rectTransform.position = new Vector3(Screen.width+_rectTransform.rect.width/2f, Screen.height/2f, 0f);
+			_rectTransform.position = new Vector3(Screen.width+_rectTransform.rect.width, Screen.height/2f, 0f);
 		}
 
 		public void PlayFlyInAnimation(in Sequence s) {

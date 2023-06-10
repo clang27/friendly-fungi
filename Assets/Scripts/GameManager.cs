@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
 
 	#region Components
 		private TimeManager _timeManager;
+		private TutorialManager _tutorialManager;
 		private MapScaler _mapScaler;
 		private CameraController _cameraController;
 		private AudioManager _audioManager;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour {
 			LocationData.Init();
 
 			_timeManager = GetComponent<TimeManager>();
+			_tutorialManager = GetComponent<TutorialManager>();
 			_audioManager = FindObjectOfType<AudioManager>();
 			_uiManager = GetComponent<UiManager>();
 			_cardManager = GetComponent<CardManager>();
@@ -113,6 +115,8 @@ public class GameManager : MonoBehaviour {
 		public void QuitGame() {
 			InMainMenu = true;
 
+			_tutorialManager.EndTutorial();
+			
 			_cameraController.AutoRotate = true;
 			_cameraController.ResetWorldPositionToMenu();
 
@@ -257,7 +261,7 @@ public class GameManager : MonoBehaviour {
 				yield return new WaitForSeconds(0.1f);
 			}
 			
-			if (LevelSelection.CurrentLevel.Unlocked()) {
+			if (LevelSelection.CurrentLevel.Unlocked) {
 				_uiManager.DisableButtonsOnLoading(false);
 				_uiManager.ChangeStartButton("Start", StartLevel);
 			} else {
@@ -286,17 +290,24 @@ public class GameManager : MonoBehaviour {
 			_mushroomManager.Init();
 			_uiManager.ShowCardPanel(true);
 			_cardManager.Init();
-			_cardManager.StartQuestionCardIntro();
 			
-			while (!_mapScaler.MapReady || !_cameraController.Ready || !_cardManager.Ready) {
+			if (!LevelSelection.CurrentLevel.Tutorial)
+				_cardManager.StartQuestionCardIntro();
+			
+			while (!_mapScaler.MapReady || !_cameraController.Ready || (!_cardManager.Ready && !LevelSelection.CurrentLevel.Tutorial)) {
 				yield return new WaitForSeconds(0.1f);
 			}
 			
 			_cameraController.Enabled = true;
-			_uiManager.ShowTopBar(true);
-
-			_timeManager.enabled = true;
-			_timeManager.Play();
+			
+			if (!LevelSelection.CurrentLevel.Tutorial) {
+				_uiManager.ShowTopBar(true);
+            
+				_timeManager.enabled = true;
+				_timeManager.Play();
+			} else {
+				_tutorialManager.StartTutorial();
+			}
 		}
 
 		public void OpenAnswer() {

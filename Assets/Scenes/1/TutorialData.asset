@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5555e026b7fc3664496191adc7728850, type: 3}
-  m_Name: LevelTwoData
+  m_Name: TutorialData
   m_EditorClassIdentifier: 
-  SceneName: LevelTwo
-  LevelName: Toad Lake
-  StartTime: 2
-  EndTime: 12
-  Song: {fileID: 8300000, guid: dd933ea093a02e24898b2692de425325, type: 3}
-  NumberOfQuestions: 3
-  NumberOfCorrectGuesses: 2
+  SceneName: Tutorial
+  LevelName: Tutorial
+  StartTime: 14
+  EndTime: 15
+  Song: {fileID: 8300000, guid: 60678cf1314aa6c4ca988fabe88cbd2b, type: 3}
+  NumberOfCorrectGuesses: 1
+  Tutorial: 1
+  Entry: {fileID: 11400000, guid: 51660ae36d29108498360514c9e8fbc1, type: 2}
