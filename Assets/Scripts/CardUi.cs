@@ -133,7 +133,8 @@ public class CardUi : MonoBehaviour {
 
 		private Color GetBorderColor(Question q) {
 			return q.Header switch {
-				"HowMany" => Color.HSVToRGB(316f / 360f, 1f, 0.8f),
+				"Who" => Color.HSVToRGB(66f / 360f, 1f, 0.8f),
+				"How Many" => Color.HSVToRGB(316f / 360f, 1f, 0.8f),
 				"What" => Color.HSVToRGB(216f / 360f, 1f, 0.8f),
 				"When" => Color.HSVToRGB(266f / 360f, 1f, 0.8f),
 				"Where" => Color.HSVToRGB(166f / 360f, 1f, 0.8f),
@@ -143,7 +144,8 @@ public class CardUi : MonoBehaviour {
 		
 		private Color GetTextColor(Question q) {
 			return q.Header switch {
-				"HowMany" => Color.HSVToRGB(316f / 360f, 0.48f, 1f),
+				"Who" => Color.HSVToRGB(66f / 360f, 0.48f, 1f),
+				"How Many" => Color.HSVToRGB(316f / 360f, 0.48f, 1f),
 				"What" => Color.HSVToRGB(216f / 360f, 0.48f, 1f),
 				"When" => Color.HSVToRGB(266f / 360f, 0.48f, 1f),
 				"Where" => Color.HSVToRGB(166f / 360f, 0.48f, 1f),
@@ -153,7 +155,8 @@ public class CardUi : MonoBehaviour {
 		
 		private Color GetBGColor(Question q) {
 			return q.Header switch {
-				"HowMany" => Color.HSVToRGB(316f / 360f, 0.05f, 0.95f),
+				"Who" => Color.HSVToRGB(66f / 360f, 0.05f, 0.95f),
+				"How Many" => Color.HSVToRGB(316f / 360f, 0.05f, 0.95f),
 				"What" => Color.HSVToRGB(216f / 360f, 0.05f, 0.95f),
 				"When" => Color.HSVToRGB(266f / 360f, 0.05f, 0.95f),
 				"Where" => Color.HSVToRGB(166f / 360f, 0.05f, 0.95f),

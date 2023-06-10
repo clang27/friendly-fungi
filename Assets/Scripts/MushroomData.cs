@@ -49,13 +49,16 @@ public class MushroomData {
             var usedNames = new List<string>();
             
             for (var i = 0; i < names.Length; i++) {
-                var hc = Random.Range(0,8);
+                var hc = Random.Range(0,10);
                 var bc = Random.Range(0,3);
                 
                 var gc = (Random.Range(0,3) == 0) ? Random.Range(1,7) : 0;
                 var hci = (Random.Range(0,3) == 0) ? Random.Range(1,7) : 0;
                 var hbci = (Random.Range(0,4) == 0 && hci != 0) ? Random.Range(1,7) : 0;
-                
+                // Ensures headband is not same color as head texture
+                if (hbci > 0 && hbci == Mathf.FloorToInt(hc / 2f))
+                    hbci++;
+
                 var n = names[Random.Range(0, names.Length)];
                 
                 while (usedNames.Contains(n)) {
@@ -83,8 +86,8 @@ public class MushroomData {
                 var bc =  PlayerPrefs.GetInt("MushroomDataBodyColorIndex"+i);
                 
                 var gc =  PlayerPrefs.GetInt("MushroomDataGlassesColorIndex"+i);
-                var hci =  PlayerPrefs.GetInt("MushroomDataHeadbandColorIndex"+i);
-                var hbci =  PlayerPrefs.GetInt("MushroomDataHatColorIndex"+i);
+                var hbci =  PlayerPrefs.GetInt("MushroomDataHeadbandColorIndex"+i);
+                var hci =  PlayerPrefs.GetInt("MushroomDataHatColorIndex"+i);
 
                 var n = PlayerPrefs.GetString("MushroomDataName"+i);
 

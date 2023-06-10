@@ -150,41 +150,66 @@ public class CameraController : MonoBehaviour {
     }
 
     private void Update() {
-        if (!Enabled) return;
-
-        if (IsRightMouseButtonDown()) {
-            _highlightedObject?.Highlight(false);
+        if (Enabled) {
+            if (IsRightMouseButtonDown()) {
+                _highlightedObject?.Highlight(false);
             
-            _targetCameraState.Translate(GetMouseLocation());
-            _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
-            Cursor.lockState = CursorLockMode.Locked;
+                _targetCameraState.Translate(GetMouseLocation());
+                _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
+                Cursor.lockState = CursorLockMode.Locked;
             
-            GameManager.Instance.ShowBinoculars();
-        } else if (IsRightMouseButtonUp()) {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            _targetCameraState.Reset();
+                GameManager.Instance.ShowBinoculars();
+            } else if (IsRightMouseButtonUp()) {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                _targetCameraState.Reset();
             
-            GameManager.Instance.HideBinoculars();
-        } 
+                GameManager.Instance.HideBinoculars();
+            } 
 
-        if (RightMouseHeld()) {
-            var mouseMovement = GetInputLookRotation() * Settings.MouseRotateSensitivity;
-            if (Settings.InvertLookY)
-                mouseMovement.y = -mouseMovement.y;
+            if (RightMouseHeld()) {
+                var mouseMovement = GetInputLookRotation() * Settings.MouseRotateSensitivity;
+                if (Settings.InvertLookY)
+                    mouseMovement.y = -mouseMovement.y;
 
-            var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
+                var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
 
-            _targetCameraState.Translate(
-                new Vector3(mouseMovement.x * mouseSensitivityFactor, mouseMovement.y * mouseSensitivityFactor, 0f)
-            );
-            // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
-            // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
-        } else if (_highlightedObject != null && IsLeftMouseButtonDown()) {
-            _highlightedObject.Highlight(false);
-            _highlightedObject.Click();
-            _highlightedObject = null;
+                _targetCameraState.Translate(
+                    new Vector3(mouseMovement.x * mouseSensitivityFactor, mouseMovement.y * mouseSensitivityFactor, 0f)
+                );
+                // _targetCameraState.Yaw += mouseMovement.x * mouseSensitivityFactor;
+                // _targetCameraState.Pitch += mouseMovement.y * mouseSensitivityFactor;
+            } else if (_highlightedObject != null && IsLeftMouseButtonDown()) {
+                _highlightedObject.Highlight(false);
+                _highlightedObject.Click();
+                _highlightedObject = null;
+            }
         }
+
+        // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time
+        var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
+        var positionLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / positionLerpTime * Time.deltaTime);
+        var cameraRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / rotationLerpTime * Time.deltaTime);
+        var zoomLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / zoomLerpTime * Time.deltaTime);
+
+        _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, cameraRotationLerpPct, zoomLerpPct);
+        _interpolatingCameraState.UpdateTransform(_transform);
+        _interpolatingCameraState.UpdateZoom(_camera);
+
+        if (_worldTransform) {
+            if (AutoRotate) {
+                _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? -1f : 1f) * 0.2f);
+            } else if (Enabled) {
+                _goalRotation += GetInputRotationDirection() * (
+                    Settings.RotateSpeed * (IsBoostPressed() ? Settings.BoostMultiplier : 1f) * 
+                    (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)
+                );
+            }
+            
+            _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
+        }
+        
+        Rotating = _worldTransform.localRotation != Quaternion.Euler(_goalRotation);
     }
 
     private void FixedUpdate() {
@@ -225,7 +250,7 @@ public class CameraController : MonoBehaviour {
         if (_resettingPositionToPlay != null) {
             StopCoroutine(_resettingPositionToPlay);
             _resettingPositionToPlay = null;
-        }
+        } 
         
         _targetCameraState.Translate(startingTranslation);
         
@@ -251,34 +276,6 @@ public class CameraController : MonoBehaviour {
         }
 
         _resettingPositionToPlay = null;
-    }
-
-    private void LateUpdate() {
-        // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time
-        var worldRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / worldRotationLerpTime * Time.deltaTime);
-        
-        var positionLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / positionLerpTime * Time.deltaTime);
-        var cameraRotationLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / rotationLerpTime * Time.deltaTime);
-        var zoomLerpPct = 1f - Mathf.Exp(Mathf.Log(1f - 0.99f) / zoomLerpTime * Time.deltaTime);
-        
-        _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, cameraRotationLerpPct, zoomLerpPct);
-        _interpolatingCameraState.UpdateTransform(_transform);
-        _interpolatingCameraState.UpdateZoom(_camera);
-
-        if (_worldTransform) {
-            if (AutoRotate) {
-                _goalRotation += Vector3.up * (Settings.RotateSpeed * (Settings.InvertWorldRotation ? -1f : 1f) * 0.2f);
-            } else if (Enabled) {
-                _goalRotation += GetInputRotationDirection() * (
-                    Settings.RotateSpeed * (IsBoostPressed() ? Settings.BoostMultiplier : 1f) * 
-                    (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)
-                );
-            }
-            
-            _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
-        }
-        
-        Rotating = _worldTransform.localRotation != Quaternion.Euler(_goalRotation);
     }
 
     private Vector2 GetInputLookRotation() { 

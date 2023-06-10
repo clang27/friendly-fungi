@@ -31,6 +31,7 @@ public class Journal : MonoBehaviour {
 	#region Components
 		private RectTransform _leftSide, _rightSide;
 		private RectTransform[] _leftPages, _rightPages;
+		private JournalTab[] _tabs;
 		
 		//Page 1
 		private Button[] _infoButtons;
@@ -70,6 +71,8 @@ public class Journal : MonoBehaviour {
 			for (var i = 0; i < _rightSide.childCount; i++) {
 				_rightPages[i] = _rightSide.GetChild(i).GetComponent<RectTransform>();
 			}
+
+			_tabs = GetComponentsInChildren<JournalTab>();
 		}
 
 		private void Start() {
@@ -195,6 +198,11 @@ public class Journal : MonoBehaviour {
 		}
 		
 		private void GoToPage(int p) {
+			if (TutorialManager.JournalTabsCanOperate) {
+				_tabs[1].Enable(p != 0);
+				_tabs[0].Enable(p != 2);
+			}
+			
 			_selectedEntryIndex = -1;
 			
 			foreach (var lp in _leftPages) {

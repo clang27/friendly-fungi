@@ -5,6 +5,7 @@
 
 using System.Collections;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -12,12 +13,17 @@ using UnityEngine.UI;
 public class TutorialManager : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private Button[] buttonsToDisableOnJournalPage;
+		[SerializeField] private JournalTab[] tabsToDisableOnJournalPage;
 		[SerializeField] private Ease easeType = Ease.InCubic;
 		[SerializeField] private float easeDuration = 0.8f;
 		[SerializeField] private float scaleMultiplier = 0.6f;
 	
 		[SerializeField] private GameObject panel;
 		[SerializeField] private CanvasGroup[] pages;
+	#endregion
+
+	#region Attributes
+		public static bool JournalTabsCanOperate = true;
 	#endregion
 
 	#region Components
@@ -128,6 +134,7 @@ public class TutorialManager : MonoBehaviour {
 							
 							_leftClickJournal.DOScale(Vector3.one * 0.6f, 0.5f).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
 							_leftClickJournal.DOMoveY(_leftClickJournal.transform.position.y + (Screen.height * 0.04f), 0.5f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+							_leftClickJournal.DOMoveX(_leftClickJournal.transform.position.x - (Screen.height * 0.01f), 0.5f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
 						});
 					}
 					break;
@@ -216,7 +223,8 @@ public class TutorialManager : MonoBehaviour {
 		}
 		public void StartTutorial() {
 			Debug.Log("Starting Tutorial");
-			
+
+			JournalTabsCanOperate = false;
 			_currentPage = 0;
 			panel.SetActive(true);
 			OpenPage(_currentPage, true, 2f);
@@ -224,6 +232,12 @@ public class TutorialManager : MonoBehaviour {
 			// Page one
 			_leftArrow.DOScale(Vector3.one * scaleMultiplier, easeDuration).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
 			_rightArrow.DOScale(Vector3.one * scaleMultiplier, easeDuration).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
+			
+			foreach (var b in buttonsToDisableOnJournalPage)
+				b.interactable = false;
+
+			foreach (var t in tabsToDisableOnJournalPage)
+				t.Enable(false);
 		}
 	
 		private void OpenPage(int i, bool b, float time) {
@@ -241,6 +255,7 @@ public class TutorialManager : MonoBehaviour {
 			_exittedJournal = false;
 
 			HideAllPages();
+			JournalTabsCanOperate = true;
 			panel.SetActive(false);
 		}
 
@@ -250,17 +265,20 @@ public class TutorialManager : MonoBehaviour {
 
 		public void ClickedJournal() {
 			if (_exittedJournal || _currentPage != 3) return;
-			
-			foreach (var b in buttonsToDisableOnJournalPage)
-				b.interactable = false;
-			
+
+			var tmp = _leftClickJournal.GetComponentInChildren<TextMeshProUGUI>();
 			_leftClickJournal.DOKill();
 			_leftClickJournal.DOScale(Vector3.one, 0.4f);
+			tmp.text = "";
+			
 			_leftClickJournal.DOLocalMove(new Vector3(-124.6f, 8.8f, 0f), 0.5f)
 				.SetEase(Ease.InOutSine)
 				.OnComplete(() => {
+					tmp.text = "Info";
 					_leftClickJournal.DOScale(Vector3.one * 0.6f, 0.5f).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
 					_leftClickJournal.DOMoveY(_leftClickJournal.transform.position.y + (Screen.height * 0.04f), 0.5f)
+						.SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+					_leftClickJournal.DOMoveX(_leftClickJournal.transform.position.x - (Screen.height * 0.01f), 0.5f)
 						.SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
 				});
 		}
@@ -268,11 +286,19 @@ public class TutorialManager : MonoBehaviour {
 		public void ClickedTutorialInfo() {
 			if (_exittedJournal || _currentPage != 3) return;
 			
+			var tmp = _leftClickJournal.GetComponentInChildren<TextMeshProUGUI>();
 			_leftClickJournal.DOKill();
+			tmp.text = "";
+			
 			_leftClickJournal.GetComponent<Image>().DOFade(0f, 0.05f)
 				.OnComplete(() => {
 					foreach (var b in buttonsToDisableOnJournalPage)
 						b.interactable = true;
+					
+					foreach (var t in tabsToDisableOnJournalPage)
+						t.Enable(true);
+
+					JournalTabsCanOperate = true;
 				});
 		}
 

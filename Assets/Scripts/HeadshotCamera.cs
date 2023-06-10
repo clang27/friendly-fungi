@@ -69,6 +69,7 @@ public class HeadshotCamera : MonoBehaviour {
 
 			RenderTexture.active = _renderTexture;
 			_headshotTexture.ReadPixels(new Rect(0, 0,Utility.HeadshotDimension, Utility.HeadshotDimension), 0, 0);
+			_headshotTexture.filterMode = FilterMode.Trilinear;
 			_headshotTexture.Apply();
 
 			_headshotSprite = Sprite.Create(_headshotTexture, new Rect(0f, 0f, Utility.HeadshotDimension, 
