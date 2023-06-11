@@ -1309,6 +1309,7 @@ GameObject:
   - component: {fileID: 2596269432598352409}
   - component: {fileID: 4094804551151692713}
   - component: {fileID: 8136243019115676621}
+  - component: {fileID: 452110406939061904}
   - component: {fileID: 3821930048084413898}
   - component: {fileID: 2687925267359725701}
   - component: {fileID: 8314217130079208214}
@@ -1398,6 +1399,18 @@ MonoBehaviour:
   glasses: {fileID: 2980493365270177719}
   hat: {fileID: 2980493364969614707}
   headband: {fileID: 2980493365675267501}
+--- !u!114 &452110406939061904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3408131898361940131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b1ff6efbb88944fb3e8e760db105ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!320 &3821930048084413898
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -1414,11 +1427,11 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: 515044568489339900, guid: 47e8b2f823c9c7342a5dd8502821f110, type: 2}
-    value: {fileID: 8136243019115676621}
+    value: {fileID: 452110406939061904}
   - key: {fileID: -2089776399645805115, guid: 47e8b2f823c9c7342a5dd8502821f110, type: 2}
     value: {fileID: 2687925267359725701}
   - key: {fileID: 3006163294275613935, guid: 47e8b2f823c9c7342a5dd8502821f110, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 2687925267359725701}
   m_ExposedReferences:
     m_References:
     - b331b317629fd264985282cf657df22c: {fileID: 0}

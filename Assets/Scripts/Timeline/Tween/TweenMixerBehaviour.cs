@@ -11,10 +11,10 @@ public class TweenMixerBehaviour : PlayableBehaviour {
     // Performs blend of position and rotation of all clips connected to a track mixer
     // The result is applied to the track binding's (playerData) transform.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData) {
-        var mushroom = playerData as Mushroom;
-        var trackBindingTransform = mushroom.transform;
+        var timeManipulation = playerData as TimeManipulation;
+        var trackBindingTransform = timeManipulation.transform;
 
-        if (mushroom == null)
+        if (timeManipulation == null)
             return;
 
         // Get the initial position and rotation of the track binding, only when ProcessFrame is first called
@@ -25,7 +25,7 @@ public class TweenMixerBehaviour : PlayableBehaviour {
 
         var totalPositionWeight = 0.0f;
         var totalRotationWeight = 0.0f;
-        var climbing = false;
+        var useGravity = false;
         
         // Iterate on all mixer's inputs (ie each clip on the track)
         var inputCount = playable.GetInputCount();
@@ -40,7 +40,7 @@ public class TweenMixerBehaviour : PlayableBehaviour {
             // get the clip's behaviour and evaluate the progression along the curve
             var tweenInput = GetTweenBehaviour(input);
             var tweenProgress = GetCurve(tweenInput).Evaluate(normalizedInputTime);
-            climbing |= tweenInput.climbing;
+            useGravity |= tweenInput.useGravity;
 
             // calculate the position's progression along the curve according to the input's (clip) weight
             if (tweenInput.shouldTweenPosition) {
@@ -55,11 +55,11 @@ public class TweenMixerBehaviour : PlayableBehaviour {
             }
         }
 
-        mushroom.Climbing = climbing;
+        timeManipulation.UseGravity = useGravity;
         
         // Apply the final position and rotation values in the track binding
         var newPosition = accumPosition + m_InitialPosition * (1.0f - totalPositionWeight);
-        trackBindingTransform.position = new Vector3(newPosition.x, (climbing) ? newPosition.y : trackBindingTransform.position.y, newPosition.z);
+        trackBindingTransform.position = new Vector3(newPosition.x, (!useGravity) ? newPosition.y : trackBindingTransform.position.y, newPosition.z);
         //trackBinding.rotation = accumRotation.Blend(m_InitialRotation, 1.0f - totalRotationWeight);
         trackBindingTransform.rotation = Quaternion.Slerp(accumRotation, m_InitialRotation, (1.0f - totalRotationWeight));
         trackBindingTransform.rotation.Normalize();

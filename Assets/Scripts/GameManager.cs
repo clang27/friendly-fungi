@@ -240,10 +240,12 @@ public class GameManager : MonoBehaviour {
 				yield return null;
 			}
 
-			foreach (var m in GameObject.FindGameObjectsWithTag("Mushroom").Select(m => m.GetComponent<Mushroom>())) {
+			foreach (var m in FindObjectsOfType<Mushroom>())
 				m.EnableRenderers(false);
-			}
-			
+
+			foreach (var b in FindObjectsOfType<MiscAnimal>())
+				b.EnableRenderers(false);
+
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
@@ -302,7 +304,10 @@ public class GameManager : MonoBehaviour {
 			
 			if (!LevelSelection.CurrentLevel.Tutorial) {
 				_uiManager.ShowTopBar(true);
-            
+				
+				foreach (var b in FindObjectsOfType<MiscAnimal>())
+					b.EnableRenderers(true);
+				
 				_timeManager.enabled = true;
 				_timeManager.Play();
 			} else {

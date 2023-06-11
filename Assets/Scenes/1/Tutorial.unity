@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.4630757, g: 0.6470573, b: 0.76843435, a: 1}
+  m_FogColor: {r: 0.56999993, g: 0.82333326, b: 0.95, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 956425074}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.17243384, g: 0.22985923, b: 0.27784142, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.22519858, g: 0.32222244, b: 0.3816702, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5902,7 +5902,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770656812}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.00000023841858, y: 1.09659, z: -4.2700005}
+  m_LocalPosition: {x: -0, y: 1.09659, z: -4.2700005}
   m_LocalScale: {x: 0.3, y: 0.29999998, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6163,18 +6163,6 @@ PrefabInstance:
       value: Amanita
       objectReference: {fileID: 0}
     - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
-      propertyPath: m_SceneBindings.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
-      propertyPath: m_SceneBindings.Array.data[2].key
-      value: 
-      objectReference: {fileID: 3006163294275613935, guid: 47e8b2f823c9c7342a5dd8502821f110, type: 2}
-    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
-      propertyPath: m_SceneBindings.Array.data[2].value
-      value: 
-      objectReference: {fileID: 1260746846}
-    - target: {fileID: 3821930048084413898, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[0].second
       value: 
       objectReference: {fileID: 770656813}
@@ -6251,11 +6239,6 @@ PrefabInstance:
 --- !u!4 &1260746845 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2596269432598352409, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
-  m_PrefabInstance: {fileID: 1260746844}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1260746846 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2687925267359725701, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
   m_PrefabInstance: {fileID: 1260746844}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1261268541
@@ -6540,8 +6523,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.96666914, g: 0.960694, b: 0.9187279, a: 1}
-  m_Intensity: 0.77719206
+  m_Color: {r: 0.75785273, g: 0.5334024, b: 0.52467, a: 1}
+  m_Intensity: 0.7053817
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -6598,7 +6581,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: -0.1913417, y: 0.8001032, z: -0.46193975, w: -0.33141354}
+  m_LocalRotation: {x: 0.35355338, y: 0.35355335, z: -0.14644659, w: 0.8535534}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

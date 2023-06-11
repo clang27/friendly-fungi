@@ -152,7 +152,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -197,7 +197,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -287,7 +287,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -760,7 +760,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 1
+  useGravity: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1006,7 +1006,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 1
+  useGravity: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1097,7 +1097,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1142,7 +1142,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1187,7 +1187,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1232,7 +1232,7 @@ MonoBehaviour:
     defaultValue: {fileID: 0}
   shouldTweenPosition: 1
   shouldTweenRotation: 1
-  climbing: 0
+  useGravity: 1
   curve:
     serializedVersion: 2
     m_Curve:

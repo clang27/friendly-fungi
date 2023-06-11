@@ -4,9 +4,7 @@
  */
 
 using System.Collections;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour, Highlightable {
 	#region Serialized Data
@@ -25,20 +23,16 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	#region Attributes
 		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActiveMushrooms.IndexOf(this)];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
-		public bool Climbing { get; set; }
 	#endregion
 	
 	#region Components
 		private Transform _transform;
-		private PlayableDirector _playableDirector;
 		private HeadshotCamera _headshotCamera;
 		private QuickOutline _outline;
 	#endregion
 	
 	#region Private Data
 		private Renderer[] _meshRenderers;
-		private Material _clonedHeadMaterial, _clonedBodyMaterial;
-		private Vector3 _startingPosition;
 	#endregion
 	
 	#region Unity Methods
@@ -46,31 +40,10 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			_transform = transform;
 			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
-			_playableDirector = GetComponent<PlayableDirector>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
-
-			_startingPosition = _transform.localPosition;
 		}
 
-		private void FixedUpdate() {
-			if (CameraController.Rotating && !TimeManager.Running && !Climbing) return;
-			
-			var hits = Physics.RaycastAll(_transform.position + new Vector3(0f, 2f, 0f), Vector3.down, 30f, 1 << 7);
-			// Debug.DrawRay(_transform.position + new Vector3(0f, 3f, 0f), new Vector3(0f, -6f, 0f), Color.red);
-			// Debug.Log(hitCount);
-
-			if (hits.Length == 0) return;
-			
-			var goalY = hits.Max(hit => hit.point.y);
-			var currY = _transform.position.y;
-
-			var distanceToTranslate = Mathf.Lerp(
-				currY, goalY, ((TimeManager.Running) ? 12f : 24f) * Time.fixedDeltaTime) - currY;
-			_transform.Translate(Vector3.up * distanceToTranslate);
-			
-		}
-
-		#endregion
+	#endregion
 	
 	#region Other Methods
 		public void ApplyUniqueMaterials() {
@@ -97,16 +70,6 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			hat.gameObject.SetActive(b && !IsCatcher && Data.HatColorIndex > 0);
 			headband.gameObject.SetActive(b && !IsCatcher && Data.HeadbandColorIndex > 0);
 		}
-		public void SetTimeline(float f) {
-			//Debug.Log("Setting time to " + f);
-			_playableDirector.time = f;
-			_playableDirector.DeferredEvaluate();
-		}
-
-		public void ResetPosition() {
-			_transform.localPosition = _startingPosition;
-		}
-		
 		public IEnumerator TakeHeadshot() {
 			yield return new WaitForSeconds(1f);
 			

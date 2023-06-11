@@ -17,8 +17,8 @@ public class TweenClip : PlayableAsset, ITimelineClipAsset, IPropertyPreview {
     [Tooltip("Changes the rotation of the assigned object")]
     public bool shouldTweenRotation = true;
     
-    [Tooltip("Should ignore gravity")]
-    public bool climbing = false;
+    [Tooltip("Should use gravity")]
+    public bool useGravity = false;
 
     [Tooltip("Only keys in the [0,1] range will be used")]
     public AnimationCurve curve = AnimationCurve.EaseInOut(0.0f, 0.0f, 1.0f, 1.0f);
@@ -38,7 +38,7 @@ public class TweenClip : PlayableAsset, ITimelineClipAsset, IPropertyPreview {
         tween.curve = curve;
         tween.shouldTweenPosition = shouldTweenPosition;
         tween.shouldTweenRotation = shouldTweenRotation;
-        tween.climbing = climbing;
+        tween.useGravity = useGravity;
 
         return playable;
     }

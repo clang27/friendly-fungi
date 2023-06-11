@@ -26,6 +26,7 @@ public class TimeManager : MonoBehaviour {
     #region Private Data
         private ParticleSystem[] _particleSystems;
         private float _secondMultiplier = 1.0f;
+        private TimeManipulation[] _manipulations;
     #endregion
 
     #region Unity Methods
@@ -40,7 +41,7 @@ public class TimeManager : MonoBehaviour {
         }
 
         private void LateUpdate() {
-            foreach (var m in MushroomManager.AllActiveMushrooms)
+            foreach (var m in _manipulations)
                 m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
         }
         
@@ -67,6 +68,7 @@ public class TimeManager : MonoBehaviour {
         }
         public void Init(Transform t) {
             _particleSystems = t.GetComponentsInChildren<ParticleSystem>();
+            _manipulations = FindObjectsOfType<TimeManipulation>();
         }
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
