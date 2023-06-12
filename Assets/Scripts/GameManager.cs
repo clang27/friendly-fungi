@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		private void RestartLevel() {
+			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ClosePrompt();
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
 			

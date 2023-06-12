@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.74738336, g: 0.8535069, b: 0.90852195, a: 1}
+  m_FogColor: {r: 0.7205864, g: 0.780142, b: 0.81969976, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 621550937}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.16050673, g: 0.21802235, b: 0.25756994, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.15439656, g: 0.19643493, b: 0.22565177, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6549,13 +6549,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whoQuestions:
-  - mushroomDependent: {fileID: 2980493366277477323}
-    locationDependent: {fileID: 8087182048152316973}
+  - dependencies:
+    - {fileID: 2980493366277477326}
     template: does {name} start by?
-    answer: {fileID: 0}
-  whatQuestions: []
+    answer: {fileID: 2980493366277477323}
+  whatQuestions:
+  - dependencies:
+    - {fileID: 2980493366277477326}
+    - {fileID: 6041025499738466008}
+    template: is {name} afraid of by {location}?
+    answer: 4
   whenQuestions: []
-  whereQuestions: []
+  whereQuestions:
+  - dependencies:
+    - {fileID: 2980493366277477326}
+    template: does {name} live?
+    answer: {fileID: 6041025499738466009}
   canQuestions: []
   howManyQuestions: []
 --- !u!1 &1297048802
@@ -7072,8 +7081,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8866779, g: 0.86158276, b: 0.81977904, a: 1}
-  m_Intensity: 0.59560955
+  m_Color: {r: 0.8891001, g: 0.81382394, b: 0.7689101, a: 1}
+  m_Intensity: 0.55402815
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -7118,7 +7127,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 2.86e-43, z: 0, w: 5.72e-43}
+  m_BoundingSphereOverride: {x: 4.05e-43, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -7130,7 +7139,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: 0.60876137, y: 0, z: 0, w: 0.7933534}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -42368,7 +42377,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8136243019115676621, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
   m_PrefabInstance: {fileID: 2980493366277477322}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2980493366277477326}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc8dc585b3bbdd243841d54629a84bea, type: 3}
@@ -42384,12 +42393,17 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 452110406939061904, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
   m_PrefabInstance: {fileID: 2980493366277477322}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2980493366277477326}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26b1ff6efbb88944fb3e8e760db105ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2980493366277477326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3408131898361940131, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+  m_PrefabInstance: {fileID: 2980493366277477322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2980881293955901092
 Transform:
   m_ObjectHideFlags: 0
@@ -53866,6 +53880,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 868749350547040926, guid: adf75a7b15ade394ba0564edaab358c1, type: 3}
   m_PrefabInstance: {fileID: 6041025499738466006}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6041025499738466008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2352723360723924766, guid: adf75a7b15ade394ba0564edaab358c1, type: 3}
+  m_PrefabInstance: {fileID: 6041025499738466006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6041025499738466009 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6041025499738466009, guid: adf75a7b15ade394ba0564edaab358c1, type: 3}
+  m_PrefabInstance: {fileID: 6041025499738466006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6041025499738466008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84dad2304b795524f8aa614dbe7e2bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &6041804122314732867
 MeshCollider:
   m_ObjectHideFlags: 0

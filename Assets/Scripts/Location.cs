@@ -3,6 +3,8 @@
  * https://www.knitwitstudios.com/
  */
 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Location : MonoBehaviour, Highlightable {
@@ -13,6 +15,7 @@ public class Location : MonoBehaviour, Highlightable {
 	#endregion
 	
 	#region Attributes
+		public static List<Location> All { get; } = new();
 		public string Name => LocationData.AllData[locationNumber].Name + " " + locationType;
 		public bool Known => known;
 		public string CurrentGuess { get; set; }
@@ -25,6 +28,11 @@ public class Location : MonoBehaviour, Highlightable {
 	#region Unity Methods
 		private void Awake() {
 			_outline = GetComponent<QuickOutline>();
+			All.Add(this);
+		}
+
+		private void OnDestroy() {
+			All.Remove(this);
 		}
 
 	#endregion

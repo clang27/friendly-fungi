@@ -8,15 +8,13 @@ using UnityEngine;
 
 [Serializable]
 public class When : Question {
-	[SerializeField] private Mushroom mushroomDependent;
-	[SerializeField] private Location locationDependent;
+	[SerializeField] private GameObject[] dependencies;
+	public override GameObject[] Dependencies => dependencies;
 	
 	[SerializeField] private string template;
 	[SerializeField] private int hour, minute;
 	[SerializeField][Range(0, 60)] private int gap = 10;
 	public override string Header => "When";
-	public override string DependentName => (mushroomDependent) ? mushroomDependent.Data.Name : null;
-	public override string DependentLocation => (locationDependent) ? locationDependent.Name : null;
 	public override string Template => template;
 	public override bool IsRightAnswer(string s) {
 		var h = Utility.GetHour(s);

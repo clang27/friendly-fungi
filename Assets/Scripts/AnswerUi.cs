@@ -30,9 +30,21 @@ public class AnswerUi : MonoBehaviour {
 			incrementer.gameObject.SetActive(false);
 			
 			switch (q.Header) {
+				case "Where":
+					dropdown.ClearOptions();
+					dropdown.AddOptions(Location.All
+						.Select(m => new TMP_Dropdown.OptionData(m.Name, null))
+						.ToList());
+					dropdown.gameObject.SetActive(true);
+					break;
+				case "What":
+					dropdown.ClearOptions();
+					dropdown.AddOptions(What.Choices);
+					dropdown.gameObject.SetActive(true);
+					break;
 				case "Can":
 					dropdown.ClearOptions();
-					dropdown.AddOptions(new[]{"Yes", "No"}.ToList());
+					dropdown.AddOptions(Can.Choices);
 					dropdown.gameObject.SetActive(true);
 					break;
 				case "HowMany":
@@ -40,10 +52,9 @@ public class AnswerUi : MonoBehaviour {
 					break;
 				case "Who":
 					dropdown.ClearOptions();
-					var options = MushroomManager.AllActiveMushrooms
-							.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, null))
-							.ToList();
-					dropdown.AddOptions(options);
+					dropdown.AddOptions(MushroomManager.AllActiveMushrooms
+						.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, null))
+						.ToList());
 					dropdown.gameObject.SetActive(true);
 					break;
 				case "When":

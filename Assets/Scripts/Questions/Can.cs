@@ -4,6 +4,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -13,17 +15,17 @@ public enum CanAnswer {
 
 [Serializable]
 public class Can : Question {
-	[SerializeField] private Mushroom mushroomDependent;
-	[SerializeField] private Location locationDependent;
-	
+	[SerializeField] private GameObject[] dependencies;
+	public override GameObject[] Dependencies => dependencies;
+
 	[SerializeField] private string template;
 	[SerializeField] private CanAnswer answer;
-	
+
 	[SerializeField] private bool freebie;
 	public override string Header => "Can";
 	public override string Template => template;
-	public override string DependentName => (mushroomDependent) ? mushroomDependent.Data.Name : null;
-	public override string DependentLocation => (locationDependent) ? locationDependent.Name : null;
+	public static List<string> Choices => Enum.GetNames(typeof(CanAnswer)).ToList();
+	
 	public override bool IsRightAnswer(string s) {
 		return freebie || s.Equals(answer.ToString());
 	}

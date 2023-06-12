@@ -123,7 +123,7 @@ public class UiManager : MonoBehaviour {
 
 			signRect.DOKill();
 			signRect.localPosition.Set(0f, -390f, 0f);
-			signRect.DOLocalMove(Vector3.up * -90f, 0.5f);
+			signRect.DOLocalMoveY(-100f, 0.5f);
 		}
 		
 		public void OpenSign(List<Location> l) {
@@ -134,14 +134,14 @@ public class UiManager : MonoBehaviour {
 
 			signRect.DOKill();
 			signRect.localPosition.Set(0f, -390f, 0f);
-			signRect.DOLocalMove(Vector3.up * -90f, 0.5f);
+			signRect.DOLocalMoveY(-100f, 0.5f);
 		}
 
 		public void CloseSign() {
 			var signRect = signPanel.GetComponent<RectTransform>();
 
 			signRect.DOKill();
-			signRect.DOLocalMove(Vector3.up * -390f, 0.5f).OnComplete(() => OpenPanel(signPanel, false));
+			signRect.DOLocalMoveY(-390f, 0.5f).OnComplete(() => OpenPanel(signPanel, false));
 		}
 		
 		public void CloseJournal() {
