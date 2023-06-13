@@ -52,7 +52,7 @@ public class AnswerUi : MonoBehaviour {
 					break;
 				case "Who":
 					dropdown.ClearOptions();
-					dropdown.AddOptions(MushroomManager.AllActiveMushrooms
+					dropdown.AddOptions(Mushroom.All
 						.Select(m => new TMP_Dropdown.OptionData(m.Data.Name, null))
 						.ToList());
 					dropdown.gameObject.SetActive(true);

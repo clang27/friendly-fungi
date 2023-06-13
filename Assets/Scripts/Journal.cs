@@ -216,7 +216,7 @@ public class Journal : MonoBehaviour {
 			_rightPages[p].gameObject.SetActive(true);
 		}
 		public void Init() {
-			foreach (var shroom in MushroomManager.AllActiveMushrooms) {
+			foreach (var shroom in Mushroom.All) {
 				var mat = new Material(bookImageMaterial) {
 					mainTexture = shroom.HeadshotCamera.HeadshotTexture,
 					name = $"{shroom.Data.Name}sJournalMaterial"

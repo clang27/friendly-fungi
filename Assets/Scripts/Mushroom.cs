@@ -4,6 +4,7 @@
  */
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Mushroom : MonoBehaviour, Highlightable {
@@ -21,7 +22,8 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	#endregion
 	
 	#region Attributes
-		public MushroomData Data => MushroomData.AllData[MushroomManager.AllActiveMushrooms.IndexOf(this)];
+	    public static List<Mushroom> All { get; } = new();
+		public MushroomData Data => MushroomData.AllData[All.IndexOf(this)];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
 	#endregion
 	
@@ -41,8 +43,12 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
+			All.Add(this);
 		}
-
+        
+		private void OnDestroy() {
+			All.Remove(this);
+		}
 	#endregion
 	
 	#region Other Methods

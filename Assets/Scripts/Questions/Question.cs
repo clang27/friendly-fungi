@@ -15,6 +15,9 @@ public abstract class Question {
 	public abstract bool IsRightAnswer(string s);
 
 	public string ReplaceNameTemplate() {
+		if (Dependencies == null || Dependencies.Length == 0) 
+			return Template;
+		
 		var replacedTemplate = Template;
 		
 		var hasMushroom = Dependencies.Any(d => d.TryGetComponent(typeof(Mushroom), out _));

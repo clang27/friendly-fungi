@@ -20,10 +20,6 @@ public class MushroomManager : MonoBehaviour {
 		//[SerializeField] private List<MushroomModel> mushroomModels;
 	#endregion
 	
-	#region Attributes
-		public static List<Mushroom> AllActiveMushrooms { get; private set; } = new();
-	#endregion
-	
 	#region Components
 		private Journal _journal;
 	#endregion
@@ -36,10 +32,8 @@ public class MushroomManager : MonoBehaviour {
 
 	#region Other Methods
 		public void Init() {
-			AllActiveMushrooms = FindObjectsOfType<Mushroom>().ToList();
-
 			var gap = 100f;
-			foreach (var mushroom in AllActiveMushrooms) {
+			foreach (var mushroom in Mushroom.All) {
 				mushroom.EnableRenderers(true);
 				mushroom.ApplyUniqueMaterials();
 				mushroom.MoveAside(gap);
@@ -51,19 +45,17 @@ public class MushroomManager : MonoBehaviour {
 		}
 		private IEnumerator InitJournal() {
 			// Wait for all headshots to be ready
-			while (!AllActiveMushrooms.All(m => m.HeadshotCamera.HeadshotTexture))
+			while (!Mushroom.All.All(m => m.HeadshotCamera.HeadshotTexture))
 				yield return null;
 
 			// Populate Journal data
 			_journal.Init();
 		}
 		public void Clear() {
-			foreach (var m in AllActiveMushrooms) {
+			foreach (var m in Mushroom.All) {
 				m.HeadshotCamera.ClearHeadshot();
 				m.EnableRenderers(false);
 			}
-			
-			AllActiveMushrooms.Clear();
 		}
 	
 	#endregion
