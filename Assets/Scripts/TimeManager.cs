@@ -4,6 +4,7 @@
  */
 
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,7 @@ public class TimeManager : MonoBehaviour {
         private ParticleSystem[] _particleSystems;
         private float _secondMultiplier = 1.0f;
         private TimeManipulation[] _manipulations;
+        private Tweener _timeTransition;
     #endregion
 
     #region Unity Methods
@@ -72,6 +74,21 @@ public class TimeManager : MonoBehaviour {
         }
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
+            _timeSlider.SetLevelTime(l);
+        }
+
+        public void SlideTimeToNight() {
+            if (_timeTransition != null && _timeTransition.IsActive() && _timeTransition.IsPlaying())
+                _timeTransition.Kill();
+            
+            _timeTransition = DOVirtual.Float(Hour, 22f, 2f, value => Hour = value);
+        }
+
+        public void SlideTimeToLevel(Level l) {
+            if (_timeTransition != null && _timeTransition.IsActive() && _timeTransition.IsPlaying())
+                _timeTransition.Kill();
+            
+            _timeTransition = DOVirtual.Float(Hour, l.StartTime, 2f, value => Hour = value);
             _timeSlider.SetLevelTime(l);
         }
 

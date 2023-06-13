@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour {
 			_audioManager.MainMenuTheme();
 			_audioManager.StopAmbience();
 			
-			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
+			_timeManager.SlideTimeToLevel(LevelSelection.CurrentLevel);
 			_timeManager.PlayParticles();
 			
 			_victoryParticles.Activate(false);
@@ -353,6 +353,7 @@ public class GameManager : MonoBehaviour {
 				_correctGuesses++;
 				if (_correctGuesses == LevelSelection.CurrentLevel.NumberOfCorrectGuesses) {
 					_audioManager.VictoryTheme();
+					_timeManager.SlideTimeToNight();
 					_victoryParticles.Activate(true);
 					_cameraController.ResetWorldPositionToVictory();
 					_uiManager.ShowAnswerPanel(false);
