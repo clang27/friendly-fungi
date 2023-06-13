@@ -241,12 +241,6 @@ public class GameManager : MonoBehaviour {
 				yield return null;
 			}
 
-			foreach (var m in FindObjectsOfType<Mushroom>())
-				m.EnableRenderers(false);
-
-			foreach (var b in FindObjectsOfType<MiscAnimal>())
-				b.EnableRenderers(false);
-
 			_uiManager.ShowLoadingScreen(false);
 			_cameraController = FindObjectOfType<CameraController>();
 			_mapScaler = FindObjectOfType<MapScaler>();
@@ -257,7 +251,13 @@ public class GameManager : MonoBehaviour {
 			
 			_mapScaler.GenerateMap();
 			_cameraController.AutoRotate = true;
+			
+			foreach (var m in FindObjectsOfType<Mushroom>())
+				m.EnableRenderers(false);
 
+			foreach (var b in FindObjectsOfType<MiscAnimal>())
+				b.EnableRenderers(false);
+			
 			Loading = false;
 			
 			while (!_mapScaler.MapReady) {

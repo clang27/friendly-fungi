@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.7205864, g: 0.780142, b: 0.81969976, a: 1}
+  m_FogColor: {r: 0.7325467, g: 0.81288695, b: 0.85934377, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 621550937}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.15439656, g: 0.19643493, b: 0.22565177, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.15622544, g: 0.20549916, b: 0.23927835, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6841,11 +6841,39 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].key
+      value: 
+      objectReference: {fileID: 8522415686365576036, guid: 4bb240cead4052143a65842bfdb80966, type: 2}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].value
+      value: 
+      objectReference: {fileID: 1558718467}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.data[1].first
+      value: cf69b38740d71314b9c08a4124795db0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.data[2].first
+      value: 68084679a24854d4f8315f694f0ac663
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[0].second
       value: 
       objectReference: {fileID: 733272303}
     - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[1].second
+      value: 
+      objectReference: {fileID: 62757208729802024}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.data[2].second
       value: 
       objectReference: {fileID: 1248086798}
     - target: {fileID: 7816645853622925259, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
@@ -7081,8 +7109,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8891001, g: 0.81382394, b: 0.7689101, a: 1}
-  m_Intensity: 0.55402815
+  m_Color: {r: 0.88801897, g: 0.8351401, b: 0.79161435, a: 1}
+  m_Intensity: 0.57739455
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -7127,7 +7155,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 4.05e-43, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 7e-43, y: 7.1e-44, z: 0, w: 4.5969598e+11}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -7139,7 +7167,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.4877827, y: 0, z: 0, w: 0.8729651}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -42404,6 +42432,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3408131898361940131, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
   m_PrefabInstance: {fileID: 2980493366277477322}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2980493366277477327 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4183388729141677354, guid: 4ed1388d7b316d946ae22214bf34dd7f, type: 3}
+  m_PrefabInstance: {fileID: 2980493366277477322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2980881293955901092
 Transform:
   m_ObjectHideFlags: 0
@@ -57328,11 +57361,39 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].key
+      value: 
+      objectReference: {fileID: 8522415686365576036, guid: 4bb240cead4052143a65842bfdb80966, type: 2}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].value
+      value: 
+      objectReference: {fileID: 543450652280699670}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.data[1].first
+      value: cf69b38740d71314b9c08a4124795db0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.data[2].first
+      value: 68084679a24854d4f8315f694f0ac663
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[0].second
       value: 
       objectReference: {fileID: 1765919703}
     - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[1].second
+      value: 
+      objectReference: {fileID: 2980493366277477327}
+    - target: {fileID: 7816645853622925258, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}
+      propertyPath: m_ExposedReferences.m_References.Array.data[2].second
       value: 
       objectReference: {fileID: 906441216}
     - target: {fileID: 7816645853622925259, guid: c303320401dfda8488e76b7241ae5ac5, type: 3}

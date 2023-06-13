@@ -3,6 +3,7 @@
  * https://www.knitwitstudios.com/
  */
 
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,14 +36,13 @@ public class TimeManager : MonoBehaviour {
             UpdateMultiplier(1f);
         }
         private void Update() {
-            if (!Running) return;
+            if (Running) {
+                UpdateTime(Hour + Time.deltaTime * multiplier * _secondMultiplier);
+            }
             
-            UpdateTime(Hour + Time.deltaTime * multiplier * _secondMultiplier);
-        }
-
-        private void LateUpdate() {
-            foreach (var m in _manipulations)
+            foreach (var m in _manipulations) {
                 m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
+            }
         }
         
     #endregion
@@ -68,7 +68,7 @@ public class TimeManager : MonoBehaviour {
         }
         public void Init(Transform t) {
             _particleSystems = t.GetComponentsInChildren<ParticleSystem>();
-            _manipulations = FindObjectsOfType<TimeManipulation>();
+            _manipulations = FindObjectsOfType<TimeManipulation>().OrderBy(tm => tm.name).ToArray();
         }
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
