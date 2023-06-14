@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.4174104, g: 0.581344, b: 0.68074256, a: 1}
+  m_FogColor: {r: 0.56999993, g: 0.82333326, b: 0.95, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 956425074}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.14817373, g: 0.19658542, b: 0.2321881, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.22658996, g: 0.32481104, b: 0.38475057, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5980,6 +5980,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 3748917288812585980}
     m_Modifications:
     - target: {fileID: 5270786822587901576, guid: 0a4e43d62aca8be4ea744d16adf2d477, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270786822587901576, guid: 0a4e43d62aca8be4ea744d16adf2d477, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].key
+      value: 
+      objectReference: {fileID: -4224478038503458414, guid: 87cfbe17e39c6334a844529f86351b90, type: 2}
+    - target: {fileID: 5270786822587901576, guid: 0a4e43d62aca8be4ea744d16adf2d477, type: 3}
+      propertyPath: m_SceneBindings.Array.data[2].value
+      value: 
+      objectReference: {fileID: 914520126}
+    - target: {fileID: 5270786822587901576, guid: 0a4e43d62aca8be4ea744d16adf2d477, type: 3}
       propertyPath: m_ExposedReferences.m_References.Array.data[0].second
       value: 
       objectReference: {fileID: 1772063762}
@@ -6044,6 +6056,11 @@ PrefabInstance:
 --- !u!4 &914520125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8939852783899197619, guid: 0a4e43d62aca8be4ea744d16adf2d477, type: 3}
+  m_PrefabInstance: {fileID: 914520124}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &914520126 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1108205503337054756, guid: 0a4e43d62aca8be4ea744d16adf2d477, type: 3}
   m_PrefabInstance: {fileID: 914520124}
   m_PrefabAsset: {fileID: 0}
 --- !u!89 &956425074
@@ -6848,8 +6865,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8675551, g: 0.8592951, b: 0.83897567, a: 1}
-  m_Intensity: 0.59777755
+  m_Color: {r: 0.75785273, g: 0.5334024, b: 0.52467, a: 1}
+  m_Intensity: 0.5953138
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -6906,7 +6923,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: -0.14644663, y: 0.8535534, z: -0.35355344, w: -0.35355335}
+  m_LocalRotation: {x: 0.35355338, y: 0.35355335, z: -0.14644659, w: 0.8535534}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
