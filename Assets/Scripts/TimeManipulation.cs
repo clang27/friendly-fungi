@@ -11,6 +11,8 @@ using UnityEngine.Playables;
 public class TimeManipulation : MonoBehaviour {
 	#region Attributes
 		public bool UseGravity { get; set; }
+		public bool WalkingOnGrass { get; set; }
+		public bool WalkingOnWood { get; set; }
 	#endregion
 	
 	#region Components

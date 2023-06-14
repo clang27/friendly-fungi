@@ -26,6 +26,8 @@ public class TweenMixerBehaviour : PlayableBehaviour {
         var totalPositionWeight = 0.0f;
         var totalRotationWeight = 0.0f;
         var useGravity = false;
+        var walkingOnGrass = false;
+        var walkingOnWood = false;
         
         // Iterate on all mixer's inputs (ie each clip on the track)
         var inputCount = playable.GetInputCount();
@@ -41,6 +43,8 @@ public class TweenMixerBehaviour : PlayableBehaviour {
             var tweenInput = GetTweenBehaviour(input);
             var tweenProgress = GetCurve(tweenInput).Evaluate(normalizedInputTime);
             useGravity |= tweenInput.useGravity;
+            walkingOnGrass |= tweenInput.walkingOnGrass;
+            walkingOnWood |= tweenInput.walkingOnWood;
 
             // calculate the position's progression along the curve according to the input's (clip) weight
             if (tweenInput.shouldTweenPosition) {
@@ -56,6 +60,8 @@ public class TweenMixerBehaviour : PlayableBehaviour {
         }
 
         timeManipulation.UseGravity = useGravity;
+        timeManipulation.WalkingOnGrass = walkingOnGrass;
+        timeManipulation.WalkingOnWood = walkingOnWood;
         
         // Apply the final position and rotation values in the track binding
         var newPosition = accumPosition + m_InitialPosition * (1.0f - totalPositionWeight);

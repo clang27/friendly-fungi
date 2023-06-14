@@ -10,7 +10,7 @@ using UnityEngine;
 
 [Serializable]
 public enum WhatAnswer {
-	Stick, Shroo, Tree, Bird, Toad, Butterfly, Heights, Rock, Stairs, Sign, Grass, Fence, Bridge
+	Stick, Sparrow, Tree, Squid, Butterfly, Rock, Snake, Stairs, Mouse, Bridge, Frog, Gecko, Hat, Fish, Sweatband, Glasses, Net, Deer
 }
 
 [Serializable]

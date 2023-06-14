@@ -1739,6 +1739,15 @@ MonoBehaviour:
   uiCheckbox: {fileID: 8300000, guid: 8604d3ecfd3a7d04d9c1440322cdc131, type: 3}
   correctAnswer: {fileID: 8300000, guid: d50112dff621547448ea782c779da414, type: 3}
   incorrectAnswer: {fileID: 8300000, guid: cc9fd0f11685f144c8afcddad29dc460, type: 3}
+  grassFootsteps:
+  - {fileID: 8300000, guid: 34be47b9b9dba174786975f15f3a4f2b, type: 3}
+  - {fileID: 8300000, guid: 6b49a52b62da0d043bfba6175ba5415c, type: 3}
+  - {fileID: 8300000, guid: 99e79ebc28be42347b9fd4e1e056b3ca, type: 3}
+  - {fileID: 8300000, guid: 95aede77a24f99342b9c7307f9494086, type: 3}
+  otherFootsteps:
+  - {fileID: 8300000, guid: e2d9a69e2fff5a84785c97cea72cc518, type: 3}
+  - {fileID: 8300000, guid: f5ae39dda7eb6f245867ae14492415f2, type: 3}
+  - {fileID: 8300000, guid: 111166a8b1c217444bad5077852d297d, type: 3}
   daytimeAmbience:
   - {fileID: 8300000, guid: 87d902e8c7c3ef64b9edcc853826cbd1, type: 3}
   - {fileID: 8300000, guid: feb517e8726e3854cac7688ccd81eec4, type: 3}
@@ -19078,8 +19087,8 @@ MonoBehaviour:
       bounceAmplitude: 0.16
       bounceFrequency: 0.8
       bounceWaveSize: 0.08
-      hueShiftSpeed: 0.4
-      hueShiftWaveSize: 0.08
+      hueShiftSpeed: 0.2
+      hueShiftWaveSize: 0.04
       fadeDelay: 1.2
       dangleAmplitude: 0.13
       dangleFrequency: 2.41
@@ -19560,7 +19569,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Level Complete
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a32b3fbf4451d0247bbdef7e05629c2c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 9d101034b8c25e745bb9bef5062cddd9, type: 2}

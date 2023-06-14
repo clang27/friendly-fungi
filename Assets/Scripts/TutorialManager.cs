@@ -118,6 +118,9 @@ public class TutorialManager : MonoBehaviour {
 							_uiManager.ShowTopBar(true);
 							_uiManager.HideAllButTime(true);
 							
+							foreach (var b in FindObjectsOfType<MiscAnimal>())
+								b.EnableRenderers(true);
+							
 							_timeManager.enabled = true;
 							_timeManager.Play();
 							

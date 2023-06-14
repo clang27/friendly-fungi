@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour {
 		public static GameManager Instance { get; private set; }
 		public bool Loading { get; private set; }
 		private bool InMainMenu { get; set; } = true;
+		
+		public bool InBinoculars { get; private set; }
 	#endregion
 
 	#region Components
@@ -42,7 +44,6 @@ public class GameManager : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			Instance = this;
-
 			Settings.ReadData();
 			MushroomData.Init();
 			LocationData.Init();
@@ -134,6 +135,9 @@ public class GameManager : MonoBehaviour {
 			_victoryParticles.Activate(false);
 			
 			_mushroomManager.Clear();
+			
+			foreach (var b in FindObjectsOfType<MiscAnimal>())
+				b.EnableRenderers(false);
 		}
 
 		private void RestartLevel() {
@@ -339,11 +343,13 @@ public class GameManager : MonoBehaviour {
 		}
 
 		public void ShowBinoculars() {
+			InBinoculars = true;
 			_volume.profile.components[1].active = true;
 			_uiManager.ShowBinoculars(true);
 		}
 
 		public void HideBinoculars() {
+			InBinoculars = false;
 			_volume.profile.components[1].active = false;
 			_uiManager.ShowBinoculars(false);
 		}
@@ -353,6 +359,8 @@ public class GameManager : MonoBehaviour {
 				_correctGuesses++;
 				if (_correctGuesses == LevelSelection.CurrentLevel.NumberOfCorrectGuesses) {
 					_audioManager.VictoryTheme();
+					foreach (var b in FindObjectsOfType<MiscAnimal>())
+						b.EnableRenderers(false);
 					_timeManager.SlideTimeToNight();
 					_victoryParticles.Activate(true);
 					_cameraController.ResetWorldPositionToVictory();

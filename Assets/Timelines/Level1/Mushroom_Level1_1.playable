@@ -153,6 +153,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -198,6 +200,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -288,6 +292,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -761,6 +767,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 0
+  walkingOnGrass: 0
+  walkingOnWood: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1007,6 +1015,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 0
+  walkingOnGrass: 0
+  walkingOnWood: 1
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1098,6 +1108,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1143,6 +1155,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1188,6 +1202,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -1233,6 +1249,8 @@ MonoBehaviour:
   shouldTweenPosition: 1
   shouldTweenRotation: 1
   useGravity: 1
+  walkingOnGrass: 1
+  walkingOnWood: 0
   curve:
     serializedVersion: 2
     m_Curve:
