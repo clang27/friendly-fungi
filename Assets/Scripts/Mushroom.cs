@@ -22,8 +22,11 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	#endregion
 	
 	#region Attributes
+		public bool WalkingOnGrass => _timeManipulation.WalkingOnGrass;
+		public bool WalkingOnWood => _timeManipulation.WalkingOnWood;
+		public int Index => All.IndexOf(this);
 	    public static List<Mushroom> All { get; } = new();
-		public MushroomData Data => MushroomData.AllData[All.IndexOf(this)];
+		public MushroomData Data => MushroomData.AllData[Index];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
 	#endregion
 	
@@ -31,6 +34,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		private Transform _transform;
 		private HeadshotCamera _headshotCamera;
 		private QuickOutline _outline;
+		private TimeManipulation _timeManipulation;
 	#endregion
 	
 	#region Private Data
@@ -43,6 +47,8 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
+			_timeManipulation = GetComponent<TimeManipulation>();
+			
 			All.Add(this);
 		}
         
@@ -99,6 +105,13 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			if (b)
 				AudioManager.Instance.PlayUiSound(UiSound.Hover);
 			_outline.enabled = b;
+		}
+
+		public bool IsOnScreen(Camera c) {
+			var sp = c.WorldToScreenPoint(_transform.position);
+			var vp = c.ScreenToViewportPoint(sp);
+			
+			return (vp.x is > 0f and < 1f) && (vp.y is > 0f and < 1f);
 		}
 
 	#endregion

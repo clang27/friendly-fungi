@@ -3,18 +3,11 @@
  * https://www.knitwitstudios.com/
  */
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
-
-// [Serializable]
-// public enum MushroomType {
-// 	Amanita, Porcini, Shiitake, Morel
-// }
 public class MushroomManager : MonoBehaviour {
 	#region Serialized Fields
 		//[SerializeField] private List<MushroomModel> mushroomModels;
@@ -24,14 +17,38 @@ public class MushroomManager : MonoBehaviour {
 		private Journal _journal;
 	#endregion
 	
+	#region Private Data
+		private bool[] _footstepCooldowns;
+	#endregion
+	
 	#region Unity Events
 		private void Awake() {
 			_journal = FindObjectOfType<Journal>();
 		}
+
+		public void FixedUpdate() {
+			if (!TimeManager.Running) 
+				return;
+
+			foreach (var m in Mushroom.All.Where(m => m.IsOnScreen(CameraController.Camera))) {
+				if (_footstepCooldowns[m.Index] || (!m.WalkingOnGrass && !m.WalkingOnWood)) continue;
+				
+				AudioManager.Instance.PlayRandomFootstep(m.WalkingOnGrass);
+				StartCoroutine(FootstepCooldown(m.Index));
+			}
+		}
 	#endregion
 
 	#region Other Methods
+		public IEnumerator FootstepCooldown(int i) {
+			_footstepCooldowns[i] = true;
+			yield return new WaitForSeconds(Random.Range(0.45f, 0.55f));
+			_footstepCooldowns[i] = false;
+		}
+		
 		public void Init() {
+			_footstepCooldowns = new bool[Mushroom.All.Count];
+				
 			var gap = 100f;
 			foreach (var mushroom in Mushroom.All) {
 				mushroom.EnableRenderers(true);

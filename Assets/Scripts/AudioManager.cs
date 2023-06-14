@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public enum UiSound {
@@ -26,6 +27,7 @@ public class AudioManager : MonoBehaviour {
 		[Header("SFX")]
 		[SerializeField] private AudioClip correctAnswer;
 		[SerializeField] private AudioClip incorrectAnswer;
+		[SerializeField] private AudioClip[] grassFootsteps, otherFootsteps;
 		
 		[Header("Ambience")]
 		[SerializeField] private AudioClip[] daytimeAmbience;
@@ -164,6 +166,15 @@ public class AudioManager : MonoBehaviour {
 		
 		public void PlayUiSound(int s) {
 			PlayUiSound((UiSound) s);
+		}
+
+		public void PlayRandomFootstep(bool grass) {
+			var clip = grass
+				? grassFootsteps[Random.Range(0, grassFootsteps.Length)]
+				: otherFootsteps[Random.Range(0, otherFootsteps.Length)];
+			var volumeModifer = GameManager.Instance.InBinoculars ? 1f : 0.3f;
+			
+			PlaySfx(clip, (grass ? 0.15f : 0.25f) * volumeModifer);
 		}
 
 		public void PlayIntervalScrollSound() {

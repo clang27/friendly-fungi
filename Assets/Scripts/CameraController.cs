@@ -81,6 +81,7 @@ public class CameraController : MonoBehaviour {
     private Highlightable _highlightedObject;
     private Coroutine _resettingPositionToPlay;
     private Camera _camera;
+    public static Camera Camera;
     private ClickableObject _clickableObject;
     private Transform _transform;
     private Vector3 _goalRotation, _startingRotation, _startingPosition;
@@ -122,6 +123,7 @@ public class CameraController : MonoBehaviour {
     private void Awake() {
         _transform = transform;
         _camera = GetComponent<Camera>();
+        Camera = _camera;
         _clickableObject = GetComponent<ClickableObject>();
     }
 
