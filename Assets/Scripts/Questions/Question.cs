@@ -27,12 +27,12 @@ public abstract class Question {
 			var mushroom = Dependencies
 				.First(d => d.TryGetComponent(typeof(Mushroom), out _)).GetComponent<Mushroom>();
 
-			replacedTemplate = replacedTemplate.Replace("{name}", mushroom.Data.Name);
+			replacedTemplate = replacedTemplate.Replace("{M}", mushroom.Data.Name);
 		} if (hasLocation) {
 			var location = Dependencies
 				.First(d => d.TryGetComponent(typeof(Location), out _)).GetComponent<Location>();
 
-			replacedTemplate = replacedTemplate.Replace("{location}", location.Name);
+			replacedTemplate = replacedTemplate.Replace("{L}", location.Name);
 		}
 
 		return replacedTemplate;

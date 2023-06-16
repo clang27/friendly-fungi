@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour, Highlightable {
 	#region Serialized Data
+		[SerializeField] private bool known;
+	
 		[SerializeField] private Texture[] headTextures;
 		[SerializeField] private Color[] bodyTints;
 		
@@ -25,6 +27,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		public bool WalkingOnGrass => _timeManipulation.WalkingOnGrass;
 		public bool WalkingOnWood => _timeManipulation.WalkingOnWood;
 		public int Index => All.IndexOf(this);
+		public bool Known => known;
 	    public static List<Mushroom> All { get; } = new();
 		public MushroomData Data => MushroomData.AllData[Index];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;

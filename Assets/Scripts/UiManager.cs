@@ -107,14 +107,35 @@ public class UiManager : MonoBehaviour {
 		
 		public void OpenJournal() {
 			_journal.GoToHomePage();
-			OpenPanel(journalPanel, true);
+			GetJournalSequence(true, 0.5f, Ease.OutCubic).Play();
 		}
 		
 		public void OpenJournalToMushroomPage(Mushroom m) {
 			_journal.GoToMushroomPage(m.Data.Name);
-			OpenPanel(journalPanel, true);
+			GetJournalSequence(true, 0.5f, Ease.OutCubic).Play();
 		}
 		
+		public void CloseJournal() {
+			GetJournalSequence(false, 0.5f, Ease.OutCubic).Play();
+		}
+
+		private Sequence GetJournalSequence(bool open, float dur, Ease ease) {
+			var s = DOTween.Sequence();
+			var rt = journalPanel.GetComponent<RectTransform>();
+			
+			s.Append(rt.DOScale(Vector3.one * (open ? 1f : 1.5f), dur).SetEase(ease));
+			s.Join(rt.DOLocalMoveY((open ? -10f : 732f), dur).SetEase(ease));
+			if (!open) {
+				s.AppendCallback(() => {
+					OpenPanelQuick(journalPanel, false);
+				});
+			} else {
+				OpenPanelQuick(journalPanel, true);
+			}
+			
+			return s;
+		}
+
 		public void OpenSign(Location l) {
 			_sign.Show(l);
 			OpenPanel(signPanel, true);
@@ -142,10 +163,6 @@ public class UiManager : MonoBehaviour {
 
 			signRect.DOKill();
 			signRect.DOLocalMoveY(-390f, 0.5f).OnComplete(() => OpenPanel(signPanel, false));
-		}
-		
-		public void CloseJournal() {
-			OpenPanel(journalPanel, false);
 		}
 
 		public void OpenAudio() {

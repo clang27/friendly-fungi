@@ -13,7 +13,6 @@ public class ClickableObject : MonoBehaviour {
 	#region Private Data
 		private RaycastHit[] _hits = new RaycastHit[1];
 		private RaycastHit[] _groundHits = new RaycastHit[1];
-		private int _groundMask = 1 << 7;
 	#endregion
 
 	#region Other Methods
@@ -23,7 +22,7 @@ public class ClickableObject : MonoBehaviour {
 			if (targetHit == 0)
 				return null;
 			
-			var groundHit = Physics.RaycastNonAlloc(ray, _groundHits, 200f, _groundMask);
+			var groundHit = Physics.RaycastNonAlloc(ray, _groundHits, 200f, Utility.GroundMask);
 			
 			if (groundHit == 0)
 				return _hits[0].transform;

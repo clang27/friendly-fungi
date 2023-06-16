@@ -20,13 +20,11 @@ public class Can : Question {
 
 	[SerializeField] private string template;
 	[SerializeField] private CanAnswer answer;
-
-	[SerializeField] private bool freebie;
 	public override string Header => "Can";
 	public override string Template => template;
 	public static List<string> Choices => Enum.GetNames(typeof(CanAnswer)).ToList();
 	
 	public override bool IsRightAnswer(string s) {
-		return freebie || s.Equals(answer.ToString());
+		return s.Equals(answer.ToString());
 	}
 }

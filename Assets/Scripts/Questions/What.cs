@@ -10,7 +10,7 @@ using UnityEngine;
 
 [Serializable]
 public enum WhatAnswer {
-	Stick, Sparrow, Tree, Squid, Butterfly, Rock, Snake, Stairs, Mouse, Bridge, Frog, Gecko, Hat, Fish, Sweatband, Glasses, Net, Deer
+	Stick, Bird, Tree, Squid, Butterfly, Rock, Snake, Stairs, Mouse, Bridge, Frog, Gecko, Hat, Fish, Sweatband, Glasses, Net, Deer
 }
 
 [Serializable]
@@ -25,6 +25,7 @@ public class What : Question {
 	public static List<string> Choices => Enum.GetNames(typeof(WhatAnswer)).ToList();
 	
 	public override bool IsRightAnswer(string s) {
+		Debug.Log($"{s} == {answer}");
 		return s.Equals(answer.ToString());
 	}
 }

@@ -69,6 +69,8 @@ public class AnswerUi : MonoBehaviour {
 			var q = PartneredCard.Question;
 			
 			var answer = q.Header switch {
+				"Where" => dropdown.options[dropdown.value].text,
+				"What" => dropdown.options[dropdown.value].text,
 				"Can" => dropdown.options[dropdown.value].text,
 				"HowMany" => incrementer.Value,
 				"Who" => dropdown.options[dropdown.value].text,

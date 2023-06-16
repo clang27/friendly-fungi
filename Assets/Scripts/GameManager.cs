@@ -5,7 +5,6 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -144,6 +143,12 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ClosePrompt();
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
+			
+			foreach (var m in FindObjectsOfType<Mushroom>())
+				m.EnableRenderers(false);
+
+			foreach (var b in FindObjectsOfType<MiscAnimal>())
+				b.EnableRenderers(false);
 			
 			StartLevel();
 		}

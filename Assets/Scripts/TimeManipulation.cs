@@ -29,7 +29,7 @@ public class TimeManipulation : MonoBehaviour {
 		private void FixedUpdate() {
 			if (!UseGravity && CameraController.Rotating && !TimeManager.Running) return;
 			
-			var hits = Physics.RaycastAll(_transform.position + new Vector3(0f, 2f, 0f), Vector3.down, 30f, 1 << 7);
+			var hits = Physics.RaycastAll(_transform.position + new Vector3(0f, 2f, 0f), Vector3.down, 30f, Utility.GroundMask);
 			// Debug.DrawRay(_transform.position + new Vector3(0f, 3f, 0f), new Vector3(0f, -6f, 0f), Color.red);
 			// Debug.Log(hitCount);
 

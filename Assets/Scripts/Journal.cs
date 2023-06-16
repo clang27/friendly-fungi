@@ -9,9 +9,11 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Journal : MonoBehaviour {
 	[SerializeField] private Material bookImageMaterial;
+	[SerializeField] private AudioClip openSound;
 	
 	// Since some data is a mystery, it is paired with a value that the player guessed
 	private class ShrooEntry {
@@ -30,14 +32,15 @@ public class Journal : MonoBehaviour {
 	
 	#region Components
 		private RectTransform _leftSide, _rightSide;
-		private RectTransform[] _leftPages, _rightPages;
+		private CanvasGroup[] _leftPages, _rightPages;
 		private JournalTab[] _tabs;
 		
 		//Page 1
 		private Button[] _infoButtons;
 		
 		//Page 2
-		private TextMeshProUGUI _titleText, _infoText;
+		private Image _leftPageInfoImage;
+		private TextMeshProUGUI _rightPageInfoTextMesh;
 		private Button _prevPageButton, _nextPageButton;
 		
 		//Page 3
@@ -61,15 +64,15 @@ public class Journal : MonoBehaviour {
 	#region Unity Methods
 		private void Awake() {
 			_leftSide = transform.GetChild(0).GetComponent<RectTransform>();
-			_leftPages = new RectTransform[_leftSide.childCount];
+			_leftPages = new CanvasGroup[_leftSide.childCount];
 			for (var i = 0; i < _leftSide.childCount; i++) {
-				_leftPages[i] = _leftSide.GetChild(i).GetComponent<RectTransform>();
+				_leftPages[i] = _leftSide.GetChild(i).GetComponent<CanvasGroup>();
 			}
 
 			_rightSide = transform.GetChild(1).GetComponent<RectTransform>();
-			_rightPages = new RectTransform[_rightSide.childCount];
+			_rightPages = new CanvasGroup[_rightSide.childCount];
 			for (var i = 0; i < _rightSide.childCount; i++) {
-				_rightPages[i] = _rightSide.GetChild(i).GetComponent<RectTransform>();
+				_rightPages[i] = _rightSide.GetChild(i).GetComponent<CanvasGroup>();
 			}
 
 			_tabs = GetComponentsInChildren<JournalTab>();
@@ -77,15 +80,17 @@ public class Journal : MonoBehaviour {
 
 		private void Start() {
 			//Page 1
-			_infoButtons = _leftPages[0].GetComponentsInChildren<Button>()
-				.Concat(_rightPages[0].GetComponentsInChildren<Button>())
-				.ToArray();
-			
+			_infoButtons = new Button[4];
+			_infoButtons[0] = _leftPages[0].transform.GetChild(1).GetComponentInChildren<Button>();
+			_infoButtons[1] = _leftPages[0].transform.GetChild(0).GetComponentInChildren<Button>();
+			_infoButtons[2] = _rightPages[0].transform.GetChild(1).GetComponentInChildren<Button>();
+			_infoButtons[3] = _rightPages[0].transform.GetChild(0).GetComponentInChildren<Button>();
+
 			//Page 2
-			_titleText = _leftPages[1].GetComponentInChildren<TextMeshProUGUI>();
-			_infoText =  _rightPages[1].GetComponentInChildren<TextMeshProUGUI>();
-			_prevPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[0];
-			_nextPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[1];
+			_leftPageInfoImage = _leftPages[1].GetComponentInChildren<Image>();
+			_rightPageInfoTextMesh =  _rightPages[1].GetComponentInChildren<TextMeshProUGUI>();
+			_prevPageButton =  _leftPages[1].GetComponentsInChildren<Button>()[0];
+			_nextPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[0];
 
 			//Page 3
 			_headshotImageSpots = _leftPages[2].GetComponentsInChildren<Image>()
@@ -123,12 +128,20 @@ public class Journal : MonoBehaviour {
 			GoToSubInfo(0);
 		}
 
-		private void GoToSubInfo(int i) {
-			_infoPageNumber = i;
+		private void GoToSubInfo(int pageNum) {
+			_infoPageNumber = pageNum;
 			
 			var l = LevelSelection.AllLevels[_infoPageLevel];
-			_titleText.text = l.Entry.Title;
-			_infoText.text = l.Entry.Pages[_infoPageNumber].Replace("\\n", "\n");
+			
+			_leftPageInfoImage.gameObject.SetActive(l.Entry.Pages[_infoPageNumber].LeftImage);
+			_leftPageInfoImage.sprite = l.Entry.Pages[_infoPageNumber].LeftImage;
+
+			var info = l.Entry.Pages[_infoPageNumber].RightText;
+			for (var i = 0; i < Mushroom.All.Count; i++) {
+				info = info.Replace($"<M{i}>", MushroomData.AllData[i].Name)
+					.Replace($"<L{i}>", LocationData.AllData[i].Name);
+			}
+			_rightPageInfoTextMesh.text = info;
 			
 			_prevPageButton.interactable = _infoPageNumber > 0;
 			_nextPageButton.interactable = _infoPageNumber < l.Entry.Pages.Length - 1;
@@ -149,7 +162,10 @@ public class Journal : MonoBehaviour {
 					var rt = image.GetComponent<RectTransform>();
 					rt.DOKill();
 					rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
-					rt.DOLocalMoveZ(-1f, 0.1f);
+					//rt.localScale = Vector3.one*1.05f;
+					
+					rt.DOLocalMoveZ(-1f, 0.05f);
+					//rt.DOScale(Vector3.one * 0.95f, 0.05f);
 
 					var n = _entries[index].Name.Key;
 					image.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -198,6 +214,8 @@ public class Journal : MonoBehaviour {
 		}
 		
 		private void GoToPage(int p) {
+			AudioManager.Instance.PlaySfx(openSound, 0.8f, Random.Range(0.9f, 1.1f));
+			
 			if (TutorialManager.JournalTabsCanOperate) {
 				_tabs[1].Enable(p != 0);
 				_tabs[0].Enable(p != 2);
@@ -206,14 +224,23 @@ public class Journal : MonoBehaviour {
 			_selectedEntryIndex = -1;
 			
 			foreach (var lp in _leftPages) {
-				lp.gameObject.SetActive(false);
+				lp.alpha = 0f;
+				lp.interactable = false;
+				lp.blocksRaycasts = false;
 			}
 			foreach (var rp in _rightPages) {
-				rp.gameObject.SetActive(false);
+				rp.alpha = 0f;
+				rp.interactable = false;
+				rp.blocksRaycasts = false;
 			}
 			
-			_leftPages[p].gameObject.SetActive(true);
-			_rightPages[p].gameObject.SetActive(true);
+			_leftPages[p].alpha = 1f;
+			_leftPages[p].interactable = true;
+			_leftPages[p].blocksRaycasts = true;
+			
+			_rightPages[p].alpha = 1f;
+			_rightPages[p].interactable = true;
+			_rightPages[p].blocksRaycasts = true;
 		}
 		public void Init() {
 			foreach (var shroom in Mushroom.All) {
@@ -233,10 +260,11 @@ public class Journal : MonoBehaviour {
 					continue;
 				}
 
+				// First Shroo's name is free
 				var e = new ShrooEntry() {
 					Headshot = shroom.HeadshotCamera.HeadshotSprite,
 					Mat = mat,
-					Name = new KeyValuePair<string, string>(shroom.Data.Name, "???"),
+					Name = new KeyValuePair<string, string>(shroom.Data.Name, (shroom.Known) ? shroom.Data.Name : "???"),
 					Notes = ""
 				};
 				_entries.Add(e);
@@ -257,6 +285,18 @@ public class Journal : MonoBehaviour {
 		
 		public void UnhighlightImage(Image im) {
 			im.material.SetInt(Highlighted, 0);
+		}
+		
+		public void GrowImage(Image im) {
+			var rt = im.GetComponent<RectTransform>();
+			rt.DOKill();
+			rt.DOScale(Vector3.one * 0.95f, 0.2f);
+		}
+		
+		public void ShrinkImage(Image im) {
+			var rt = im.GetComponent<RectTransform>();
+			rt.DOKill();
+			rt.DOScale(Vector3.one, 0.2f);
 		}
 
 		public void SelectNextPage() {
