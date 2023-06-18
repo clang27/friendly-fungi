@@ -18,7 +18,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		[SerializeField] private SkinnedMeshRenderer bodyMeshRenderer;
 
 		[Header("Accessories")] 
-		[SerializeField] private bool IsCatcher;
+		[SerializeField] private bool requiresNet, requiresHat, requiresGlasses;
 		[SerializeField] private Color[] accessoryTints;
 		[SerializeField] private MeshRenderer fannyPack, butterflyNet, glasses, hat, headband;
 	#endregion
@@ -78,12 +78,12 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			foreach (var mr in _meshRenderers)
 				mr.enabled = b;
 			
-			fannyPack.gameObject.SetActive(b && IsCatcher);
-			butterflyNet.gameObject.SetActive(b && IsCatcher);
+			fannyPack.gameObject.SetActive(b && requiresNet);
+			butterflyNet.gameObject.SetActive(b && requiresNet);
 
-			glasses.gameObject.SetActive(b && !IsCatcher && Data.GlassesColorIndex > 0);
-			hat.gameObject.SetActive(b && !IsCatcher && Data.HatColorIndex > 0);
-			headband.gameObject.SetActive(b && !IsCatcher && Data.HeadbandColorIndex > 0);
+			glasses.gameObject.SetActive(b && (Data.GlassesColorIndex > 0 || requiresGlasses));
+			hat.gameObject.SetActive(b && (Data.HatColorIndex > 0| requiresHat));
+			headband.gameObject.SetActive(b && !requiresHat && Data.HeadbandColorIndex > 0);
 		}
 		public IEnumerator TakeHeadshot() {
 			yield return new WaitForSeconds(1f);

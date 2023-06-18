@@ -3,12 +3,12 @@
  * https://www.knitwitstudios.com/
  */
 
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class MushroomData {
+    private const int MaxHeadTextures = 9;
     public static List<MushroomData> AllData { get; } = new();
 
     public string Name { get; }
@@ -29,13 +29,13 @@ public class MushroomData {
                $"HatColorIndex: {HatColorIndex}\n";
     }
 
-    private MushroomData(int hc, int bc, int gc, int hbci, int hci, string n) {
-        HeadColorIndex = hc;
-        BodyColorIndex = bc;
+    private MushroomData(int headColorIndex, int bodyColorIndex, int glassesColorIndex, int headbandColorIndex, int hatColorIndex, string n) {
+        HeadColorIndex = headColorIndex;
+        BodyColorIndex = bodyColorIndex;
         
-        GlassesColorIndex = gc;
-        HeadbandColorIndex = hbci;
-        HatColorIndex = hci;
+        GlassesColorIndex = glassesColorIndex;
+        HeadbandColorIndex = headbandColorIndex;
+        HatColorIndex = hatColorIndex;
         
         Name = n;
     }
@@ -46,34 +46,31 @@ public class MushroomData {
         var names = file.text.Split(",");
         
         if (!PlayerPrefs.HasKey("MushroomDataName0")) {
-            var usedNames = new List<string>();
-            
-            for (var i = 0; i < names.Length; i++) {
-                var hc = Random.Range(0,10);
-                var bc = Random.Range(0,3);
-                
-                var gc = (Random.Range(0,3) == 0) ? Random.Range(1,7) : 0;
-                var hci = (Random.Range(0,3) == 0) ? Random.Range(1,7) : 0;
-                var hbci = (Random.Range(0,4) == 0 && hci != 0) ? Random.Range(1,7) : 0;
+            for (var i = 0; i <= MaxHeadTextures; i++) {
+                var headColorIndex = Random.Range(0,MaxHeadTextures+1);
+                while (AllData.Any(m => m.HeadColorIndex == headColorIndex))
+                    headColorIndex = Random.Range(0,10);
+
+                var bodyColorIndex = Random.Range(0,3);
+                var glassesColorIndex = (Random.Range(0,3) == 0) ? Random.Range(1,7) : 0;
+                var hatColorIndex = (Random.Range(0,3) == 0) ? Random.Range(1,7) : 0;
+                var headbandColorIndex = (Random.Range(0,4) == 0 && hatColorIndex != 0) ? Random.Range(1,7) : 0;
                 // Ensures headband is not same color as head texture
-                if (hbci > 0 && hbci == Mathf.FloorToInt(hc / 2f))
-                    hbci++;
+                if (headbandColorIndex > 0 && headbandColorIndex == Mathf.FloorToInt(headColorIndex / 2f))
+                    headbandColorIndex++;
 
                 var n = names[Random.Range(0, names.Length)];
-                
-                while (usedNames.Contains(n)) {
+                while (AllData.Any(m => m.Name == n))
                     n = names[Random.Range(0, names.Length)];
-                }
-                usedNames.Add(n);
 
-                AllData.Add(new MushroomData(hc, bc, gc, hbci, hci, n));
+                AllData.Add(new MushroomData(headColorIndex, bodyColorIndex, glassesColorIndex, headbandColorIndex, hatColorIndex, n));
 
-                PlayerPrefs.SetInt("MushroomDataHeadColorIndex"+i, hc);
-                PlayerPrefs.SetInt("MushroomDataBodyColorIndex"+i, bc);
+                PlayerPrefs.SetInt("MushroomDataHeadColorIndex"+i, headColorIndex);
+                PlayerPrefs.SetInt("MushroomDataBodyColorIndex"+i, bodyColorIndex);
                 
-                PlayerPrefs.SetInt("MushroomDataGlassesColorIndex"+i, gc);
-                PlayerPrefs.SetInt("MushroomDataHeadbandColorIndex"+i, hbci);
-                PlayerPrefs.SetInt("MushroomDataHatColorIndex"+i, hci);
+                PlayerPrefs.SetInt("MushroomDataGlassesColorIndex"+i, glassesColorIndex);
+                PlayerPrefs.SetInt("MushroomDataHeadbandColorIndex"+i, headbandColorIndex);
+                PlayerPrefs.SetInt("MushroomDataHatColorIndex"+i, hatColorIndex);
                 
                 PlayerPrefs.SetString("MushroomDataName"+i, n);
                 //PlayerPrefs.SetInt("MushroomDataType"+i, (int)mt);
@@ -82,17 +79,17 @@ public class MushroomData {
             PlayerPrefs.Save();
         } else {
             for (var i = 0; i < names.Length; i++) {
-                var hc =  PlayerPrefs.GetInt("MushroomDataHeadColorIndex"+i);
-                var bc =  PlayerPrefs.GetInt("MushroomDataBodyColorIndex"+i);
+                var headColorIndex =  PlayerPrefs.GetInt("MushroomDataHeadColorIndex"+i);
+                var bodyColorIndex =  PlayerPrefs.GetInt("MushroomDataBodyColorIndex"+i);
                 
-                var gc =  PlayerPrefs.GetInt("MushroomDataGlassesColorIndex"+i);
-                var hbci =  PlayerPrefs.GetInt("MushroomDataHeadbandColorIndex"+i);
-                var hci =  PlayerPrefs.GetInt("MushroomDataHatColorIndex"+i);
+                var glassesColorIndex =  PlayerPrefs.GetInt("MushroomDataGlassesColorIndex"+i);
+                var headbandColorIndex =  PlayerPrefs.GetInt("MushroomDataHeadbandColorIndex"+i);
+                var hatColorIndex =  PlayerPrefs.GetInt("MushroomDataHatColorIndex"+i);
 
                 var n = PlayerPrefs.GetString("MushroomDataName"+i);
 
                 //var mt = (MushroomType)PlayerPrefs.GetInt("MushroomDataType"+i);
-                AllData.Add(new MushroomData(hc, bc, gc, hbci, hci, n));
+                AllData.Add(new MushroomData(headColorIndex, bodyColorIndex, glassesColorIndex, headbandColorIndex, hatColorIndex, n));
             }
         }
     }
