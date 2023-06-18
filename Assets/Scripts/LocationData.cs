@@ -4,6 +4,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum LocationType {
@@ -24,16 +25,12 @@ public class LocationData {
         var names = file.text.Split(",");
         
         if (!PlayerPrefs.HasKey("LocationDataName0")) {
-            var usedNames = new List<string>();
-            
             for (var i = 0; i < names.Length; i++) {
                 var n = names[Random.Range(0, names.Length)];
                 
-                while (usedNames.Contains(n)) {
+                while (AllData.Any(l => l.Name == n))
                     n = names[Random.Range(0, names.Length)];
-                }
 
-                usedNames.Add(n);
                 AllData.Add(new LocationData(n));
                 
                 PlayerPrefs.SetString("LocationDataName"+i, n);
@@ -56,5 +53,24 @@ public class LocationData {
             for (var i = 0; i < names.Length; i++)
                 PlayerPrefs.DeleteKey("LocationDataName"+i);
         } 
+    }
+    
+    public static string RandomSuffix(LocationType lt) {
+        var rng = Random.Range(0, 3);
+        switch (lt) {
+            case LocationType.Cliff:
+                string[] c = { "Cliff", "Heights", "Peak" };
+                return c[rng];
+            case LocationType.Pond:
+                string[] p = { "Pond", "Waters", "Pond" };
+                return p[rng];
+            case LocationType.Forest:
+                string[] f = { "Woods", "Forest", "Woods" };
+                return f[rng];
+            case LocationType.Building:
+            default:
+                string[] b = { "Shack", "House", "Abode" };
+                return b[rng];
+        }
     }
 }

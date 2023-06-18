@@ -3,12 +3,12 @@
  * https://www.knitwitstudios.com/
  */
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Location : MonoBehaviour, Highlightable {
 	#region Serialized Fields
+		[SerializeField] private Mushroom mushroomDependency;
 		[SerializeField] private int locationNumber;
 		[SerializeField] private LocationType locationType;
 		[SerializeField] private bool known;
@@ -16,7 +16,10 @@ public class Location : MonoBehaviour, Highlightable {
 	
 	#region Attributes
 		public static List<Location> All { get; } = new();
-		public string Name => LocationData.AllData[locationNumber].Name + " " + locationType;
+		private string suffix { get; set; }
+		public string Name => (mushroomDependency) ?
+			mushroomDependency.Data.Name + "\'s " + suffix :
+			LocationData.AllData[locationNumber].Name + " " + suffix;
 		public bool Known => known;
 		public string CurrentGuess { get; set; }
 	#endregion
@@ -27,7 +30,9 @@ public class Location : MonoBehaviour, Highlightable {
 	
 	#region Unity Methods
 		private void Awake() {
+			suffix  = LocationData.RandomSuffix(locationType);
 			_outline = GetComponent<QuickOutline>();
+			
 			All.Add(this);
 		}
 
