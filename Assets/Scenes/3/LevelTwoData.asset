@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: LevelTwoData
   m_EditorClassIdentifier: 
   SceneName: LevelTwo
-  LevelName: Toad Lake
-  StartTime: 2
-  EndTime: 12
+  LevelName: Frog Lakes
+  StartTime: 10
+  EndTime: 21
   Song: {fileID: 8300000, guid: c14681bc07618e44793a08a7bae79fdb, type: 3}
-  NumberOfCorrectGuesses: 2
+  NumberOfCorrectGuesses: 3
   Tutorial: 0
   Entry: {fileID: 11400000, guid: 40226552d4f4a21418e4f996da1b3eaa, type: 2}

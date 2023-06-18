@@ -77,14 +77,14 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SrcBlend: 1
-    - _SunLightIntensity: 0.5267537
+    - _SunLightIntensity: 0.5863898
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - ForwLight: {r: -0.05412352, g: 0.86602545, b: 0.49706206, a: 0}
+    - ForwLight: {r: 0.49576256, g: -0.70710677, b: 0.50420207, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmisColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
-    - _SunColor: {r: 0.8900752, g: 0.794598, b: 0.74843216, a: 1}
+    - _SunColor: {r: 0.88746655, g: 0.8460332, b: 0.8032168, a: 1}
   m_BuildTextureStacks: []

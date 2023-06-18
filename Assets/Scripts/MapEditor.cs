@@ -116,13 +116,13 @@ public class MapEditor : MonoBehaviour {
 	#region Other Methods
 		private IEnumerator CooldownMisc() {
 			_cooldownMisc = true;
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.1f);
 			_cooldownMisc = false;
 		}
 		
 		private IEnumerator CooldownBlock() {
 			_cooldownBlock = true;
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.1f);
 			_cooldownBlock = false;
 		}
 		private void PlaceRoad(GameObject prefab, LayerMask lm, Ray r, RaycastHit groundInfo, float offset, bool d, bool rotate) {

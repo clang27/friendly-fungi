@@ -1448,10 +1448,8 @@ namespace Pinwheel.Poseidon
                 lastElapsedSeconds = elapsedSeconds;
                 return frameTime;
             }
-            else
-            {
-                return ManualTimeSeconds;
-            }
+               
+            return TimeManager.Hour * 20f;
         }
 
         //#if TEXTURE_GRAPH

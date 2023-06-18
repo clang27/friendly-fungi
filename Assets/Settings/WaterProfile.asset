@@ -15,11 +15,11 @@ MonoBehaviour:
   lightingModel: 1
   useFlatLighting: 1
   renderQueueIndex: 0
-  color: {r: 0, g: 0.7999997, b: 1, a: 1}
-  specColor: {r: 0.404, g: 0.404, b: 0.404, a: 1}
+  color: {r: 0, g: 0.9647059, b: 1, a: 1}
+  specColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   smoothness: 1
   enableLightAbsorption: 1
-  depthColor: {r: 0, g: 0.9545455, b: 1, a: 0.7882353}
+  depthColor: {r: 0, g: 0.89860755, b: 0.93, a: 0.7882353}
   maxDepth: 100
   enableFoam: 0
   foamColor: {r: 1, g: 1, b: 1, a: 1}
