@@ -15,12 +15,10 @@ public enum CanAnswer {
 
 [Serializable]
 public class Can : Question {
-	[SerializeField] private GameObject[] dependencies;
-	public override GameObject[] Dependencies => dependencies;
-
+	[SerializeField] private bool convertToDoes;
 	[SerializeField] private string template;
 	[SerializeField] private CanAnswer answer;
-	public override string Header => "Can";
+	public override string Header => convertToDoes ? "Does" : "Can";
 	public override string Template => template;
 	public static List<string> Choices => Enum.GetNames(typeof(CanAnswer)).ToList();
 	

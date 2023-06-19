@@ -68,7 +68,7 @@ public class CardUi : MonoBehaviour {
 			_borderImage.color = GetBorderColor(q);
 			_header.text = Question.Header;
 			_header.color = GetTextColor(q);
-			_body.text = Question.ReplaceNameTemplate();
+			_body.text = Question.ReplaceNameTemplate() + "?";
 		}
 		public void MoveRectX(Single x) {
 			_rectTransform.DOLocalMoveX(x, 0.5f).SetEase(Ease.OutQuad);
@@ -104,7 +104,7 @@ public class CardUi : MonoBehaviour {
 					bi.raycastPadding = new Vector4(0f, 0f, 0f, 0f);
 					cg.DOFade(0.8f, 0.5f);
 				} else {
-					bi.raycastPadding = new Vector4(0f, (_index != QuestionQueue.AllQuestions.Count - 1) ? 110f : 0f, 0f, 0f);
+					bi.raycastPadding = new Vector4(0f, (_index != LevelSelection.CurrentLevel.Questions.All.Count - 1) ? 110f : 0f, 0f, 0f);
 					cg.DOFade((i == _index) ? 1f : 0.5f, 0.5f);
 				}
 			}

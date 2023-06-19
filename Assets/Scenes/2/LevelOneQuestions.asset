@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c39e5f821acdf40af6c8abb8d31b9b, type: 3}
+  m_Name: LevelOneQuestions
+  m_EditorClassIdentifier: 
+  whoQuestions:
+  - template: visits the top of <L1> to look at clouds
+    answer: 1
+  whatQuestions:
+  - template: animal spooks <M0>
+    answer: 11
+  whenQuestions:
+  - template: does <M2> leave their house
+    hour: 11
+    minute: 30
+  whereQuestions: []
+  canQuestions: []
+  howManyQuestions:
+  - template: butterflies does <M3> capture and keep
+    answer: 0
+  notes: 'M0 gets spooked by an innocent looking creature while trying to climb from
+    back, although a snake is walking around. Some people may thinking they''re afraid
+    of heights
+
+
+    M1 has a straight shot to the top of the heights after M0 gets
+    spooked and doesn''t climb
+
+
+    M2 is the one who is afraid of heights and starts
+    to climb stair case before shaking their head and screaming and doing a 180
+
+
+    M3
+    spends all day catching butterflies but keeps none
+
+
+
+    2 mushrooms leave L0
+    and 1 enters
+
+
+    L1 is the highest point with no name'

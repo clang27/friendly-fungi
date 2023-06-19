@@ -135,13 +135,7 @@ public class Journal : MonoBehaviour {
 			
 			_leftPageInfoImage.gameObject.SetActive(l.Entry.Pages[_infoPageNumber].LeftImage);
 			_leftPageInfoImage.sprite = l.Entry.Pages[_infoPageNumber].LeftImage;
-
-			var info = l.Entry.Pages[_infoPageNumber].RightText;
-			for (var i = 0; i < Mushroom.All.Count; i++) {
-				info = info.Replace($"<M{i}>", MushroomData.AllData[i].Name)
-					.Replace($"<L{i}>", LocationData.AllData[i].Name);
-			}
-			_rightPageInfoTextMesh.text = info;
+			_rightPageInfoTextMesh.text = Utility.ReplaceTemplatedString(l.Entry.Pages[_infoPageNumber].RightText);
 			
 			_prevPageButton.interactable = _infoPageNumber > 0;
 			_nextPageButton.interactable = _infoPageNumber < l.Entry.Pages.Length - 1;

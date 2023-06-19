@@ -8,14 +8,11 @@ using UnityEngine;
 
 [Serializable]
 public class Who : Question {
-	[SerializeField] private GameObject[] dependencies;
-	public override GameObject[] Dependencies => dependencies;
-	
 	[SerializeField] private string template;
-	[SerializeField] private Mushroom answer;
+	[SerializeField] private int answer;
 	public override string Header => "Who";
 	public override string Template => template;
 	public override bool IsRightAnswer(string s) {
-		return s.Equals(answer.Data.Name);
+		return s.Equals(Mushroom.All[answer].Data.Name);
 	}
 }

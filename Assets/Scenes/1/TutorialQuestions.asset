@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c39e5f821acdf40af6c8abb8d31b9b, type: 3}
+  m_Name: TutorialQuestions
+  m_EditorClassIdentifier: 
+  whoQuestions: []
+  whatQuestions:
+  - template: does <M1> find in a bush?
+    answer: 8
+  whenQuestions: []
+  whereQuestions: []
+  canQuestions: []
+  howManyQuestions: []
+  notes: 'Need animation for excited reaction from mushroom
+
+    Need smoother turn
+    to bush'

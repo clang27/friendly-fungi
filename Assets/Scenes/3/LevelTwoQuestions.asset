@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c39e5f821acdf40af6c8abb8d31b9b, type: 3}
+  m_Name: LevelTwoQuestions
+  m_EditorClassIdentifier: 
+  whoQuestions:
+  - template: does not attend the campfire at anytime
+    answer: 2
+  whatQuestions:
+  - template: makes <M1> jump with joy
+    answer: 13
+  whenQuestions:
+  - template: does <M7> catch their last frog at <L3>
+    hour: 5
+    minute: 40
+  whereQuestions:
+  - template: can <M5>'s hat be found after losing it
+    answer: 2
+  canQuestions:
+  - convertToDoes: 1
+    template: anyone leave or enter <L0> today
+    answer: 1
+  howManyQuestions:
+  - template: frogs does <M4> take home with them
+    answer: 3
+  notes: "M0 does not enjoy nature so spends most of the day at the campfire\n\nM1
+    gets excited with a fish jumps out and flips in front of him at the dock\n\nM2
+    is afraid of heights so does not attend the campfire. He walks around and observes
+    nature.\n\nM3 spends all day catching butterflies again near the campfire region
+    lol\n\nM4 catches 4 frogs but loses one on the way home when they drop their
+    glasses and pick them up\n\nM5 loses their hat at a random location but it blows
+    to the woods\n\nM6 and M7 are frog catchers, however M7 does not have a net.
+    M7 is much better at catching frogs than M6. M6 lives with M5 at the top L3.
+    M7 starts the day not home but lives at L4. \n\nL0 and L1 at the bottom houses
+    no one."

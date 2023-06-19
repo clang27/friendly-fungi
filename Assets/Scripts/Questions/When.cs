@@ -8,12 +8,9 @@ using UnityEngine;
 
 [Serializable]
 public class When : Question {
-	[SerializeField] private GameObject[] dependencies;
-	public override GameObject[] Dependencies => dependencies;
-	
 	[SerializeField] private string template;
 	[SerializeField] private int hour, minute;
-	[SerializeField][Range(0, 60)] private int gap = 10;
+	private const int gap = 10;
 	public override string Header => "When";
 	public override string Template => template;
 	public override bool IsRightAnswer(string s) {

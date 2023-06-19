@@ -51,7 +51,7 @@ public class CardManager : MonoBehaviour {
 			// 	_randomQuestions.Add(randomQuestion);
 			// }
 
-			foreach (var q in QuestionQueue.AllQuestions) {
+			foreach (var q in LevelSelection.CurrentLevel.Questions.All) {
 				_randomQuestions.Add(q);
 			}
 		}

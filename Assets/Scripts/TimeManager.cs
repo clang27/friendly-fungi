@@ -54,8 +54,8 @@ public class TimeManager : MonoBehaviour {
             _secondMultiplier = f;
             
             oneMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 1f);
-            twoMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 2f);
-            fourMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 4f);
+            twoMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 3f);
+            fourMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 6f);
         }
         public void UpdateTime(float f) {
             Hour = f;
@@ -63,7 +63,6 @@ public class TimeManager : MonoBehaviour {
                 Hour = _timeSlider.EndTime;
                 Pause();
                 PausedFlag = true;
-                PauseParticles();
             }
             
             _timeSlider.UpdateTimeUi(Hour);
@@ -96,20 +95,20 @@ public class TimeManager : MonoBehaviour {
             Running = true;
             PausedFlag = false;
             playButton.GetComponent<Image>().sprite = pauseSprite;
-            
+
+            PlayParticles();
             playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(Pause);
             playButton.onClick.AddListener(() => { PausedFlag = true; });
-            playButton.onClick.AddListener(PauseParticles);
         }
 
         public void Pause() {
             Running = false;
             playButton.GetComponent<Image>().sprite = playSprite;
             
+            PauseParticles();
             playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(Play);
-            playButton.onClick.AddListener(PlayParticles);
         }
         public void PlayParticles() {
             foreach (var ps in _particleSystems) {

@@ -8,15 +8,12 @@ using UnityEngine;
 
 [Serializable]
 public class Where : Question {
-	[SerializeField] private GameObject[] dependencies;
-	public override GameObject[] Dependencies => dependencies;
-	
 	[SerializeField] private string template;
-	[SerializeField] private Location answer;
+	[SerializeField] private int answer;
 	public override string Header => "Where";
 	public override string Template => template;
 	
 	public override bool IsRightAnswer(string s) {
-		return s.Equals(answer.Name);
+		return s.Equals(Location.All[answer].Name);
 	}
 }

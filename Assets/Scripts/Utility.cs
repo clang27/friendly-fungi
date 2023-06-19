@@ -61,4 +61,16 @@ public static class Utility {
 
 		return int.Parse(minutesString);
 	}
+
+	public static string ReplaceTemplatedString(string input) {
+		var t = input;
+
+		for (var i = 0; i < Mushroom.All.Count; i++)
+			t = t.Replace($"<M{i}>", Mushroom.All[i].Data.Name);
+
+		for (var i = 0; i < Location.All.Count; i++)
+			t = t.Replace($"<L{i}>", Location.All[i].Name);
+
+		return t;
+	}
 }

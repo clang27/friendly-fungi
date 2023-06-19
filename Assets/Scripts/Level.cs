@@ -13,6 +13,7 @@ public class Level : ScriptableObject {
 	public int NumberOfCorrectGuesses;
 	public bool Tutorial;
 	public InfoEntry Entry;
+	public Questions Questions;
 	public bool Unlocked => Tutorial || PlayerPrefs.GetInt(LevelName + "Unlocked", 0) == 1;
 	
 	public void SaveLevelComplete() {

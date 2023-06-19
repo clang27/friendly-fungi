@@ -156,10 +156,8 @@ public class GameManager : MonoBehaviour {
 		private void DisableEverythingForPrompt(bool b, bool autoRotate = true, float blurBgAmount = 1f) {
 			if (b) {
 				_timeManager.Pause();
-				_timeManager.PauseParticles();
 			} else if (!TimeManager.PausedFlag) {
 				_timeManager.Play();
-				_timeManager.PlayParticles();
 			}
 			
 			_cameraController.Enabled = !b;
@@ -329,7 +327,6 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowBackgroundBlur(true);
 			_uiManager.ShowAnswerPanel(true);
 			_timeManager.Pause();
-			_timeManager.PauseParticles();
 			_uiManager.ShowCardPanel(false);
 			_uiManager.ShowTopBar(false);
 			_cameraController.Enabled = false;
@@ -380,7 +377,7 @@ public class GameManager : MonoBehaviour {
 				}
 			} else {
 				_incorrectGuesses++;
-				if (_incorrectGuesses == QuestionQueue.AllQuestions.Count - LevelSelection.CurrentLevel.NumberOfCorrectGuesses + 1) {
+				if (_incorrectGuesses == LevelSelection.CurrentLevel.Questions.All.Count - LevelSelection.CurrentLevel.NumberOfCorrectGuesses + 1) {
 					_audioManager.DefeatTheme();
 					_uiManager.ShowAnswerPanel(false);
 					DisableEverythingForPrompt(true);

@@ -8,9 +8,6 @@ using UnityEngine;
 
 [Serializable]
 public class HowMany : Question {
-	[SerializeField] private GameObject[] dependencies;
-	public override GameObject[] Dependencies => dependencies;
-	
 	[SerializeField] private string template;
 	[SerializeField] private int answer;
 	public override string Header => "How Many";

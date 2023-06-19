@@ -24,7 +24,7 @@ public class AnswerUi : MonoBehaviour {
 			PartneredCard = cardUi;
 			var q = PartneredCard.Question;
 			
-			header.text = q.Header + " " + q.ReplaceNameTemplate();
+			header.text = q.Header + " " + q.ReplaceNameTemplate() + "?";
 			dropdown.gameObject.SetActive(false);
 			timeSlider.gameObject.SetActive(false);
 			incrementer.gameObject.SetActive(false);

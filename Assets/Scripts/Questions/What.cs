@@ -10,14 +10,11 @@ using UnityEngine;
 
 [Serializable]
 public enum WhatAnswer {
-	Stick, Bird, Tree, Squid, Butterfly, Rock, Snake, Stairs, Mouse, Bridge, Frog, Gecko, Hat, Fish, Sweatband, Glasses, Net, Deer
+	Stick, Bird, Tree, Squid, Butterfly, Rock, Snake, Mouse, Frog, Gecko, Hat, Fish, Sweatband, Glasses, Net, Deer
 }
 
 [Serializable]
 public class What : Question {
-	[SerializeField] private GameObject[] dependencies;
-	public override GameObject[] Dependencies => dependencies;
-
 	[SerializeField] private string template;
 	[SerializeField] private WhatAnswer answer;
 	public override string Header => "What";
