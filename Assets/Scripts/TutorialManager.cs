@@ -155,6 +155,7 @@ public class TutorialManager : MonoBehaviour {
 	#region Other Methods
 		private IEnumerator StartTutorialCardQuestion() {
 			_timeManager.SetLevelTime(LevelSelection.CurrentLevel);
+			_cardManager.Init();
 			_cardManager.StartQuestionCardIntro();
 						
 			_uiManager.ShowTopBar(false);

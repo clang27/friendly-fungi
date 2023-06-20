@@ -24,9 +24,7 @@ MonoBehaviour:
     minute: 30
   whereQuestions: []
   canQuestions: []
-  howManyQuestions:
-  - template: butterflies does <M3> capture and keep
-    answer: 0
+  howManyQuestions: []
   notes: 'M0 gets spooked by an innocent looking creature while trying to climb from
     back, although a snake is walking around. Some people may thinking they''re afraid
     of heights

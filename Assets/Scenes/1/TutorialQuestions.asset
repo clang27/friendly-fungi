@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whoQuestions: []
   whatQuestions:
-  - template: does <M1> find in a bush?
-    answer: 8
+  - template: does <M0> find in a bush
+    answer: 7
   whenQuestions: []
   whereQuestions: []
   canQuestions: []

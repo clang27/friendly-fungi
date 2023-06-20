@@ -18,17 +18,11 @@ MonoBehaviour:
   whatQuestions:
   - template: makes <M1> jump with joy
     answer: 13
-  whenQuestions:
-  - template: does <M7> catch their last frog at <L3>
-    hour: 5
-    minute: 40
+  whenQuestions: []
   whereQuestions:
   - template: can <M5>'s hat be found after losing it
     answer: 2
-  canQuestions:
-  - convertToDoes: 1
-    template: anyone leave or enter <L0> today
-    answer: 1
+  canQuestions: []
   howManyQuestions:
   - template: frogs does <M4> take home with them
     answer: 3

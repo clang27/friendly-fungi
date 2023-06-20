@@ -85,8 +85,8 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			hat.gameObject.SetActive(b && (Data.HatColorIndex > 0| requiresHat));
 			headband.gameObject.SetActive(b && !requiresHat && Data.HeadbandColorIndex > 0);
 		}
-		public IEnumerator TakeHeadshot() {
-			yield return new WaitForSeconds(1f);
+		public IEnumerator TakeHeadshot(float waitTime) {
+			yield return new WaitForSeconds(waitTime);
 			
 			Debug.Log("Taking " + Data.Name + "'s headshot.");
 			StartCoroutine(HeadshotCamera.TakeHeadshot());

@@ -299,11 +299,12 @@ public class GameManager : MonoBehaviour {
 			
 			_mushroomManager.Init();
 			_uiManager.ShowCardPanel(true);
-			_cardManager.Init();
 			
-			if (!LevelSelection.CurrentLevel.Tutorial)
+			if (!LevelSelection.CurrentLevel.Tutorial) {
+				_cardManager.Init();
 				_cardManager.StartQuestionCardIntro();
-			
+			}
+
 			while (!_mapScaler.MapReady || !_cameraController.Ready || (!_cardManager.Ready && !LevelSelection.CurrentLevel.Tutorial)) {
 				yield return new WaitForSeconds(0.1f);
 			}
@@ -381,7 +382,7 @@ public class GameManager : MonoBehaviour {
 					_audioManager.DefeatTheme();
 					_uiManager.ShowAnswerPanel(false);
 					DisableEverythingForPrompt(true);
-					_uiManager.OpenPrompt("You made one too many incorrect guesses!\n\nTry again?", 
+					_uiManager.OpenPrompt("You made too many incorrect guesses!\n\nTry again?", 
 						"Yes", "No",
 						RestartLevel, QuitGame);
 				} else {

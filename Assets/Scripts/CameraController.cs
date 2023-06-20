@@ -116,7 +116,6 @@ public class CameraController : MonoBehaviour {
     [Header("Zoom Settings")]
     public float maxZoomIn = 4f;
     public float minZoomIn = 17f;
-    public float zoomTranslationMultiplier = 30f;
 
     [Tooltip("X = Change in mouse position.\nY = Multiplicative factor for camera rotation.")]
     public AnimationCurve mouseSensitivityCurve = new(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
@@ -294,8 +293,12 @@ public class CameraController : MonoBehaviour {
 
     private Vector2 GetMouseLocation() {
         var camPoint = (_camera.ScreenToViewportPoint(Input.mousePosition) - new Vector3(0.5f, 0.5f)) *
-                       zoomTranslationMultiplier;
-        return new Vector2(camPoint.x * Screen.width, camPoint.y * Screen.height);
+                       GetZoomTranslationMultiplier();
+        return new Vector2(camPoint.x * 96f, camPoint.y * 54f);
+    }
+
+    private float GetZoomTranslationMultiplier() {
+        return 0.038f * Mathf.Pow(_camera.orthographicSize, 0.985f);
     }
 
     private bool IsRightMouseButtonDown() {

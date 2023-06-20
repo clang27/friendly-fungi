@@ -1046,6 +1046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8dc585b3bbdd243841d54629a84bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  known: 0
   headTextures:
   - {fileID: 2800000, guid: bebdc6c28de128d4dab8522cb90f3ef3, type: 3}
   - {fileID: 2800000, guid: 551702fd9f80dd2458f721a2454e875b, type: 3}
@@ -1063,7 +1064,9 @@ MonoBehaviour:
   - {r: 0.93, g: 0.93, b: 1, a: 1}
   headTopMeshRenderer: {fileID: 3295066906158028051}
   bodyMeshRenderer: {fileID: 1916622484482093019}
-  IsCatcher: 0
+  requiresNet: 0
+  requiresHat: 0
+  requiresGlasses: 0
   accessoryTints:
   - {r: 0.20098037, g: 0.20098037, b: 1, a: 1}
   - {r: 0, g: 1, b: 1, a: 1}

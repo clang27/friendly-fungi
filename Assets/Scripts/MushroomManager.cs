@@ -49,13 +49,13 @@ public class MushroomManager : MonoBehaviour {
 		public void Init() {
 			_footstepCooldowns = new bool[Mushroom.All.Count];
 				
-			var gap = 100f;
+			var index = 1f;
 			foreach (var mushroom in Mushroom.All) {
 				mushroom.EnableRenderers(true);
 				mushroom.ApplyUniqueMaterials();
-				mushroom.MoveAside(gap);
-				StartCoroutine(mushroom.TakeHeadshot());
-				gap += 100f;
+				mushroom.MoveAside(index * 100f);
+				StartCoroutine(mushroom.TakeHeadshot(0.7f * index));
+				index++;
 			}
 
 			StartCoroutine(InitJournal());

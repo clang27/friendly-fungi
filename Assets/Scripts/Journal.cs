@@ -41,10 +41,11 @@ public class Journal : MonoBehaviour {
 		//Page 2
 		private Image _leftPageInfoImage;
 		private TextMeshProUGUI _rightPageInfoTextMesh;
-		private Button _prevPageButton, _nextPageButton;
+		private Button _prevInfoPageButton, _nextInfoPageButton;
 		
 		//Page 3
 		private Image[] _headshotImageSpots;
+		private Button _prevShroomPageButton, _nextShroomPageButton;
 		
 		//Page 4 
 		private Image _headshotSpotlight;
@@ -55,7 +56,9 @@ public class Journal : MonoBehaviour {
 	#region Private Data
 		private static List<ShrooEntry> _entries = new();
 		private int _selectedEntryIndex = -1;
+		private int _currentPage;
 		private int _infoPageNumber, _infoPageLevel;
+		private int _shroomPageNumber;
 		
 		private static readonly int Highlighted = Shader.PropertyToID("_Highlighted");
 		private static readonly int MainTex = Shader.PropertyToID("_MainTex");
@@ -89,13 +92,15 @@ public class Journal : MonoBehaviour {
 			//Page 2
 			_leftPageInfoImage = _leftPages[1].GetComponentInChildren<Image>();
 			_rightPageInfoTextMesh =  _rightPages[1].GetComponentInChildren<TextMeshProUGUI>();
-			_prevPageButton =  _leftPages[1].GetComponentsInChildren<Button>()[0];
-			_nextPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[0];
+			_prevInfoPageButton =  _leftPages[1].GetComponentsInChildren<Button>()[0];
+			_nextInfoPageButton =  _rightPages[1].GetComponentsInChildren<Button>()[0];
 
 			//Page 3
-			_headshotImageSpots = _leftPages[2].GetComponentsInChildren<Image>()
-				.Concat(_rightPages[2].GetComponentsInChildren<Image>())
+			_headshotImageSpots = _leftPages[2].transform.GetChild(0).GetComponentsInChildren<Image>()
+				.Concat(_rightPages[2].transform.GetChild(0).GetComponentsInChildren<Image>())
 				.ToArray();
+			_prevShroomPageButton =  _leftPages[2].transform.GetChild(1).GetComponent<Button>();
+			_nextShroomPageButton =  _rightPages[2].transform.GetChild(1).GetComponent<Button>();
 
 			//Page 4
 			_headshotSpotlight = _leftPages[3].GetComponentsInChildren<Image>()[0];
@@ -137,38 +142,13 @@ public class Journal : MonoBehaviour {
 			_leftPageInfoImage.sprite = l.Entry.Pages[_infoPageNumber].LeftImage;
 			_rightPageInfoTextMesh.text = Utility.ReplaceTemplatedString(l.Entry.Pages[_infoPageNumber].RightText);
 			
-			_prevPageButton.interactable = _infoPageNumber > 0;
-			_nextPageButton.interactable = _infoPageNumber < l.Entry.Pages.Length - 1;
+			_prevInfoPageButton.interactable = _infoPageNumber > 0;
+			_nextInfoPageButton.interactable = _infoPageNumber < l.Entry.Pages.Length - 1;
 		}
 
 		public void GoToTableOfContents() {
 			GoToPage(2);
-			
-			var index = 0;
-			foreach (var image in _headshotImageSpots) {
-				image.gameObject.SetActive(index < _entries.Count);
-
-				if (index < _entries.Count) {
-					Debug.Log($"Setting TOC #{index}");
-					//image.sprite = _entries[index].Headshot;
-					image.material = _entries[index].Mat;
-
-					var rt = image.GetComponent<RectTransform>();
-					rt.DOKill();
-					rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
-					//rt.localScale = Vector3.one*1.05f;
-					
-					rt.DOLocalMoveZ(-1f, 0.05f);
-					//rt.DOScale(Vector3.one * 0.95f, 0.05f);
-
-					var n = _entries[index].Name.Key;
-					image.GetComponent<Button>().onClick.RemoveAllListeners();
-					image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
-					image.GetComponentInChildren<TextMeshProUGUI>().text = _entries[index].Name.Value;
-				}
-				
-				index++;
-			}
+			GoToSubShroom(0);
 		}
 		public void GoToMushroomPage(string mushroomName) {
 			// Debug.Log("Seeing if " + name + " matches with the following:");
@@ -208,6 +188,7 @@ public class Journal : MonoBehaviour {
 		}
 		
 		private void GoToPage(int p) {
+			_currentPage = p;
 			AudioManager.Instance.PlaySfx(openSound, 0.8f, Random.Range(0.9f, 1.1f));
 			
 			if (TutorialManager.JournalTabsCanOperate) {
@@ -293,12 +274,51 @@ public class Journal : MonoBehaviour {
 			rt.DOScale(Vector3.one, 0.2f);
 		}
 
+		private void GoToSubShroom(int pageNum) {
+			_shroomPageNumber = pageNum;
+			
+			var index = pageNum * 4;
+			foreach (var image in _headshotImageSpots) {
+				image.gameObject.SetActive(index < _entries.Count);
+
+				if (index < _entries.Count) {
+					Debug.Log($"Setting TOC #{index}");
+					//image.sprite = _entries[index].Headshot;
+					image.material = _entries[index].Mat;
+
+					var rt = image.GetComponent<RectTransform>();
+					rt.DOKill();
+					rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
+					//rt.localScale = Vector3.one*1.05f;
+					
+					rt.DOLocalMoveZ(-1f, 0.05f);
+					//rt.DOScale(Vector3.one * 0.95f, 0.05f);
+
+					var n = _entries[index].Name.Key;
+					image.GetComponent<Button>().onClick.RemoveAllListeners();
+					image.GetComponent<Button>().onClick.AddListener(() => GoToMushroomPage(n));
+					image.GetComponentInChildren<TextMeshProUGUI>().text = _entries[index].Name.Value;
+				}
+				
+				index++;
+			}
+			
+			_prevShroomPageButton.interactable = _shroomPageNumber > 0;
+			_nextShroomPageButton.interactable = _shroomPageNumber < _entries.Count/5;
+		}
+		
 		public void SelectNextPage() {
-			GoToSubInfo(_infoPageNumber+1);
+			if (_currentPage == 1)
+				GoToSubInfo(_infoPageNumber+1);
+			else if (_currentPage == 2)
+				GoToSubShroom(_shroomPageNumber+1);
 		}
 		
 		public void SelectPrevPage() {
-			GoToSubInfo(_infoPageNumber-1);
+			if (_currentPage == 1)
+				GoToSubInfo(_infoPageNumber-1);
+			else if (_currentPage == 2)
+				GoToSubShroom(_shroomPageNumber-1);
 		}
 	#endregion
 }

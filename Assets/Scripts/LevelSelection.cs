@@ -67,7 +67,6 @@ public class LevelSelection : MonoBehaviour {
 			
 			_currentSelection+=amount;
 			CurrentLevel = AllLevels[_currentSelection];
-			CurrentLevel.Questions.Init();
 			NextLevel = (_currentSelection != AllLevels.Length - 1) ? AllLevels[_currentSelection+1] : null;
 			
 			UpdateNameUI();
