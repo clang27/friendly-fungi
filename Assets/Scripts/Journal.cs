@@ -165,7 +165,7 @@ public class Journal : MonoBehaviour {
 			var rt = _headshotSpotlight.GetComponent<RectTransform>();
 			rt.DOKill();
 			rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
-			rt.DOLocalMoveZ(-1f, 0.1f);
+			rt.DOLocalMoveZ(-2f, 0.2f);
 			
 			for (var i = 0; i < _nameDropdown.options.Count; i++) {
 				if (_nameDropdown.options[i].text.Equals(_entries[_selectedEntryIndex].Name.Value))
@@ -218,7 +218,7 @@ public class Journal : MonoBehaviour {
 			_rightPages[p].blocksRaycasts = true;
 		}
 		public void Init() {
-			foreach (var shroom in Mushroom.All) {
+			foreach (var shroom in Mushroom.All.OrderBy(m => m.Index).ToList()) {
 				var mat = new Material(bookImageMaterial) {
 					mainTexture = shroom.HeadshotCamera.HeadshotTexture,
 					name = $"{shroom.Data.Name}sJournalMaterial"
@@ -291,7 +291,7 @@ public class Journal : MonoBehaviour {
 					rt.localPosition = new Vector3(rt.localPosition.x, rt.localPosition.y, -0.1f);
 					//rt.localScale = Vector3.one*1.05f;
 					
-					rt.DOLocalMoveZ(-1f, 0.05f);
+					rt.DOLocalMoveZ(-2f, 0.2f);
 					//rt.DOScale(Vector3.one * 0.95f, 0.05f);
 
 					var n = _entries[index].Name.Key;

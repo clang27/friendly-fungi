@@ -53,16 +53,16 @@ MonoBehaviour:
   sunCubemap: {fileID: 0}
   sunLightColor: {r: 1, g: 0.98927116, b: 0.8632076, a: 1}
   sunLightIntensity: 1
-  enableMoon: 0
+  enableMoon: 1
   moonTexture: {fileID: 0}
-  moonColor: {r: 1, g: 1, b: 1, a: 0}
-  moonSize: 0.248
+  moonColor: {r: 1, g: 1, b: 1, a: 1}
+  moonSize: 0
   moonSoftEdge: 0
-  moonGlow: 1
+  moonGlow: 0
   useBakedMoon: 0
   moonCubemap: {fileID: 0}
-  moonLightColor: {r: 1, g: 1, b: 1, a: 0}
-  moonLightIntensity: 0.1
+  moonLightColor: {r: 0.73800004, g: 0.94177777, b: 1, a: 0}
+  moonLightIntensity: 0
   customCloudTexture: {fileID: 2800000, guid: d69d12cf3b1e2b144881667c78b2e4f9, type: 3}
   enableHorizonCloud: 1
   horizonCloudColor: {r: 1, g: 1, b: 1, a: 0.29803923}
@@ -73,8 +73,8 @@ MonoBehaviour:
   horizonCloudAnimationSpeed: 40
   enableOverheadCloud: 1
   overheadCloudColor: {r: 1, g: 1, b: 1, a: 1}
-  overheadCloudAltitude: 200
-  overheadCloudSize: 1
+  overheadCloudAltitude: 300
+  overheadCloudSize: 3
   overheadCloudStep: 50
   overheadCloudAnimationSpeed: 240
   overheadCloudFlowDirectionX: 1
@@ -103,6 +103,7 @@ Material:
   m_ValidKeywords:
   - ALLOW_STEP_EFFECT
   - HORIZON_CLOUD
+  - MOON
   - OVERHEAD_CLOUD
   - STARS_LAYER_0
   - SUN
@@ -156,17 +157,17 @@ Material:
     - _HorizonExponent: 2
     - _HorizonStep: 128
     - _HorizonThickness: 1
-    - _MoonGlow: 1
-    - _MoonLightIntensity: 0.1
-    - _MoonSize: 0.248
+    - _MoonGlow: 0
+    - _MoonLightIntensity: 0.00024051628
+    - _MoonSize: 0
     - _MoonSoftEdge: 0
-    - _OverheadCloudAltitude: 200
+    - _OverheadCloudAltitude: 300
     - _OverheadCloudAnimationSpeed: 240
     - _OverheadCloudFlowDirectionX: 1
     - _OverheadCloudFlowDirectionZ: 1
     - _OverheadCloudRemapMax: 1
     - _OverheadCloudRemapMin: 0.2
-    - _OverheadCloudSize: 1
+    - _OverheadCloudSize: 3
     - _OverheadCloudStep: 50
     - _StarsDensity0: 0.01
     - _StarsDensity1: 0
@@ -191,18 +192,18 @@ Material:
     - _DetailOverlayTintColor: {r: 0.48900002, g: 0.48900002, b: 0.48900002, a: 1}
     - _FogColor: {r: 0.9659264, g: 1, b: 0.7783019, a: 0}
     - _GroundColor: {r: 0.40333924, g: 0.5691257, b: 0.6611687, a: 1}
-    - _HorizonCloudColor: {r: 0.8885334, g: 0.88579476, b: 0.8962513, a: 0.76536095}
+    - _HorizonCloudColor: {r: 0.9108141, g: 0.90821016, b: 0.916673, a: 0.76536095}
     - _HorizonColor: {r: 0.46710587, g: 0.6601552, b: 0.7684344, a: 1}
-    - _MoonColor: {r: 1, g: 1, b: 1, a: 0}
-    - _MoonDirection: {r: 0, g: 0, b: 1, a: 0}
-    - _MoonLightColor: {r: 1, g: 1, b: 1, a: 0}
-    - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.84641695}
+    - _MoonColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MoonDirection: {r: 0.45140967, g: 0.86602545, b: 0.2150101, a: 0}
+    - _MoonLightColor: {r: 0.73800004, g: 0.94177777, b: 1, a: 0}
+    - _OverheadCloudColor: {r: 0.7083334, g: 0.7083334, b: 0.7083334, a: 0.84641695}
     - _SkyColor: {r: 0.99042153, g: 1.0812819, b: 1.1225793, a: 1}
     - _StarsColor0: {r: 0, g: 0, b: 0, a: 0}
     - _StarsColor1: {r: 0, g: 0, b: 0, a: 0}
     - _StarsColor2: {r: 0, g: 0, b: 0, a: 0}
     - _SunColor: {r: 0.9809524, g: 1, b: 0.84000003, a: 1}
-    - _SunDirection: {r: -0.45896357, g: -0.8660254, b: -0.19837463, a: 0}
+    - _SunDirection: {r: -0.45140964, g: -0.8660253, b: -0.21501009, a: 0}
     - _SunLightColor: {r: 0.9117061, g: 0.90422773, b: 0.87598604, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &8814505006527936657
@@ -218,6 +219,7 @@ Material:
   - ALLOW_STEP_EFFECT
   m_InvalidKeywords:
   - HORIZON_CLOUD
+  - MOON
   - OVERHEAD_CLOUD
   - STARS_LAYER_0
   - SUN
@@ -232,14 +234,14 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _OverheadCloudAltitude: 200
+    - _OverheadCloudAltitude: 300
     - _OverheadCloudAnimationSpeed: 240
     - _OverheadCloudFlowDirectionX: 1
     - _OverheadCloudFlowDirectionZ: 1
     - _OverheadCloudRemapMax: 1
     - _OverheadCloudRemapMin: 0.2
     - _OverheadCloudShadowClipMask: 0
-    - _OverheadCloudSize: 1
+    - _OverheadCloudSize: 3
     - _OverheadCloudStep: 50
     m_Colors:
     - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 1}

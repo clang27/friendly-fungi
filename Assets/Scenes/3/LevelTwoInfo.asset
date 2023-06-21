@@ -12,7 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95b0a2e6cadd0b42865d0868c073860, type: 3}
   m_Name: LevelTwoInfo
   m_EditorClassIdentifier: 
-  Title: Toad Lake
   Pages:
-  - Hello human traveller! We saw you land nearby on a metal bird - are you here
-    to do some surveying? You are? Perfect!
+  - LeftImage: {fileID: 0}
+    RightText: 'Welcome to Cloud Lookout - home of the best views!
+
+
+      Also,
+      the island with <M0>''s acorn home (<L2>) where they reside alone.'
+  - LeftImage: {fileID: 0}
+    RightText: 'This island has two great peaks for the Shroo to hike to.
+
+
+      I
+      heard <M2> does not like heights however. So, they''ll probably not get close
+      to them.'
+  - LeftImage: {fileID: 0}
+    RightText: '<M3> is the only visitor on the island today.
+
+
+      They heard
+      that butterflies love to fly around higher places, and they''re an avid butterfly
+      catcher.'

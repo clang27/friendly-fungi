@@ -65,6 +65,8 @@ public class TweenMixerBehaviour : PlayableBehaviour {
         
         // Apply the final position and rotation values in the track binding
         var newPosition = accumPosition + m_InitialPosition * (1.0f - totalPositionWeight);
+        timeManipulation.RaycastPosition = newPosition;
+        
         trackBindingTransform.position = new Vector3(newPosition.x, (!useGravity) ? newPosition.y : trackBindingTransform.position.y, newPosition.z);
         //trackBinding.rotation = accumRotation.Blend(m_InitialRotation, 1.0f - totalRotationWeight);
         trackBindingTransform.rotation = Quaternion.Slerp(accumRotation, m_InitialRotation, (1.0f - totalRotationWeight));

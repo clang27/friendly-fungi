@@ -9,7 +9,14 @@ using UnityEngine.Playables;
 
 [RequireComponent(typeof(PlayableDirector))]
 public class TimeManipulation : MonoBehaviour {
+	#region Serialize Fields
+		[SerializeField] private int priority;
+		[SerializeField] private LayerMask groundLayers;
+	#endregion
+	
 	#region Attributes
+		public Vector3 RaycastPosition { get; set; }
+		public int Priority => priority;
 		public bool UseGravity { get; set; }
 		public bool WalkingOnGrass { get; set; }
 		public bool WalkingOnWood { get; set; }
@@ -27,9 +34,10 @@ public class TimeManipulation : MonoBehaviour {
 		}
 		
 		private void FixedUpdate() {
-			if (!UseGravity && CameraController.Rotating && !TimeManager.Running) return;
+			if (!UseGravity) return;
+			if (!TimeManager.Running && CameraController.Rotating) return;
 			
-			var hits = Physics.RaycastAll(_transform.position + new Vector3(0f, 2f, 0f), Vector3.down, 30f, Utility.GroundMask);
+			var hits = Physics.RaycastAll(RaycastPosition + new Vector3(0f, 2f, 0f), Vector3.down, 30f, groundLayers);
 			// Debug.DrawRay(_transform.position + new Vector3(0f, 3f, 0f), new Vector3(0f, -6f, 0f), Color.red);
 			// Debug.Log(hitCount);
 
@@ -39,7 +47,7 @@ public class TimeManipulation : MonoBehaviour {
 			var currY = _transform.position.y;
 
 			var distanceToTranslate = Mathf.Lerp(
-				currY, goalY, ((TimeManager.Running) ? 12f : 24f) * Time.fixedDeltaTime) - currY;
+				currY, goalY, ((TimeManager.Running) ? 12f : 48f) * Time.fixedDeltaTime) - currY;
 			_transform.Translate(Vector3.up * distanceToTranslate);
 			
 		}

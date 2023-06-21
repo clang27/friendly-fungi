@@ -3,6 +3,7 @@
  * https://www.knitwitstudios.com/
  */
 
+using System.Linq;
 using UnityEngine;
 
 public static class Utility {
@@ -66,10 +67,10 @@ public static class Utility {
 		var t = input;
 
 		for (var i = 0; i < Mushroom.All.Count; i++)
-			t = t.Replace($"<M{i}>", Mushroom.All[i].Data.Name);
+			t = t.Replace($"<M{i}>", Mushroom.All.First(m => m.Index == i).Data.Name);
 
 		for (var i = 0; i < Location.All.Count; i++)
-			t = t.Replace($"<L{i}>", Location.All[i].Name);
+			t = t.Replace($"<L{i}>", Location.All.First(m => m.Index == i).Name);
 
 		return t;
 	}

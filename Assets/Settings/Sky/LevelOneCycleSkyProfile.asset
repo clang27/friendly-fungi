@@ -24,9 +24,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     gradient:
       serializedVersion: 2
-      key0: {r: 0.9019608, g: 0.6, b: 0.5411765, a: 1}
+      key0: {r: 0.35686275, g: 0.09019608, b: 0.02745098, a: 1}
       key1: {r: 0.35999995, g: 0.72433734, b: 0.9, a: 1}
-      key2: {r: 1, g: 1, b: 1, a: 0}
+      key2: {r: 0.355, g: 0.0906343, b: 0.027690003, a: 0}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0.014545453, g: 0.014545453, b: 0.1, a: 0}
       key5: {r: 0.014545453, g: 0.014545453, b: 0.1, a: 0}
@@ -62,17 +62,17 @@ MonoBehaviour:
       m_RotationOrder: 4
     gradient:
       serializedVersion: 2
-      key0: {r: 0.6, g: 0.45000002, b: 0.42000002, a: 1}
+      key0: {r: 0.6313726, g: 0.3529412, b: 0.30980393, a: 1}
       key1: {r: 0.7607843, g: 0.8901961, b: 0.9529412, a: 1}
-      key2: {r: 1, g: 1, b: 1, a: 0}
-      key3: {r: 0.014545453, g: 0.014545453, b: 0.1, a: 0}
+      key2: {r: 0.74512595, g: 0.847422, b: 0.9010012, a: 0}
+      key3: {r: 0.631, g: 0.35428548, b: 0.311714, a: 0}
       key4: {r: 0.15263157, g: 0.13421053, b: 0.2, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 32768
-      ctime2: 65535
+      ctime1: 30262
+      ctime2: 43176
       ctime3: 65535
       ctime4: 58982
       ctime5: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 4
       m_NumAlphaKeys: 2
   - name: GroundColor
     displayName: Sky/Ground Color
@@ -100,17 +100,17 @@ MonoBehaviour:
       m_RotationOrder: 4
     gradient:
       serializedVersion: 2
-      key0: {r: 0.36479402, g: 0.4517382, b: 0.48900002, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.014545453, g: 0.014545453, b: 0.1, a: 0}
-      key3: {r: 0.014545453, g: 0.014545453, b: 0.1, a: 0}
+      key0: {r: 0.34901962, g: 0.27450982, b: 0.38431373, a: 1}
+      key1: {r: 0.3136, g: 0.3666353, b: 0.38431373, a: 1}
+      key2: {r: 1, g: 1, b: 1, a: 0}
+      key3: {r: 0.34855554, g: 0.27422798, b: 0.383, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 8096
-      ctime1: 65535
-      ctime2: 65535
+      ctime0: 0
+      ctime1: 2120
+      ctime2: 45875
       ctime3: 65535
       ctime4: 0
       ctime5: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 4
       m_NumAlphaKeys: 2
   - name: SunLightIntensity
     displayName: Sun/Light Intensity
@@ -230,3 +230,153 @@ MonoBehaviour:
       m_Mode: 0
       m_NumColorKeys: 3
       m_NumAlphaKeys: 2
+  - name: MoonLightIntensity
+    displayName: Moon/Light Intensity
+    curveOrGradient: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.15
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.49166566
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8819039
+        value: 0.14738482
+        inSlope: 0.05352804
+        outSlope: 0.05352804
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.69150996
+      - serializedVersion: 3
+        time: 0.9958089
+        value: 0.15035377
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+  - name: HorizonCloudColor
+    displayName: Horizon Cloud/Color
+    curveOrGradient: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gradient:
+      serializedVersion: 2
+      key0: {r: 0.8352941, g: 0.8352941, b: 0.8352941, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0.83699995, g: 0.83699995, b: 0.83699995, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 32768
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 2
+  - name: OverheadCloudColor
+    displayName: Overhead Cloud/Color
+    curveOrGradient: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    gradient:
+      serializedVersion: 2
+      key0: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 32768
+      ctime2: 65535
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 32768
+      atime2: 65535
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 3
+      m_NumAlphaKeys: 3

@@ -206,11 +206,10 @@ public class CameraController : MonoBehaviour {
                     (RightMouseHeld() ? 0.2f : 1f) * (Settings.InvertWorldRotation ? 1f : -1f)
                 );
             }
-            
+
+            Rotating = !_worldTransform.localRotation.Equals(Quaternion.Euler(_goalRotation));
             _worldTransform.localRotation = Quaternion.Lerp(_worldTransform.localRotation, Quaternion.Euler(_goalRotation), worldRotationLerpPct);
         }
-        
-        Rotating = _worldTransform.localRotation != Quaternion.Euler(_goalRotation);
     }
 
     private void FixedUpdate() {
@@ -235,7 +234,6 @@ public class CameraController : MonoBehaviour {
             if (!wasHighlighted)
                 _highlightedObject.Highlight(!RightMouseHeld());
         }
-        
     }
     
     public void ResetWorldPositionToPlay() {

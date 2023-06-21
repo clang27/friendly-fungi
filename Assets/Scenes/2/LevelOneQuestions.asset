@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: LevelOneQuestions
   m_EditorClassIdentifier: 
   whoQuestions:
-  - template: visits the top of <L1> to look at clouds
+  - template: visits <L1> to look at clouds
     answer: 1
   whatQuestions:
   - template: animal spooks <M0>
-    answer: 11
+    answer: 9
   whenQuestions:
   - template: does <M2> leave their house
     hour: 11

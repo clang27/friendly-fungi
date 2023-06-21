@@ -9,17 +9,18 @@ using UnityEngine;
 public class Location : MonoBehaviour, Highlightable {
 	#region Serialized Fields
 		[SerializeField] private Mushroom mushroomDependency;
-		[SerializeField] private int locationNumber;
 		[SerializeField] private LocationType locationType;
 		[SerializeField] private bool known;
+		[SerializeField] private int index;
 	#endregion
 	
 	#region Attributes
 		public static List<Location> All { get; } = new();
 		private string suffix { get; set; }
+		public int Index => index;
 		public string Name => (mushroomDependency) ?
 			mushroomDependency.Data.Name + "\'s " + suffix :
-			LocationData.AllData[locationNumber].Name + " " + suffix;
+			LocationData.AllData[Index].Name + " " + suffix;
 		public bool Known => known;
 		public string CurrentGuess { get; set; }
 	#endregion

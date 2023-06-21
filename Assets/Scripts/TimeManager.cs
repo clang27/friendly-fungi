@@ -69,7 +69,7 @@ public class TimeManager : MonoBehaviour {
         }
         public void Init(Transform t) {
             _particleSystems = t.GetComponentsInChildren<ParticleSystem>();
-            _manipulations = FindObjectsOfType<TimeManipulation>().OrderBy(tm => tm.name).ToArray();
+            _manipulations = FindObjectsOfType<TimeManipulation>().OrderBy(tm => tm.Priority).ToArray();
         }
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
