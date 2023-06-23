@@ -89,7 +89,36 @@ SkinnedMeshRenderer:
   - {fileID: 2214297777703583393}
   - {fileID: 7077631777305689067}
   - {fileID: 6452244704436510630}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 1495648255032829536}
   m_AABB:
     m_Center: {x: 6.9849193e-10, y: 0.0011130469, z: 0.009579917}
@@ -457,8 +486,6 @@ GameObject:
   - component: {fileID: 8939852783899197619}
   - component: {fileID: 1108205503337054756}
   - component: {fileID: 6702894860913551511}
-  - component: {fileID: 5270786822587901576}
-  - component: {fileID: 791745106778744543}
   - component: {fileID: 7060805297252359175}
   m_Layer: 0
   m_Name: Sparrow_LOD2
@@ -474,9 +501,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8562521017511881715}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6147242305827254752}
@@ -518,44 +545,6 @@ CapsuleCollider:
   m_Height: 0.66957575
   m_Direction: 1
   m_Center: {x: 0, y: 0.33830807, z: 0}
---- !u!320 &5270786822587901576
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8562521017511881715}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 87cfbe17e39c6334a844529f86351b90, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 0
-  m_DirectorUpdateMode: 3
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 5633238373372317706, guid: 87cfbe17e39c6334a844529f86351b90, type: 2}
-    value: {fileID: 1108205503337054756}
-  - key: {fileID: 7053171203159229254, guid: 87cfbe17e39c6334a844529f86351b90, type: 2}
-    value: {fileID: 791745106778744543}
-  - key: {fileID: -4224478038503458414, guid: 87cfbe17e39c6334a844529f86351b90, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References:
-    - 39dc1bbf9a126c645851fca880c2441e: {fileID: 0}
-    - 5cd2c0acc8d70c14480590f78250bb72: {fileID: 0}
---- !u!114 &791745106778744543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8562521017511881715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b1ff6efbb88944fb3e8e760db105ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 2
 --- !u!114 &7060805297252359175
 MonoBehaviour:
   m_ObjectHideFlags: 0

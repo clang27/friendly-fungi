@@ -42,7 +42,7 @@ public class MushroomManager : MonoBehaviour {
 	#region Other Methods
 		public IEnumerator FootstepCooldown(int i) {
 			_footstepCooldowns[i] = true;
-			yield return new WaitForSeconds(Random.Range(0.45f, 0.55f));
+			yield return new WaitForSeconds(Random.Range(0.75f, 1f));
 			_footstepCooldowns[i] = false;
 		}
 		

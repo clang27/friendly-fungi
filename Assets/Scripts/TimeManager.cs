@@ -3,10 +3,9 @@
  * https://www.knitwitstudios.com/
  */
 
-using System.Linq;
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour {
@@ -28,8 +27,8 @@ public class TimeManager : MonoBehaviour {
     #region Private Data
         private ParticleSystem[] _particleSystems;
         private float _secondMultiplier = 1.0f;
-        private TimeManipulation[] _manipulations;
         private Tweener _timeTransition;
+        private PlayableDirector _playableDirector;
     #endregion
 
     #region Unity Methods
@@ -42,9 +41,7 @@ public class TimeManager : MonoBehaviour {
                 UpdateTime(Hour + Time.deltaTime * multiplier * _secondMultiplier);
             }
             
-            foreach (var m in _manipulations) {
-                m.SetTimeline((Hour - _timeSlider.StartTime) * 60f);
-            }
+            SetTimeline((Hour - _timeSlider.StartTime) * 60f);
         }
         
     #endregion
@@ -69,7 +66,8 @@ public class TimeManager : MonoBehaviour {
         }
         public void Init(Transform t) {
             _particleSystems = t.GetComponentsInChildren<ParticleSystem>();
-            _manipulations = FindObjectsOfType<TimeManipulation>().OrderBy(tm => tm.Priority).ToArray();
+            
+            _playableDirector = FindObjectOfType<PlayableDirector>();
         }
         public void SetLevelTime(Level l) {
             Hour = l.StartTime;
@@ -120,6 +118,12 @@ public class TimeManager : MonoBehaviour {
             foreach (var ps in _particleSystems) {
                 ps.Pause();
             }
+        }
+        
+        private void SetTimeline(float f) {
+            //Debug.Log("Setting time to " + f);
+            _playableDirector.time = f;
+            _playableDirector.DeferredEvaluate();
         }
 
     #endregion

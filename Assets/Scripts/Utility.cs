@@ -9,6 +9,7 @@ using UnityEngine;
 public static class Utility {
 	public const int HeadshotDimension = 640;
 	public const int GroundMask = 1 << 7;
+	public const int RoadMask = 1 << 14;
 	
 	public static string FormatTime(float time) {
 		var hours = Mathf.FloorToInt(time);

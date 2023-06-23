@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour, Highlightable {
 	#region Serialized Data
@@ -25,8 +26,8 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	#endregion
 	
 	#region Attributes
-		public bool WalkingOnGrass => _timeManipulation.WalkingOnGrass;
-		public bool WalkingOnWood => _timeManipulation.WalkingOnWood;
+		public bool WalkingOnGrass { get; private set; }
+		public bool WalkingOnWood { get; private set; }
 		public int Index => index;
 		public bool Known => known;
 	    public static List<Mushroom> All { get; } = new();
@@ -38,11 +39,11 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		private Transform _transform;
 		private HeadshotCamera _headshotCamera;
 		private QuickOutline _outline;
-		private TimeManipulation _timeManipulation;
 	#endregion
 	
 	#region Private Data
 		private Renderer[] _meshRenderers;
+		private RaycastHit[] _hits = new RaycastHit[2];
 	#endregion
 	
 	#region Unity Methods
@@ -51,9 +52,14 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
-			_timeManipulation = GetComponent<TimeManipulation>();
 			
 			All.Add(this);
+		}
+
+		private void FixedUpdate() {
+			WalkingOnWood = Physics.RaycastNonAlloc(_transform.position + Vector3.up, Vector3.down, _hits, 1.2f, Utility.RoadMask) > 0;
+			WalkingOnGrass = !WalkingOnWood &&
+			                 Physics.RaycastNonAlloc(_transform.position + Vector3.up, Vector3.down, _hits, 1.2f, Utility.GroundMask) > 0;
 		}
         
 		private void OnDestroy() {

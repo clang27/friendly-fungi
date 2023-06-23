@@ -109,8 +109,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8477228319652559328}
   - component: {fileID: 210513155552280172}
-  - component: {fileID: 696930262232370563}
-  - component: {fileID: 7043198172391600433}
   - component: {fileID: 6839497829874970130}
   m_Layer: 0
   m_Name: Gecko_LOD2
@@ -156,76 +154,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!320 &696930262232370563
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3577110460575446887}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 03e8b0b76b662a440bb741f1a5f14c59, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 0
-  m_DirectorUpdateMode: 3
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 515044568489339900, guid: 03e8b0b76b662a440bb741f1a5f14c59, type: 2}
-    value: {fileID: 7043198172391600433}
-  - key: {fileID: -2089776399645805115, guid: 03e8b0b76b662a440bb741f1a5f14c59, type: 2}
-    value: {fileID: 210513155552280172}
-  - key: {fileID: 5050808578013933236, guid: 03e8b0b76b662a440bb741f1a5f14c59, type: 2}
-    value: {fileID: 210513155552280172}
-  m_ExposedReferences:
-    m_References:
-    - 1b2e8dbf65734494ab77686dfbbe6301: {fileID: 0}
-    - 555344e4e0ffbd14fb0625497d4f66c9: {fileID: 0}
-    - 0dd0e02e2382563458d89cd0d389a1bb: {fileID: 0}
-    - 04c8b808bea96234fb56dfe8b956f96b: {fileID: 0}
-    - b331b317629fd264985282cf657df22c: {fileID: 0}
-    - 7c67e9dd890650940aeb45a23ddeadeb: {fileID: 0}
-    - b294fe9d4c6b1b14f811f95ead6656ba: {fileID: 0}
-    - 05716e069d2c1fd4ba9bb5fb11243d98: {fileID: 0}
-    - c0ebeb3d777e7ff44a79f3cee5c89716: {fileID: 0}
-    - c24fcf086bc66204e9f9acb6aedffc04: {fileID: 0}
-    - 25fd58e17879d6d489fd12739e99edec: {fileID: 0}
-    - 0aaf520fa49d7aa40a165df98a893bd4: {fileID: 0}
-    - 8c3f42966c339b04e95503c16061c1bf: {fileID: 0}
-    - 0bddf694d1f4aba49a290776c7a40045: {fileID: 0}
-    - 26750835154e9934cadae9b4935f9f1b: {fileID: 0}
-    - c470e6448eb31964ab1ed8cc1b1b7463: {fileID: 0}
-    - 2ca7924e16468e143bf803e83e7940db: {fileID: 0}
-    - f7cf0d45bc6003d4688ef8edcebc8277: {fileID: 0}
-    - 8e45cbd1fa67c8c43b4eb8cae3b40f9d: {fileID: 0}
-    - b6b081bebd670164c91cd45bdc2d4f52: {fileID: 0}
-    - 5f53c52f37e5d2e458878f1c4aadfb81: {fileID: 0}
-    - c636445101818494f9ccb4ca37837b59: {fileID: 0}
-    - 8877ef8de2457824d8c5c4aa2b78cc9c: {fileID: 0}
-    - 7c6cbcc1f007b3d40a19aa4298c005d3: {fileID: 0}
-    - 3aa8dac9dd377fb4caa5b040170d9da6: {fileID: 0}
-    - d0d06f607218eae438740b5275d95485: {fileID: 0}
-    - 3efdd2078b326ed4cabec405f23f0fdd: {fileID: 0}
-    - 68084679a24854d4f8315f694f0ac663: {fileID: 0}
-    - 70f7954e52ee40e479e17a410d7c0519: {fileID: 0}
-    - 30dd64c6a63a884429d48c07f26578d7: {fileID: 0}
-    - f62e032032010544dad55e2b7773a3e1: {fileID: 0}
-    - 1cd50fb683dcf84418a181af4399d9ec: {fileID: 0}
-    - e11cf528aafb8504faa1d456f2a1466a: {fileID: 0}
-    - c110c4cb2440ca5448ac94347d0d3690: {fileID: 0}
---- !u!114 &7043198172391600433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3577110460575446887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b1ff6efbb88944fb3e8e760db105ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 2
 --- !u!114 &6839497829874970130
 MonoBehaviour:
   m_ObjectHideFlags: 0

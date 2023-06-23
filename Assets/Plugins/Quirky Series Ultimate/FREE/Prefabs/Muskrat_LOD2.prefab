@@ -453,9 +453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7770181161361787671}
   - component: {fileID: 4024371161894696239}
-  - component: {fileID: 5075125490337732613}
   - component: {fileID: 7063563277761178510}
-  - component: {fileID: 5085885425548006782}
   m_Layer: 0
   m_Name: Muskrat_LOD2
   m_TagString: Untagged
@@ -500,31 +498,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!320 &5075125490337732613
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7928678881558622116}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 39fc2189875fad247b7b0757cfd4eb15, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 0
-  m_DirectorUpdateMode: 3
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 7053171203159229254, guid: 39fc2189875fad247b7b0757cfd4eb15, type: 2}
-    value: {fileID: 5085885425548006782}
-  - key: {fileID: 5633238373372317706, guid: 39fc2189875fad247b7b0757cfd4eb15, type: 2}
-    value: {fileID: 4024371161894696239}
-  - key: {fileID: -4224478038503458414, guid: 39fc2189875fad247b7b0757cfd4eb15, type: 2}
-    value: {fileID: 4024371161894696239}
-  m_ExposedReferences:
-    m_References:
-    - 39dc1bbf9a126c645851fca880c2441e: {fileID: 0}
-    - 5cd2c0acc8d70c14480590f78250bb72: {fileID: 0}
 --- !u!114 &7063563277761178510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,18 +514,6 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 1}
   bodyMeshRenderer: {fileID: 6810003623251263457}
   materialIndexToTint: 0
---- !u!114 &5085885425548006782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7928678881558622116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b1ff6efbb88944fb3e8e760db105ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8708445392730305061
 GameObject:
   m_ObjectHideFlags: 0
