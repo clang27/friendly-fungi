@@ -65,14 +65,9 @@ public static class Utility {
 	}
 
 	public static string ReplaceTemplatedString(string input) {
-		var t = input;
-
-		for (var i = 0; i < Mushroom.All.Count; i++)
-			t = t.Replace($"<M{i}>", Mushroom.All.First(m => m.Index == i).Data.Name);
-
-		for (var i = 0; i < Location.All.Count; i++)
-			t = t.Replace($"<L{i}>", Location.All.First(m => m.Index == i).Name);
-
-		return t;
+		return Location.All.Aggregate(
+			Mushroom.All.Aggregate(input, (current, m) => current.Replace($"<M{m.Index}>", m.Data.Name))
+			, (current, l) => current.Replace($"<L{l.Index}>", l.Name)
+		);
 	}
 }

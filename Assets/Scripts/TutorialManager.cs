@@ -185,9 +185,9 @@ public class TutorialManager : MonoBehaviour {
 				callback(); 
 				pages[_currentPage].interactable = true;
 				pages[_currentPage].blocksRaycasts = true;
+				_turningPage = false;
 			});
 			_pageTurnSequence.Append(pages[_currentPage+1].DOFade(1f, 2f));
-			_pageTurnSequence.AppendCallback(() => { _turningPage = false;});
 			_pageTurnSequence.Play();
 		}
 		private void HideAllPages() {
@@ -257,6 +257,7 @@ public class TutorialManager : MonoBehaviour {
 			_currentPage = -1;
 			_changedTime = false;
 			_exittedJournal = false;
+			_timeManager.Pause();
 
 			HideAllPages();
 			JournalTabsCanOperate = true;

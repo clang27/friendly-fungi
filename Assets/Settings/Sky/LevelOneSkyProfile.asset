@@ -195,7 +195,7 @@ Material:
     - _HorizonCloudColor: {r: 0.9450964, g: 0.9450964, b: 0.9450964, a: 1}
     - _HorizonColor: {r: 0.72479004, g: 0.74076533, b: 0.7740605, a: 1}
     - _MoonColor: {r: 0.92941177, g: 0.9843137, b: 1, a: 1}
-    - _MoonDirection: {r: -0.09781475, g: 0.5000001, b: -0.86048377, a: 0}
+    - _MoonDirection: {r: -0.8092612, g: 0.5000001, b: -0.3083772, a: 0}
     - _MoonLightColor: {r: 0.7372549, g: 0.9411765, b: 1, a: 0}
     - _OverheadCloudColor: {r: 0.8666626, g: 0.8666626, b: 0.8666626, a: 1}
     - _SkyColor: {r: 0.3589542, g: 0.5129505, b: 0.6091414, a: 1}

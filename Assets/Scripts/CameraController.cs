@@ -230,9 +230,11 @@ public class CameraController : MonoBehaviour {
         var newHighlightedObject = objTrans.GetComponent<Highlightable>();
         
         if (newHighlightedObject != null) {
+            if (!wasHighlighted) {
+                _highlightedObject?.Highlight(false);
+                newHighlightedObject.Highlight(!RightMouseHeld());
+            }
             _highlightedObject = newHighlightedObject;
-            if (!wasHighlighted)
-                _highlightedObject.Highlight(!RightMouseHeld());
         }
     }
     
