@@ -40,6 +40,10 @@ public class MushroomManager : MonoBehaviour {
 	#endregion
 
 	#region Other Methods
+		public void LevelCompleteAnimations(bool b) {
+			foreach (var m in Mushroom.All)
+				m.LevelCompleteAnimation(b);
+		}
 		public IEnumerator FootstepCooldown(int i) {
 			_footstepCooldowns[i] = true;
 			yield return new WaitForSeconds(Random.Range(0.75f, 1f));

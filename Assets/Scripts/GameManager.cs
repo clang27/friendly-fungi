@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour {
 		public void QuitGame() {
 			InMainMenu = true;
 
+			_mushroomManager.LevelCompleteAnimations(false);
 			_tutorialManager.EndTutorial();
 			
 			_cameraController.AutoRotate = true;
@@ -365,6 +366,7 @@ public class GameManager : MonoBehaviour {
 					foreach (var b in FindObjectsOfType<MiscAnimal>())
 						b.EnableRenderers(false);
 					_timeManager.SlideTimeToNight();
+					_mushroomManager.LevelCompleteAnimations(true);
 					_victoryParticles.Activate(true);
 					_cameraController.ResetWorldPositionToVictory();
 					_uiManager.ShowAnswerPanel(false);

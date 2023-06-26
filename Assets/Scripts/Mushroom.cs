@@ -6,7 +6,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class Mushroom : MonoBehaviour, Highlightable {
 	#region Serialized Data
@@ -39,11 +38,14 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		private Transform _transform;
 		private HeadshotCamera _headshotCamera;
 		private QuickOutline _outline;
+		private Animator _animator;
 	#endregion
 	
 	#region Private Data
 		private Renderer[] _meshRenderers;
 		private RaycastHit[] _hits = new RaycastHit[2];
+		private static readonly int Cheer = Animator.StringToHash("Cheer");
+
 	#endregion
 	
 	#region Unity Methods
@@ -51,6 +53,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			_transform = transform;
 			_meshRenderers = GetComponentsInChildren<Renderer>();
 			_outline = GetComponent<QuickOutline>();
+			_animator = GetComponent<Animator>();
 			_headshotCamera = GetComponent<HeadshotCamera>();
 			
 			All.Add(this);
@@ -122,6 +125,10 @@ public class Mushroom : MonoBehaviour, Highlightable {
 			var vp = c.ScreenToViewportPoint(sp);
 			
 			return (vp.x is > 0f and < 1f) && (vp.y is > 0f and < 1f);
+		}
+
+		public void LevelCompleteAnimation(bool b) {
+			_animator.SetBool(Cheer, b);
 		}
 
 	#endregion
