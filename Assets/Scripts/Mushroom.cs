@@ -45,6 +45,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		private Renderer[] _meshRenderers;
 		private RaycastHit[] _hits = new RaycastHit[2];
 		private static readonly int Cheer = Animator.StringToHash("Cheer");
+		private static readonly int Pose = Animator.StringToHash("Pose");
 
 	#endregion
 	
@@ -128,7 +129,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		}
 
 		public void LevelCompleteAnimation(bool b) {
-			_animator.SetBool(Cheer, b);
+			_animator.SetTrigger(b ? Cheer : Pose);
 		}
 
 	#endregion

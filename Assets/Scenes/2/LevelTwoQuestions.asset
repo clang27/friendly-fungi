@@ -17,7 +17,7 @@ MonoBehaviour:
     answer: 2
   whatQuestions:
   - template: makes <M1> jump with joy
-    answer: 13
+    answer: 11
   whenQuestions: []
   whereQuestions:
   - template: can <M5>'s hat be found after losing it
@@ -30,7 +30,7 @@ MonoBehaviour:
     gets excited with a fish jumps out and flips in front of him at the dock\n\nM2
     is afraid of heights so does not attend the campfire. He walks around and observes
     nature.\n\nM3 spends all day catching butterflies again near the campfire region
-    lol\n\nM4 catches 4 frogs but loses one on the way home when they drop their
+    lol\n\nM4 catches 3 frogs but loses one on the way home when they drop their
     glasses and pick them up\n\nM5 loses their hat at a random location but it blows
     to the woods\n\nM6 and M7 are frog catchers, however M7 does not have a net.
     M7 is much better at catching frogs than M6. M6 lives with M5 at the top L3.
