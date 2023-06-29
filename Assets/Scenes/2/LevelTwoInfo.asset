@@ -20,11 +20,11 @@ MonoBehaviour:
 
       It is the home of 3 new Shroo, and the rest are visiting today.'
   - LeftImage: {fileID: 21300000, guid: d19fd7194b7c52b42b04389d86afe1a6, type: 3}
-    RightText: '<L7> and <L9> are the two adjacent lakes.
+    RightText: '<LTP7> and <LTP9> are the two adjacent lakes.
 
 
-      Frog, fish, and
-      something <shake>exciting</shake> live there!'
+      Frog, fish,
+      and something <shake>exciting</shake> live there!'
   - LeftImage: {fileID: 21300000, guid: 6ff7de173cb10a146b95d0d8c6432ca7, type: 3}
     RightText: '<wiggle><M6></wiggle> and <wiggle><M4></wiggle> are siblings that
       love catching or playing with <bounce>frogs</bounce>.

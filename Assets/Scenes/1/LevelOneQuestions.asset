@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LevelOneQuestions
   m_EditorClassIdentifier: 
   whoQuestions:
-  - template: visits <L1> to look at clouds
+  - template: visits <LTC1> to look at clouds
     answer: 1
   whatQuestions:
   - template: animal spooks <M0>

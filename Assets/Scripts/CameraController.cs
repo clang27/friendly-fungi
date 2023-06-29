@@ -157,12 +157,10 @@ public class CameraController : MonoBehaviour {
             
                 _targetCameraState.Translate(GetMouseLocation());
                 _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
-                Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             
                 GameManager.Instance.ShowBinoculars();
             } else if (IsRightMouseButtonUp()) {
-                Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 _targetCameraState.Reset();
             

@@ -9612,7 +9612,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "........................................................................................\u200B"
+  m_text: "Hey there, test 123 you know \u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7900eaad73c987f4296079885ff3ee25, type: 2}
   m_sharedMaterial: {fileID: -7482891540631581088, guid: 7900eaad73c987f4296079885ff3ee25, type: 2}
@@ -11635,7 +11635,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
@@ -21882,7 +21882,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -29, y: 34}
-  m_SizeDelta: {x: 320, y: 130}
+  m_SizeDelta: {x: 320, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1503259364
 MonoBehaviour:
@@ -21982,7 +21982,7 @@ MonoBehaviour:
   m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
   m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.234, g: 0.234, b: 0.234, a: 0.7529412}
-  m_Text: ........................................................................................
+  m_Text: 'Hey there, test 123 you know '
   m_CaretBlinkRate: 1.4
   m_CaretWidth: 4
   m_ReadOnly: 0

@@ -50,7 +50,12 @@ public static class Utility {
 	public static string ReplaceTemplatedString(string input) {
 		return LocationData.AllData.Aggregate(
 			MushroomData.AllData.Aggregate(input, (current, md) => current.Replace($"<M{md.Index}>", md.Name))
-			, (current, ld) => current.Replace($"<L{ld.Index}>", ld.Name)
-		);
+			, (current, ld) => {
+				current = current.Replace($"<LTB{ld.Index}>", $"{ld.Name} {ld.Suffix(LocationType.Building)}");
+				current = current.Replace($"<LTC{ld.Index}>", $"{ld.Name} {ld.Suffix(LocationType.Cliff)}");
+				current = current.Replace($"<LTF{ld.Index}>", $"{ld.Name} {ld.Suffix(LocationType.Forest)}");
+				current = current.Replace($"<LTP{ld.Index}>", $"{ld.Name} {ld.Suffix(LocationType.Pond)}");
+				return current;
+			});
 	}
 }
