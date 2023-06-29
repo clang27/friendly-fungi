@@ -44,6 +44,7 @@ public class HeadshotCamera : MonoBehaviour {
 		private void Start() {
 			//_camera.backgroundColor = Color.HSVToRGB(Random.Range(0f, 1f), 0.2f, 0.8f);
 			_camera.gameObject.SetActive(false);
+			//_light.gameObject.SetActive(false);
 			_camera.orthographicSize = Mathf.Sqrt(transform.localScale.x)*zoomOutFactor;
 			_light.intensity = transform.localScale.x * 12.5f;
 		}
@@ -52,6 +53,7 @@ public class HeadshotCamera : MonoBehaviour {
 	
 	#region Other Methods
 		public IEnumerator TakeHeadshot() {
+			//_light.gameObject.SetActive(true);
 			_camera.gameObject.SetActive(true);
 			var goalMagnitude = Vector3.Magnitude(_camera.transform.localPosition);
 			
@@ -75,6 +77,7 @@ public class HeadshotCamera : MonoBehaviour {
 			_headshotSprite = Sprite.Create(_headshotTexture, new Rect(0f, 0f, Utility.HeadshotDimension, 
 							Utility.HeadshotDimension), Vector2.zero);
 
+			//_light.gameObject.SetActive(false);
 			_camera.gameObject.SetActive(false);
 		}
 
