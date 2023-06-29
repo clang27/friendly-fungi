@@ -14,6 +14,7 @@ public class Where : Question {
 	public override string Template => template;
 	
 	public override bool IsRightAnswer(string s) {
-		return s.Equals(Location.All[answer].Name);
+		Debug.Log($"{s} contains {LocationData.AllData[answer].Name}");
+		return s.Contains(LocationData.AllData[answer].Name);
 	}
 }

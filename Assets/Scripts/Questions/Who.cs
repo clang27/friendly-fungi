@@ -13,6 +13,7 @@ public class Who : Question {
 	public override string Header => "Who";
 	public override string Template => template;
 	public override bool IsRightAnswer(string s) {
-		return s.Equals(Mushroom.All[answer].Data.Name);
+		Debug.Log($"{s} == {MushroomData.AllData[answer].Name}");
+		return s.Equals(MushroomData.AllData[answer].Name);
 	}
 }

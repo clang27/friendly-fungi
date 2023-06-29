@@ -17,15 +17,15 @@ MonoBehaviour:
     answer: 2
   whatQuestions:
   - template: makes <M1> jump with joy
-    answer: 11
+    answer: 9
   whenQuestions: []
   whereQuestions:
-  - template: can <M5>'s hat be found after losing it
-    answer: 2
+  - template: does <M3> find a hat
+    answer: 8
   canQuestions: []
   howManyQuestions:
   - template: frogs does <M4> take home with them
-    answer: 3
+    answer: 2
   notes: "M0 does not enjoy nature so spends most of the day at the campfire\n\nM1
     gets excited with a fish jumps out and flips in front of him at the dock\n\nM2
     is afraid of heights so does not attend the campfire. He walks around and observes

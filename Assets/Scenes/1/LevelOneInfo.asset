@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pages:
   - LeftImage: {fileID: 21300000, guid: 242e4e1579cf3b044b2016de2f204123, type: 3}
-    RightText: 'Welcome to Cloud Lookout - home of the best views!
+    RightText: 'Welcome to Cloud Lookout - the sky island with the best views!
 
 
       Also,
-      where the acorn home of <wiggle><M0></wiggle> is.'
+      where <wiggle><M0>''s</wiggle> acorn house is located.'
   - LeftImage: {fileID: 21300000, guid: 0ec4f66ca6d1e8648ac0e5ff4768b55b, type: 3}
     RightText: 'This island has two great peaks for the Shroo to hike to.
 
@@ -30,6 +30,6 @@ MonoBehaviour:
     RightText: '<wiggle><M3></wiggle>  is the only visitor on the island today.
 
 
-      They
-      know that <bounce>butterflies</bounce> love to fly around higher places, and
-      they''re an avid butterfly catcher!'
+      <bounce>Butterflies</bounce>
+      love to fly around high places, and <wiggle><M3></wiggle> is an avid butterfly
+      catcher!'

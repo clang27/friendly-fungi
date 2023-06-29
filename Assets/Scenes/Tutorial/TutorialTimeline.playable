@@ -112,15 +112,15 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 52.53333333333333
+    m_Start: 49.5
     m_ClipIn: 0
     m_Asset: {fileID: 3657598536345904874}
-    m_Duration: 14.75
+    m_Duration: 17.78333333333333
     m_TimeScale: 0.08791209
     m_ParentTrack: {fileID: -7399623841920282772}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 1.3666666666666742
+    m_BlendInDuration: 1
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -304,13 +304,13 @@ MonoBehaviour:
     m_Start: 35.71666666666667
     m_ClipIn: 1.446666666666668
     m_Asset: {fileID: -7878401842801928460}
-    m_Duration: 18.183333333333337
+    m_Duration: 14.783333333333331
     m_TimeScale: 0.19999999999999998
     m_ParentTrack: {fileID: -7399623841920282772}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 1.75
-    m_BlendOutDuration: 1.3666666666666742
+    m_BlendOutDuration: 1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -1719,7 +1719,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 1.75
+    m_BlendOutDuration: 1.4666666666666686
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -1761,16 +1761,16 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 35.71666666666667
+    m_Start: 36
     m_ClipIn: 0
     m_Asset: {fileID: -2392895038378069455}
-    m_Duration: 9.75
+    m_Duration: 6
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1245111972952112501}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 1.75
-    m_BlendOutDuration: 4.800000000000004
+    m_BlendInDuration: 1.4666666666666686
+    m_BlendOutDuration: 1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -1830,16 +1830,16 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 40.666666666666664
+    m_Start: 41
     m_ClipIn: 0
     m_Asset: {fileID: 198317815792806385}
-    m_Duration: 7.700000000000003
+    m_Duration: 4
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1245111972952112501}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 4.800000000000004
-    m_BlendOutDuration: 1.7833333333333385
+    m_BlendInDuration: 1
+    m_BlendOutDuration: 1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve:
@@ -1899,15 +1899,15 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 46.58333333333333
+    m_Start: 44
     m_ClipIn: 0
     m_Asset: {fileID: 8497796396678019802}
-    m_Duration: 7.316666666666677
+    m_Duration: 6
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1245111972952112501}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 1.7833333333333385
+    m_BlendInDuration: 1
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -1950,10 +1950,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: TweenClip
   - m_Version: 1
-    m_Start: 53.900000000000006
+    m_Start: 50
     m_ClipIn: 0
     m_Asset: {fileID: -4966384065525736107}
-    m_Duration: 13.383333333333333
+    m_Duration: 17.28333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1245111972952112501}
     m_EaseInDuration: 0
@@ -1962,7 +1962,25 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

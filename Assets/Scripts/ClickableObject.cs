@@ -19,7 +19,7 @@ public class ClickableObject : MonoBehaviour {
 		public Transform TouchingRay(Ray ray) {
 			var targetHit = Physics.RaycastNonAlloc(ray, _hits, 200f, layerMask);
 			
-			if (targetHit == 0 || !TutorialManager.JournalTabsCanOperate)
+			if (targetHit != 1 || !TutorialManager.JournalTabsCanOperate)
 				return null;
 			
 			var groundHit = Physics.RaycastNonAlloc(ray, _groundHits, 200f, Utility.GroundMask);

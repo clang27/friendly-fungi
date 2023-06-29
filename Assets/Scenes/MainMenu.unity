@@ -25593,8 +25593,8 @@ MonoBehaviour:
   tags_fallbackBehaviors: []
   behaviorValues:
     defaults:
-      wiggleAmplitude: 0.15
-      wiggleFrequency: 7.67
+      wiggleAmplitude: 0.25
+      wiggleFrequency: 4
       waveFrequency: 4.78
       waveAmplitude: 0.2
       waveWaveSize: 0.18
@@ -25603,15 +25603,15 @@ MonoBehaviour:
       swingAmplitude: 27.5
       swingFrequency: 5
       swingWaveSize: 0
-      shakeStrength: 0.085
-      shakeDelay: 0.04
+      shakeStrength: 0.1
+      shakeDelay: 0.05
       sizeAmplitude: 1.4
       sizeFrequency: 4.84
       sizeWaveSize: 0.18
       slideAmplitude: 0.12
       slideFrequency: 5
       slideWaveSize: 0
-      bounceAmplitude: 0.08
+      bounceAmplitude: 0.5
       bounceFrequency: 1
       bounceWaveSize: 0.08
       hueShiftSpeed: 0.8
@@ -32626,7 +32626,8 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 918187289}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5530909178821290196, guid: b54bca67ec52b144cb70877d93b3297c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b54bca67ec52b144cb70877d93b3297c, type: 3}
 --- !u!224 &5960017552913410144
 RectTransform:

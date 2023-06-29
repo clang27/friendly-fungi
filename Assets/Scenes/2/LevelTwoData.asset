@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LevelTwoData
   m_EditorClassIdentifier: 
   SceneName: LevelTwo
-  LevelName: Frog Lakes
+  LevelName: Frog Lake
   StartTime: 14
   EndTime: 21
   Song: {fileID: 8300000, guid: c14681bc07618e44793a08a7bae79fdb, type: 3}

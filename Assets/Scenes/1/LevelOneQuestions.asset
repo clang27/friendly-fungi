@@ -16,12 +16,12 @@ MonoBehaviour:
   - template: visits <L1> to look at clouds
     answer: 1
   whatQuestions:
-  - template: animal spooks <M0>
-    answer: 9
+  - template: spooks <M0>
+    answer: 4
   whenQuestions:
   - template: does <M2> leave their house
-    hour: 11
-    minute: 30
+    hour: 12
+    minute: 58
   whereQuestions: []
   canQuestions: []
   howManyQuestions: []

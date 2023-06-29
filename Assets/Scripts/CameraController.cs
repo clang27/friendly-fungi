@@ -169,6 +169,9 @@ public class CameraController : MonoBehaviour {
             } 
 
             if (RightMouseHeld()) {
+                _highlightedObject?.Highlight(false);
+                _highlightedObject = null;
+                
                 var mouseMovement = GetInputLookRotation() * Settings.MouseRotateSensitivity;
                 if (Settings.InvertLookY)
                     mouseMovement.y = -mouseMovement.y;
@@ -218,8 +221,9 @@ public class CameraController : MonoBehaviour {
         var ray = _camera.ScreenPointToRay(Input.mousePosition);
         var objTrans = _clickableObject.TouchingRay(ray);
         var wasHighlighted = _highlightedObject != null;
-
-        if (wasHighlighted && !objTrans) {
+        var newObjectIsDifferent = objTrans && objTrans.GetComponent<Highlightable>() != _highlightedObject;
+        
+        if ((wasHighlighted && !objTrans) || newObjectIsDifferent){
             _highlightedObject?.Highlight(false);
             _highlightedObject = null;
         }
@@ -229,12 +233,10 @@ public class CameraController : MonoBehaviour {
         
         var newHighlightedObject = objTrans.GetComponent<Highlightable>();
         
-        if (newHighlightedObject != null) {
-            if (!wasHighlighted) {
-                _highlightedObject?.Highlight(false);
-                newHighlightedObject.Highlight(!RightMouseHeld());
-            }
+        if (newHighlightedObject != null && !RightMouseHeld()) {
             _highlightedObject = newHighlightedObject;
+            if (!wasHighlighted || newObjectIsDifferent)
+                _highlightedObject.Highlight(true);
         }
     }
     

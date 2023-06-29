@@ -13,7 +13,7 @@ public static class Utility {
 	
 	public static string FormatTime(float time) {
 		var hours = Mathf.FloorToInt(time);
-		var minutes = 60f * (time - hours);
+		var minutes = Mathf.FloorToInt(60f * (time - hours));
 		
 		var amPmDesignator = "am";
 		switch (hours) {
@@ -30,24 +30,7 @@ public static class Utility {
 		}
 		return $"{hours}:{minutes:00}{amPmDesignator}";
 	}
-	
-	public static string FormatTime(float hours, float minutes) {
-		var amPmDesignator = "am";
-		switch (hours) {
-			case 0:
-				hours = 12;
-				break;
-			case 12:
-				amPmDesignator = "pm";
-				break;
-			case > 12:
-				hours -= 12;
-				amPmDesignator = "pm";
-				break;
-		}
-		return $"{hours}:{minutes:00}{amPmDesignator}";
-	}
-	
+
 	public static int GetHour(string formattedTime) {
 		var hour = int.Parse(formattedTime.Split(':')[0]);
 		if (formattedTime.Contains("pm"))

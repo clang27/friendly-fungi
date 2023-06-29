@@ -13,23 +13,28 @@ MonoBehaviour:
   m_Name: LevelTwoInfo
   m_EditorClassIdentifier: 
   Pages:
-  - LeftImage: {fileID: 0}
-    RightText: 'Welcome to Cloud Lookout - home of the best views!
+  - LeftImage: {fileID: 21300000, guid: 01dd73112cb2f7e44b4e8748314bea52, type: 3}
+    RightText: '<bounce>Frog Lake</bounce> is a great place to catch frogs and view
+      nature!
 
 
-      Also,
-      the island with <M0>''s acorn home (<L2>) where they reside alone.'
-  - LeftImage: {fileID: 0}
-    RightText: 'This island has two great peaks for the Shroo to hike to.
+      It is the home of 3 new Shroo, and the rest are visiting today.'
+  - LeftImage: {fileID: 21300000, guid: d19fd7194b7c52b42b04389d86afe1a6, type: 3}
+    RightText: '<L7> and <L9> are the two adjacent lakes.
 
 
-      I
-      heard <M2> does not like heights however. So, they''ll probably not get close
-      to them.'
-  - LeftImage: {fileID: 0}
-    RightText: '<M3> is the only visitor on the island today.
+      Frog, fish, and
+      something <shake>exciting</shake> live there!'
+  - LeftImage: {fileID: 21300000, guid: 6ff7de173cb10a146b95d0d8c6432ca7, type: 3}
+    RightText: '<wiggle><M6></wiggle> and <wiggle><M4></wiggle> are siblings that
+      love catching or playing with <bounce>frogs</bounce>.
 
 
-      They heard
-      that butterflies love to fly around higher places, and they''re an avid butterfly
-      catcher.'
+      They stay in
+      seperate houses, but they live near each other.'
+  - LeftImage: {fileID: 21300000, guid: cb708e092e1cf894d919ffe8d8794430, type: 3}
+    RightText: 'I don''t have much info on <wiggle><M5></wiggle> unfortunately.
+
+
+      But
+      I do know they wear a cool <shake>hat</shake>!'

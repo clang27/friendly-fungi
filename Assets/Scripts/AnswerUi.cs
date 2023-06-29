@@ -47,8 +47,9 @@ public class AnswerUi : MonoBehaviour {
 					dropdown.AddOptions(Can.Choices);
 					dropdown.gameObject.SetActive(true);
 					break;
-				case "HowMany":
+				case "How Many":
 					incrementer.gameObject.SetActive(true);
+					incrementer.SetValueWithoutNotify(0);
 					break;
 				case "Who":
 					dropdown.ClearOptions();
@@ -72,7 +73,7 @@ public class AnswerUi : MonoBehaviour {
 				"Where" => dropdown.options[dropdown.value].text,
 				"What" => dropdown.options[dropdown.value].text,
 				"Can" => dropdown.options[dropdown.value].text,
-				"HowMany" => incrementer.Value,
+				"How Many" => incrementer.Value,
 				"Who" => dropdown.options[dropdown.value].text,
 				"When" => Utility.FormatTime(timeSlider.CurrentTime+TimeManager.HourOffset),
 				_ => ""
