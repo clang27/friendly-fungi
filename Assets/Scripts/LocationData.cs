@@ -12,10 +12,13 @@ public enum LocationType {
 }
 public class LocationData {
     public static List<LocationData> AllData { get; } = new();
+    public int Index => AllData.IndexOf(this);
     public string Name { get; }
-
+    private int LocationTypeRng { get; }
+    
     private LocationData(string n) {
         Name = n;
+        LocationTypeRng = Random.Range(0, 3);
     }
     
     public static void Init() {
@@ -55,22 +58,21 @@ public class LocationData {
         } 
     }
     
-    public static string RandomSuffix(LocationType lt) {
-        var rng = Random.Range(0, 3);
+    public string Suffix(LocationType lt) {
         switch (lt) {
             case LocationType.Cliff:
                 string[] c = { "Cliff", "Heights", "Peak" };
-                return c[rng];
+                return c[LocationTypeRng];
             case LocationType.Pond:
                 string[] p = { "Pond", "Waters", "Pond" };
-                return p[rng];
+                return p[LocationTypeRng];
             case LocationType.Forest:
                 string[] f = { "Woods", "Forest", "Woods" };
-                return f[rng];
+                return f[LocationTypeRng];
             case LocationType.Building:
             default:
                 string[] b = { "Shack", "House", "Abode" };
-                return b[rng];
+                return b[LocationTypeRng];
         }
     }
 }

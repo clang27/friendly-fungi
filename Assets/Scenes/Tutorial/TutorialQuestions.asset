@@ -15,7 +15,7 @@ MonoBehaviour:
   whoQuestions: []
   whatQuestions:
   - template: does <M0> find in a bush
-    answer: 8
+    answer: 6
   whenQuestions: []
   whereQuestions: []
   canQuestions: []

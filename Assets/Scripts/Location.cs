@@ -16,11 +16,9 @@ public class Location : MonoBehaviour, Highlightable {
 	
 	#region Attributes
 		public static List<Location> All { get; } = new();
-		private string suffix { get; set; }
-		public int Index => index;
 		public string Name => (mushroomDependency) ?
-			mushroomDependency.Data.Name + "\'s " + suffix :
-			LocationData.AllData[Index].Name + " " + suffix;
+			mushroomDependency.Data.Name + "\'s " + LocationData.AllData[index].Suffix(locationType) :
+			LocationData.AllData[index].Name + " " + LocationData.AllData[index].Suffix(locationType);
 		public bool Known => known;
 		public string CurrentGuess { get; set; }
 	#endregion
@@ -31,7 +29,6 @@ public class Location : MonoBehaviour, Highlightable {
 	
 	#region Unity Methods
 		private void Awake() {
-			suffix  = LocationData.RandomSuffix(locationType);
 			_outline = GetComponent<QuickOutline>();
 			
 			All.Add(this);

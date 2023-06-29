@@ -10,6 +10,7 @@ using UnityEngine;
 public class MushroomData {
     private const int MaxHeadTextures = 9;
     public static List<MushroomData> AllData { get; } = new();
+    public int Index => AllData.IndexOf(this);
 
     public string Name { get; }
     public int HeadColorIndex { get; }

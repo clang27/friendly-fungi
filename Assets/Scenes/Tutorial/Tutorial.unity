@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.56999993, g: 0.82333326, b: 0.95, a: 1}
+  m_FogColor: {r: 0.49927485, g: 0.7111717, b: 0.82519966, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.005
   m_LinearFogStart: 0
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.4
   m_CustomReflection: {fileID: 956425074}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.21468277, g: 0.31361818, b: 0.37384695, a: 0.4}
+  m_IndirectSpecularColor: {r: 0.17346849, g: 0.24683462, b: 0.29422328, a: 0.4}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5688,6 +5688,18 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1704235447608492589, guid: f7eb728bfeb62d94095a3ac60db99cb0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1704235447608492589, guid: f7eb728bfeb62d94095a3ac60db99cb0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1704235447608492589, guid: f7eb728bfeb62d94095a3ac60db99cb0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1704235447608492589, guid: f7eb728bfeb62d94095a3ac60db99cb0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.71529
       objectReference: {fileID: 0}
@@ -5899,7 +5911,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 9
-  m_Depth: -1
+  m_Depth: 100
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 2147483647
@@ -6967,7 +6979,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.73800004, g: 0.94177777, b: 1, a: 0}
-  m_Intensity: 0.000036449044
+  m_Intensity: 0.00022654605
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -7012,7 +7024,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.94e-43, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 4.88e-43, y: 7.397723e+31, z: 1.1252048e+24, w: -0.0000008638667}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -7024,7 +7036,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015759078}
-  m_LocalRotation: {x: 0.14644659, y: 0.8535534, z: 0.35355338, w: -0.35355335}
+  m_LocalRotation: {x: -0.527998, y: 0.3140306, z: 0.21870391, w: 0.75813687}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7061,8 +7073,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.75785273, g: 0.5334024, b: 0.52467, a: 1}
-  m_Intensity: 0.5953138
+  m_Color: {r: 0.94028616, g: 0.9333138, b: 0.8999438, a: 1}
+  m_Intensity: 0.6389526
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -7107,7 +7119,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: -2.6106665e-36, z: 6.92e-43, w: -0.00000091578795}
+  m_BoundingSphereOverride: {x: 0, y: 1e-45, z: 9.1835e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -7119,7 +7131,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138677391}
-  m_LocalRotation: {x: 0.35355338, y: 0.35355335, z: -0.14644659, w: 0.8535534}
+  m_LocalRotation: {x: -0.21870391, y: 0.75813687, z: -0.527998, w: -0.3140306}
   m_LocalPosition: {x: -20, y: 100, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

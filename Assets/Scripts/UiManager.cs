@@ -14,7 +14,7 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour {
 	#region Serialized Fields
 		[SerializeField] private Button startButton, audioButton, gameplayButton, graphicsButton;
-		[SerializeField] private RectTransform logo;
+		[SerializeField] private RectTransform logo, leftClickInstruction;
 		
 		[SerializeField] private CanvasGroup menuPanel,
 			loadingPanel,
@@ -40,6 +40,7 @@ public class UiManager : MonoBehaviour {
 		private Journal _journal;
 		private Sign _sign;
 		private RectTransform _binocularRectTransform;
+		private Vector3 _leftClickInstructionStartingPoint;
 	#endregion
 
 	#region Unity Methods
@@ -52,6 +53,7 @@ public class UiManager : MonoBehaviour {
 		}
 
 		private void Start() {
+			_leftClickInstructionStartingPoint = leftClickInstruction.position;
 			logo.DOScale(1.08f, 1.8f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo);
 			logo.DOLocalMoveY(logo.localPosition.y - 8f, 1.8f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo);
 		}
@@ -311,6 +313,26 @@ public class UiManager : MonoBehaviour {
 			foreach (var c in "Level Complete") {
 				tmp.text += c;
 				yield return new WaitForSeconds(time);
+			}
+		}
+		public void ShowLeftClickInstruction(bool b) {
+			var img = leftClickInstruction.GetComponent<Image>();
+
+			if (img.color.a < 0.5f && !b)
+				return;
+			
+			leftClickInstruction.DOKill();
+			img.DOKill();
+
+			if (b) {
+				img.DOFade(1f, 1f);
+				leftClickInstruction.DOScale(Vector3.one * 0.6f, 0.5f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+				leftClickInstruction.DOMoveY(leftClickInstruction.transform.position.y + (Screen.height * 0.04f), 0.5f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+				leftClickInstruction.DOMoveX(leftClickInstruction.transform.position.x - (Screen.height * 0.01f), 0.5f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+			} else {
+				img.DOFade(0f, 0.2f);
+				leftClickInstruction.localScale = Vector3.one;
+				leftClickInstruction.position = _leftClickInstructionStartingPoint;
 			}
 		}
 	#endregion

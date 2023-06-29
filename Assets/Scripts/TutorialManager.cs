@@ -242,6 +242,9 @@ public class TutorialManager : MonoBehaviour {
 
 			foreach (var t in tabsToDisableOnJournalPage)
 				t.Enable(false);
+			
+			var tmp = _leftClickJournal.GetComponentInChildren<TextMeshProUGUI>();
+			tmp.text = "Journal";
 		}
 	
 		private void OpenPage(int i, bool b, float time) {

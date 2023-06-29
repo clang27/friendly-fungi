@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour {
 		public void OpenQuitPrompt() {
 			_timeManager.enabled = false;
 			DisableEverythingForPrompt(true, false);
+			_uiManager.ShowLeftClickInstruction(false);
 				
 			_uiManager.OpenPrompt(
 				"Are you sure you want to exit to menu?\n\nYou will lose this level's progress.",
@@ -175,6 +176,7 @@ public class GameManager : MonoBehaviour {
 			else
 				_uiManager.ShowBackgroundBlur(true);
 
+			_uiManager.ShowLeftClickInstruction(false);
 			_uiManager.OpenSettings();
 		}
 		public void CloseSettings() {
@@ -193,6 +195,7 @@ public class GameManager : MonoBehaviour {
 				DisableEverythingForPrompt(true, false);
 			}
 				
+			_uiManager.ShowLeftClickInstruction(false);
 			_uiManager.OpenJournal();
 		}
 		public void OpenJournalToMushroomPage(Mushroom m) {
@@ -320,6 +323,7 @@ public class GameManager : MonoBehaviour {
 				
 				_timeManager.enabled = true;
 				_timeManager.Play();
+				_uiManager.ShowLeftClickInstruction(true);
 			} else {
 				_tutorialManager.StartTutorial();
 			}

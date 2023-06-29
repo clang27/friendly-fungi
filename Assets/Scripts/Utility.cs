@@ -48,9 +48,9 @@ public static class Utility {
 	}
 
 	public static string ReplaceTemplatedString(string input) {
-		return Location.All.Aggregate(
-			Mushroom.All.Aggregate(input, (current, m) => current.Replace($"<M{m.Index}>", m.Data.Name))
-			, (current, l) => current.Replace($"<L{l.Index}>", l.Name)
+		return LocationData.AllData.Aggregate(
+			MushroomData.AllData.Aggregate(input, (current, md) => current.Replace($"<M{md.Index}>", md.Name))
+			, (current, ld) => current.Replace($"<L{ld.Index}>", ld.Name)
 		);
 	}
 }
