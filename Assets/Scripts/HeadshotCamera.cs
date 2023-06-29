@@ -53,7 +53,7 @@ public class HeadshotCamera : MonoBehaviour {
 	
 	#region Other Methods
 		public IEnumerator TakeHeadshot() {
-			if (!_camera.isActiveAndEnabled) yield break;
+			if (!_camera.gameObject.activeSelf) yield break;
 			
 			_light.gameObject.SetActive(true);
 			//_camera.gameObject.SetActive(true);
