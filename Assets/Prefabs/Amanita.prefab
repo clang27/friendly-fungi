@@ -969,6 +969,7 @@ MonoBehaviour:
   bodyMeshRenderer: {fileID: 1916622484482093019}
   requiresNet: 0
   requiresHat: 0
+  requiresNoHat: 0
   requiresGlasses: 0
   accessoryTints:
   - {r: 0.20098037, g: 0.20098037, b: 1, a: 1}
