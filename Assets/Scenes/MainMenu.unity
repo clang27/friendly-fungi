@@ -1467,7 +1467,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -1730,15 +1730,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicMainMenu: {fileID: 8300000, guid: c6c2cf366c3c8014e8f7bbf7b5fe5c20, type: 3}
-  victoryMusic: {fileID: 8300000, guid: 5c4bdb180f4ee674a91f265eb5e7c5e4, type: 3}
-  defeatMusic: {fileID: 8300000, guid: 853a81485f1ee45e6973957b63da1778, type: 3}
-  uiButtonClick: {fileID: 8300000, guid: cde0712e2125fea4ab46190803748e2f, type: 3}
-  uiTabClick: {fileID: 8300000, guid: 39967aa46d5def14aad4fb573126a67a, type: 3}
-  uiHover: {fileID: 8300000, guid: e515ab3d6890c604689f3f645ee9fb0a, type: 3}
-  uiScoll: {fileID: 8300000, guid: 6a94b13b6902675489ac8135c346da57, type: 3}
+  victoryMusic: {fileID: 8300000, guid: af5d36d53b2bdd24c8bd875ccc35ce7c, type: 3}
+  defeatMusic: {fileID: 8300000, guid: 059704f80492eeb48b9df42776c02dc4, type: 3}
+  uiButtonClick: {fileID: 8300000, guid: 9e83486a1e6531a4180fd8b28ba20781, type: 3}
+  uiTabClick: {fileID: 8300000, guid: 2d11a91eb6d2d06438283173765eda47, type: 3}
+  uiHover: {fileID: 8300000, guid: a8a0b133125e1054db48b40363c57c57, type: 3}
+  uiScoll: {fileID: 8300000, guid: 655c0058945ec1f42982f63b1e083fd3, type: 3}
   uiCheckbox: {fileID: 8300000, guid: 8604d3ecfd3a7d04d9c1440322cdc131, type: 3}
-  correctAnswer: {fileID: 8300000, guid: d50112dff621547448ea782c779da414, type: 3}
-  incorrectAnswer: {fileID: 8300000, guid: cc9fd0f11685f144c8afcddad29dc460, type: 3}
+  uiMushroom: {fileID: 8300000, guid: 1f4413d7ac931904cbb3a7c15f9e3474, type: 3}
+  playGameSound: {fileID: 8300000, guid: 1fbff186e334f0c4a9a4038fddc2407e, type: 3}
+  playTimeSound: {fileID: 8300000, guid: f531f7f645e7f5049b9b3911355026f9, type: 3}
+  correctAnswer: {fileID: 8300000, guid: f05001dcc8304184c980532daba99bc8, type: 3}
+  incorrectAnswer: {fileID: 8300000, guid: 32eeb8e869d203d499f061c9a5d331c3, type: 3}
   grassFootsteps:
   - {fileID: 8300000, guid: 34be47b9b9dba174786975f15f3a4f2b, type: 3}
   - {fileID: 8300000, guid: 6b49a52b62da0d043bfba6175ba5415c, type: 3}
@@ -1748,17 +1751,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e2d9a69e2fff5a84785c97cea72cc518, type: 3}
   - {fileID: 8300000, guid: f5ae39dda7eb6f245867ae14492415f2, type: 3}
   - {fileID: 8300000, guid: 111166a8b1c217444bad5077852d297d, type: 3}
-  daytimeAmbience:
-  - {fileID: 8300000, guid: 87d902e8c7c3ef64b9edcc853826cbd1, type: 3}
-  - {fileID: 8300000, guid: feb517e8726e3854cac7688ccd81eec4, type: 3}
-  - {fileID: 8300000, guid: 1278ad0a6c0865d41995dfdc31c97587, type: 3}
-  nighttimeAmbience:
-  - {fileID: 8300000, guid: 9430c2215c814e74aa1cee63deda9843, type: 3}
-  - {fileID: 8300000, guid: e2aea7f671b41c849badb4e340c1faec, type: 3}
-  - {fileID: 8300000, guid: dc426111433497049aec7cd4d8d78d18, type: 3}
-  riverAmbience:
-  - {fileID: 8300000, guid: 068e9641975586a43898e62986b6446e, type: 3}
-  - {fileID: 8300000, guid: af117e274a10e664995899905423e8ad, type: 3}
+  daytimeAmbience: {fileID: 8300000, guid: feb517e8726e3854cac7688ccd81eec4, type: 3}
+  nighttimeAmbience: {fileID: 8300000, guid: e2aea7f671b41c849badb4e340c1faec, type: 3}
+  frogRibbits:
+  - {fileID: 8300000, guid: ea0204541f05eed40be5e106392c9292, type: 3}
+  - {fileID: 8300000, guid: 00e69593f424d984a85994a205f4eb56, type: 3}
+  - {fileID: 8300000, guid: 2483693066c6cd84583ead0a294952d8, type: 3}
+  - {fileID: 8300000, guid: ccc02f6c7d4ee5243b252f28e3b31e73, type: 3}
 --- !u!1 &101088242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2277,7 +2276,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -5096,7 +5095,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -6779,7 +6778,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -8495,7 +8494,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -10024,7 +10023,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -13106,7 +13105,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -13699,7 +13698,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -20749,7 +20748,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -23114,8 +23113,8 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 92913325}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayUiSound
-          m_Mode: 3
+          m_MethodName: PlayGameSfx
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -28803,7 +28802,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1
@@ -30979,8 +30978,8 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 92913325}
           m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-          m_MethodName: PlayUiSound
-          m_Mode: 3
+          m_MethodName: ResumeTimeSfx
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -31128,7 +31127,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -31351,7 +31350,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 1

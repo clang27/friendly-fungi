@@ -11,7 +11,7 @@ public class Level : ScriptableObject {
 	public float StartTime, EndTime;
 	public AudioClip Song;
 	public int NumberOfCorrectGuesses;
-	public bool Tutorial;
+	public bool Tutorial, HasFrogs;
 	public InfoEntry Entry;
 	public Questions Questions;
 	public bool Unlocked => Tutorial || PlayerPrefs.GetInt(LevelName + "Unlocked", 0) == 1;

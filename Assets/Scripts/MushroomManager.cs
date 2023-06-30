@@ -6,7 +6,6 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class MushroomManager : MonoBehaviour {
 	#region Serialized Fields
@@ -16,11 +15,7 @@ public class MushroomManager : MonoBehaviour {
 	#region Components
 		private Journal _journal;
 	#endregion
-	
-	#region Private Data
-		private bool[] _footstepCooldowns;
-	#endregion
-	
+
 	#region Unity Events
 		private void Awake() {
 			_journal = FindObjectOfType<Journal>();
@@ -31,10 +26,9 @@ public class MushroomManager : MonoBehaviour {
 				return;
 
 			foreach (var m in Mushroom.All.Where(m => m.IsOnScreen(CameraController.Camera))) {
-				if (_footstepCooldowns[m.Index] || (!m.WalkingOnGrass && !m.WalkingOnWood)) continue;
+				if ((!m.WalkingOnGrass && !m.WalkingOnWood)) continue;
 				
 				AudioManager.Instance.PlayRandomFootstep(m.WalkingOnGrass);
-				StartCoroutine(FootstepCooldown(m.Index));
 			}
 		}
 	#endregion
@@ -44,15 +38,8 @@ public class MushroomManager : MonoBehaviour {
 			foreach (var m in Mushroom.All)
 				m.LevelCompleteAnimation(b);
 		}
-		public IEnumerator FootstepCooldown(int i) {
-			_footstepCooldowns[i] = true;
-			yield return new WaitForSeconds(Random.Range(0.75f, 1f));
-			_footstepCooldowns[i] = false;
-		}
 		
 		public void Init() {
-			_footstepCooldowns = new bool[Mushroom.All.Count];
-				
 			var index = 1f;
 			foreach (var mushroom in Mushroom.All) {
 				mushroom.EnableRenderers(true);

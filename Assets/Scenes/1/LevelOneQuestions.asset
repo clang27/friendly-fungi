@@ -18,7 +18,7 @@ MonoBehaviour:
     answer: 1
   whatQuestions:
   - template: animal spooks <M0>
-    tip: Seperate the idea of what a Shroo finds scary or cute
+    tip: Seperate the idea of what a Shroo finds scary or cute.
     answer: 4
   whenQuestions:
   - template: does <M2> leave their house

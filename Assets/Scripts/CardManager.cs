@@ -77,7 +77,7 @@ public class CardManager : MonoBehaviour {
 			var s1 = DOTween.Sequence();
 			var s2 = DOTween.Sequence();
 			foreach (var q in _randomQuestions) {
-				Debug.Log("Showing " + Cards[i].name);
+				//Debug.Log("Showing " + Cards[i].name);
 				Cards[i].SetQuestion(q);
 				Cards[i].ShowCard(true);
 				Cards[i].HideToRightOfScreen();

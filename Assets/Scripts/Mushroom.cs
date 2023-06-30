@@ -46,7 +46,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		private RaycastHit[] _hits = new RaycastHit[2];
 		private static readonly int Cheer = Animator.StringToHash("Cheer");
 		private static readonly int Pose = Animator.StringToHash("Pose");
-
+		private Vector3 lastPosition = Vector3.zero;
 	#endregion
 	
 	#region Unity Methods
@@ -61,9 +61,17 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		}
 
 		private void FixedUpdate() {
+			if (Vector3.Distance(lastPosition, _transform.position) < 1f) {
+				WalkingOnWood = false;
+				WalkingOnGrass = false;
+				return;
+			}
+			
 			WalkingOnWood = Physics.RaycastNonAlloc(_transform.position + Vector3.up, Vector3.down, _hits, 1.2f, Utility.RoadMask) > 0;
 			WalkingOnGrass = !WalkingOnWood &&
 			                 Physics.RaycastNonAlloc(_transform.position + Vector3.up, Vector3.down, _hits, 1.2f, Utility.GroundMask) > 0;
+
+			lastPosition = _transform.position;
 		}
         
 		private void OnDestroy() {
@@ -73,7 +81,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	
 	#region Other Methods
 		public void ApplyUniqueMaterials() {
-			Debug.Log(Data);
+			//Debug.Log(Data);
 			
 			headTopMeshRenderer.materials[1].mainTexture = headTextures[Data.HeadColorIndex];
 			bodyMeshRenderer.material.color = bodyTints[Data.BodyColorIndex];
@@ -100,19 +108,19 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		public IEnumerator TakeHeadshot(float waitTime) {
 			yield return new WaitForSeconds(waitTime);
 			
-			Debug.Log("Taking " + Data.Name + "'s headshot.");
+			//Debug.Log("Taking " + Data.Name + "'s headshot.");
 			StartCoroutine(HeadshotCamera.TakeHeadshot());
 		}
 
 		public void MoveAside(float gap) {
 			var pos = new Vector3(gap, transform.position.y, gap);
 			
-			Debug.Log("Moving aside to " + pos);
+			//Debug.Log("Moving aside to " + pos);
 			_transform.position = pos;
 		}
 
 		public void Click() {
-			AudioManager.Instance.PlayUiSound(UiSound.ButtonClick);
+			AudioManager.Instance.PlayUiSound(UiSound.Mushroom);
 			GameManager.Instance.OpenJournalToMushroomPage(this);
 		}
 		

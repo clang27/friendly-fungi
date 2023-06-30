@@ -11,7 +11,12 @@ using Random = UnityEngine.Random;
 
 [Serializable]
 public enum UiSound {
-	Hover, ButtonClick, TabClick, Scroll, Checkbox
+	Hover, ButtonClick, TabClick, Scroll, Checkbox, Mushroom
+}
+
+[Serializable]
+public enum ShrooSound {
+	Cheer, Fright, Disapproval, Greet
 }
 
 public class AudioManager : MonoBehaviour {
@@ -22,23 +27,27 @@ public class AudioManager : MonoBehaviour {
 		
 		[Header("UI")]
 		[SerializeField] private AudioClip uiButtonClick;
-		[SerializeField] private AudioClip uiTabClick, uiHover, uiScoll, uiCheckbox;
+		[SerializeField] private AudioClip uiTabClick, uiHover, uiScoll, uiCheckbox, uiMushroom;
+		[SerializeField] private AudioClip playGameSound, playTimeSound;
 		
 		[Header("SFX")]
 		[SerializeField] private AudioClip correctAnswer;
 		[SerializeField] private AudioClip incorrectAnswer;
 		[SerializeField] private AudioClip[] grassFootsteps, otherFootsteps;
-		
+
 		[Header("Ambience")]
-		[SerializeField] private AudioClip[] daytimeAmbience;
-		[SerializeField] private AudioClip[] nighttimeAmbience;
-		[SerializeField] private AudioClip[] riverAmbience;
+		[SerializeField] private AudioClip daytimeAmbience;
+		[SerializeField] private AudioClip nighttimeAmbience;
+		[SerializeField] private AudioClip[] frogRibbits;
 	#endregion
 	
 	#region Attributes
 		public static AudioManager Instance { get; private set; }
+		private bool AmbienceEnabled { get; set; }
 		private static bool SoundCooldown { get; set; }
 		private const float CooldownThreshold = 0.2f;
+		
+		private bool PlayingFrogSound { get; set; }
 	#endregion
 	
 	#region Components
@@ -54,11 +63,37 @@ public class AudioManager : MonoBehaviour {
 			_ambienceSource = GetComponentsInChildren<AudioSource>()[2];
 		}
 
+		private void FixedUpdate() {
+			if (!AmbienceEnabled) return;
+			
+			if (TimeManager.Hour < 17f)
+				DaytimeAmbience();
+			else
+				NighttimeAmbience();
+
+			if (LevelSelection.CurrentLevel.HasFrogs && !PlayingFrogSound) {
+				PlayingFrogSound = true;
+				DOVirtual.DelayedCall(Random.Range(6f, 12f), () => {
+					PlayingFrogSound = false;
+					PlayAmbientSound(frogRibbits[Random.Range(0, frogRibbits.Length)], 0.5f);
+				});
+			}
+				
+		}
+
 	#endregion
 	
 	#region Other Methods
 		public void MainMenuTheme() {
 			ChangeClip(musicMainMenu, _musicSource);
+		}
+
+		public void PlayGameSfx() {
+			PlaySfx(playGameSound, 1f);
+		}
+		
+		public void ResumeTimeSfx() {
+			PlaySfx(playTimeSound, 1f);
 		}
 		
 		public void VictoryTheme() {
@@ -100,16 +135,26 @@ public class AudioManager : MonoBehaviour {
 			
 		}
 		public void StartAmbience() {
-			SelectAmbienceBasedOnTime(TimeManager.Hour);
 			_ambienceSource.Play();
+			AmbienceEnabled = true;
 		}
 		
 		public void StopAmbience() {
 			_ambienceSource.Stop();
+			AmbienceEnabled = false;
 		}
-
-		private void SelectAmbienceBasedOnTime(float hour) {
-			ChangeClip(hour is >= 7 and <= 17 ? daytimeAmbience[0] : nighttimeAmbience[0], _ambienceSource);
+		private void DaytimeAmbience() {
+			if (_ambienceSource.clip == daytimeAmbience)
+				return;
+			
+			ChangeClip(daytimeAmbience, _ambienceSource);
+		}
+		
+		private void NighttimeAmbience() {
+			if (_ambienceSource.clip == nighttimeAmbience)
+				return;
+			
+			ChangeClip(nighttimeAmbience, _ambienceSource);
 		}
 
 		public void UpdateMasterVolume(float f) {
@@ -147,6 +192,11 @@ public class AudioManager : MonoBehaviour {
 			_sfxSource.PlayOneShot(ac, volume);
 		}
 		
+		public void PlayAmbientSound(AudioClip ac, float volume = 1f, float pitch = 1f) {
+			_ambienceSource.pitch = pitch;
+			_ambienceSource.PlayOneShot(ac, volume);
+		}
+		
 		public void PlayUiSound(UiSound s) {
 			switch (s) {
 				case UiSound.Checkbox:
@@ -159,6 +209,8 @@ public class AudioManager : MonoBehaviour {
 					_sfxSource.PlayOneShot(uiScoll, 1f); break;
 				case UiSound.Hover:
 					_sfxSource.PlayOneShot(uiHover, 1f); break;
+				case UiSound.Mushroom:
+					_sfxSource.PlayOneShot(uiMushroom, 1f); break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(s), s, null);
 			}
@@ -181,7 +233,7 @@ public class AudioManager : MonoBehaviour {
 			if (SoundCooldown) return;
 			
 			StartCoroutine(Cooldown());
-			PlayUiSound(UiSound.Scroll);
+			PlayUiSound(UiSound.TabClick);
 		}
 		
 		private static IEnumerator Cooldown() {

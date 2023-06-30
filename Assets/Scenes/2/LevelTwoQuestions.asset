@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whoQuestions:
   - template: does not attend the campfire at anytime
-    tip: Be patient and use your journal to make note who came by
+    tip: Be patient and use your journal to make note who came by.
     answer: 2
   whatQuestions:
   - template: makes <M1> jump with joy

@@ -61,7 +61,7 @@ public class TimeManager : MonoBehaviour {
                 Pause();
                 PausedFlag = true;
             }
-            
+
             _timeSlider.UpdateTimeUi(Hour);
         }
         public void Init(Transform t) {

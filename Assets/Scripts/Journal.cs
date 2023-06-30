@@ -224,7 +224,7 @@ public class Journal : MonoBehaviour {
 					name = $"{shroom.Data.Name}sJournalMaterial"
 				};
 
-				Debug.Log($"Adding {shroom.Data.Name}sJournalMaterial");
+				//Debug.Log($"Adding {shroom.Data.Name}sJournalMaterial");
 				mat.SetTexture(MainTex, shroom.HeadshotCamera.HeadshotTexture);
 
 				// Reapply new headshot on each shroom, but don't restart text data if already exists
@@ -250,7 +250,7 @@ public class Journal : MonoBehaviour {
 		}
 
 		public static void ClearData() {
-			Debug.Log("Clearing entries from journal.");
+			//Debug.Log("Clearing entries from journal.");
 			_entries.Clear();
 		}
 
@@ -282,7 +282,7 @@ public class Journal : MonoBehaviour {
 				image.gameObject.SetActive(index < _entries.Count);
 
 				if (index < _entries.Count) {
-					Debug.Log($"Setting TOC #{index}");
+					//Debug.Log($"Setting TOC #{index}");
 					//image.sprite = _entries[index].Headshot;
 					image.material = _entries[index].Mat;
 
