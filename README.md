@@ -34,4 +34,5 @@ I have the rights and license to use the following from the Unity Asset Store.
 - [SFX](https://assetstore.unity.com/packages/audio/sound-fx/ultimate-sound-fx-bundle-151756)
 - [Music](https://assetstore.unity.com/packages/audio/music/orchestral/total-music-collection-89126)
 - [Isometric Tiles](https://assetstore.unity.com/packages/3d/environments/hypepoly-isometric-tiles-standart-192177)
-- Journal images (that were not screenshots) were from Canva's image library
+
+Journal images (that were not screenshots) were from Canva's image library
