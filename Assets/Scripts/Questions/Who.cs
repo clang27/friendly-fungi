@@ -8,10 +8,11 @@ using UnityEngine;
 
 [Serializable]
 public class Who : Question {
-	[SerializeField] private string template;
+	[SerializeField] private string template, tip;
 	[SerializeField] private int answer;
 	public override string Header => "Who";
 	public override string Template => template;
+	public override string Tip => tip;
 	public override bool IsRightAnswer(string s) {
 		Debug.Log($"{s} == {MushroomData.AllData[answer].Name}");
 		return s.Equals(MushroomData.AllData[answer].Name);

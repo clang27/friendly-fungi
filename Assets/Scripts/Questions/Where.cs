@@ -8,10 +8,11 @@ using UnityEngine;
 
 [Serializable]
 public class Where : Question {
-	[SerializeField] private string template;
+	[SerializeField] private string template, tip;
 	[SerializeField] private int answer;
 	public override string Header => "Where";
 	public override string Template => template;
+	public override string Tip => tip;
 	
 	public override bool IsRightAnswer(string s) {
 		Debug.Log($"{s} contains {LocationData.AllData[answer].Name}");

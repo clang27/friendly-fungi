@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whoQuestions:
   - template: visits <LTC1> to look at clouds
+    tip: 
     answer: 1
   whatQuestions:
   - template: animal spooks <M0>
+    tip: Seperate the idea of what a Shroo finds scary or cute
     answer: 4
   whenQuestions:
   - template: does <M2> leave their house
+    tip: 
     hour: 12
     minute: 58
   whereQuestions: []

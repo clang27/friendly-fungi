@@ -13,6 +13,7 @@ public class AnswerUi : MonoBehaviour {
 		[SerializeField] private TMP_Dropdown dropdown;
 		[SerializeField] private Incrementer incrementer;
 		[SerializeField] private TimeSlider timeSlider;
+		[SerializeField] private TextMeshProUGUI tip;
 	#endregion
 	
 	#region Attributes
@@ -25,6 +26,8 @@ public class AnswerUi : MonoBehaviour {
 			var q = PartneredCard.Question;
 			
 			header.text = q.Header + " " + q.ReplaceNameTemplate() + "?";
+			tip.text = Utility.ReplaceTemplatedString(q.Tip);
+			
 			dropdown.gameObject.SetActive(false);
 			timeSlider.gameObject.SetActive(false);
 			incrementer.gameObject.SetActive(false);

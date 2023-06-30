@@ -14,17 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whoQuestions:
   - template: does not attend the campfire at anytime
+    tip: Be patient and use your journal to make note who came by
     answer: 2
   whatQuestions:
   - template: makes <M1> jump with joy
+    tip: 
     answer: 9
   whenQuestions: []
   whereQuestions:
   - template: does <M3> find a hat
+    tip: It is <M5>'s hat! I wonder how he lost it.
     answer: 8
   canQuestions: []
   howManyQuestions:
   - template: frogs does <M4> take home with them
+    tip: Analyze their journey from multiple perspectives!
     answer: 2
   notes: "M0 does not enjoy nature so spends most of the day at the campfire\n\nM1
     gets excited with a fish jumps out and flips in front of him at the dock\n\nM2

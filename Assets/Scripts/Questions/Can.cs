@@ -16,10 +16,11 @@ public enum CanAnswer {
 [Serializable]
 public class Can : Question {
 	[SerializeField] private bool convertToDoes;
-	[SerializeField] private string template;
+	[SerializeField] private string template, tip;
 	[SerializeField] private CanAnswer answer;
 	public override string Header => convertToDoes ? "Does" : "Can";
 	public override string Template => template;
+	public override string Tip => tip;
 	public static List<string> Choices => Enum.GetNames(typeof(CanAnswer)).ToList();
 	
 	public override bool IsRightAnswer(string s) {

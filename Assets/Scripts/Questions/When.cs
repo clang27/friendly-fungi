@@ -8,11 +8,12 @@ using UnityEngine;
 
 [Serializable]
 public class When : Question {
-	[SerializeField] private string template;
+	[SerializeField] private string template, tip;
 	[SerializeField] private int hour, minute;
 	private const int gap = 10;
 	public override string Header => "When";
 	public override string Template => template;
+	public override string Tip => tip;
 	public override bool IsRightAnswer(string s) {
 		var h = Utility.GetHour(s);
 		var m = Utility.GetMinute(s);

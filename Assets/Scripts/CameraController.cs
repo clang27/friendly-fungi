@@ -157,15 +157,17 @@ public class CameraController : MonoBehaviour {
             
                 _targetCameraState.Translate(GetMouseLocation());
                 _targetCameraState.AddZoom(-18f, minZoomIn, maxZoomIn);
-                Cursor.lockState = CursorLockMode.Locked;
+                //Cursor.lockState = CursorLockMode.Locked;
             
                 GameManager.Instance.ShowBinoculars();
             } else if (IsRightMouseButtonUp()) {
-                Cursor.lockState = CursorLockMode.None;
+                //Cursor.lockState = CursorLockMode.None;
                 _targetCameraState.Reset();
             
                 GameManager.Instance.HideBinoculars();
-            } 
+            }
+
+            Cursor.lockState = (RightMouseHeld()) ? CursorLockMode.Locked : CursorLockMode.None;
 
             if (RightMouseHeld()) {
                 _highlightedObject?.Highlight(false);

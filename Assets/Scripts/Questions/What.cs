@@ -15,10 +15,11 @@ public enum WhatAnswer {
 
 [Serializable]
 public class What : Question {
-	[SerializeField] private string template;
+	[SerializeField] private string template, tip;
 	[SerializeField] private WhatAnswer answer;
 	public override string Header => "What";
 	public override string Template => template;
+	public override string Tip => tip;
 	public static List<string> Choices => Enum.GetNames(typeof(WhatAnswer)).ToList();
 	
 	public override bool IsRightAnswer(string s) {
