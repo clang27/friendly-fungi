@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a95b0a2e6cadd0b42865d0868c073860, type: 3}
+  m_Name: TutorialInfo
+  m_EditorClassIdentifier: 
+  Pages:
+  - LeftImage: {fileID: 21300000, guid: 1f1802f3ad943964fb7b661b3553c78b, type: 3}
+    RightText: '<bounce>Hello</bounce>, human traveller!
+
+
+      We heard you would
+      be flying in for some observations.'
+  - LeftImage: {fileID: 21300000, guid: 83d23c0113b8d0a43a2cc544b05741d4, type: 3}
+    RightText: 'Take your time and enjoy your stay!
+
+
+      And... if you wouldn''t
+      mind answering a <wiggle>few</wiggle> questions our mayor has - that would
+      be extremely helpful!'
+  - LeftImage: {fileID: 21300000, guid: 601e0763cff52a445a333de16eab842d, type: 3}
+    RightText: 'He''ll send them to you via index cards - click on them to answer
+      them!
+
+
+      To answer them, you''ll need information. Luckily, there are
+      many sources to gather from!'
+  - LeftImage: {fileID: 21300000, guid: 3e9599cd0e2dec745a2bcc219521908a, type: 3}
+    RightText: "<wiggle>Locations</wiggle> are buildings or places marked with a
+      rectangular sign. \n\nIf your mouse highlights something <red>red</red>, it's
+      a location!"
+  - LeftImage: {fileID: 21300000, guid: 465597ff483755c45a5d2e493ed70858, type: 3}
+    RightText: 'Sometimes, locations are unknown. Use location pointers to deduce
+      their name and wherabouts.
+
+
+      <wiggle>Location pointers</wiggle> are arrow-shaped
+      signs. They highlight <yellow>yellow</yellow>.'
+  - LeftImage: {fileID: 21300000, guid: 4b731ac0cb85d5543b9b9545c673521c, type: 3}
+    RightText: 'Last but not least, are the little toadstools you came here to see:
+
+
+      the
+      <shake>Shroo!</shake>
+
+
+'
+  - LeftImage: {fileID: 21300000, guid: ef6e6d20bbfd2b747b4b10cf6bf7a13b, type: 3}
+    RightText: 'We forgot whom was who, so jot down each Shroo''s name as you learn
+      them!
+
+
+      Today, we know for certain that <wiggle><M0></wiggle> is the
+      only one visiting this island.'
+  - LeftImage: {fileID: 21300000, guid: 158d6a66a51e6a743bfabdd26b4e67c9, type: 3}
+    RightText: '<wiggle>Shroo</wiggle> highlight <white>white</white> and clicking
+      them takes you to their note page.
+
+
+      You can see all note pages in the
+      "Shroo" tab on right. '
+  - LeftImage: {fileID: 21300000, guid: 579adda55fd32be4ba73e54db41acc99, type: 3}
+    RightText: 'Read your journal at the start of each day, and analyze the questions
+      and locations. Sometimes you can learn new information from context clues!
+
+
+      Good
+      luck, surveyor!
+
+'

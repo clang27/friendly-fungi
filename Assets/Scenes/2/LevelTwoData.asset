@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5555e026b7fc3664496191adc7728850, type: 3}
+  m_Name: LevelTwoData
+  m_EditorClassIdentifier: 
+  SceneName: LevelTwo
+  LevelName: Frog Lake
+  StartTime: 13
+  EndTime: 20
+  Song: {fileID: 8300000, guid: c14681bc07618e44793a08a7bae79fdb, type: 3}
+  NumberOfCorrectGuesses: 3
+  Tutorial: 0
+  HasFrogs: 1
+  Entry: {fileID: 11400000, guid: 40226552d4f4a21418e4f996da1b3eaa, type: 2}
+  Questions: {fileID: 11400000, guid: ed9f802022aaa52479cb22850d892f21, type: 2}

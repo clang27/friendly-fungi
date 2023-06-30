@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a95b0a2e6cadd0b42865d0868c073860, type: 3}
+  m_Name: LevelTwoInfo
+  m_EditorClassIdentifier: 
+  Pages:
+  - LeftImage: {fileID: 21300000, guid: 01dd73112cb2f7e44b4e8748314bea52, type: 3}
+    RightText: '<bounce>Frog Lake</bounce> is a great place to catch frogs and view
+      nature!
+
+
+      It is the home of 3 new Shroo, and the rest are visiting today.'
+  - LeftImage: {fileID: 21300000, guid: d19fd7194b7c52b42b04389d86afe1a6, type: 3}
+    RightText: '<LTP7> and <LTP9> are the two adjacent lakes.
+
+
+      Frog, fish,
+      and something <shake>exciting</shake> live there!'
+  - LeftImage: {fileID: 21300000, guid: 6ff7de173cb10a146b95d0d8c6432ca7, type: 3}
+    RightText: '<wiggle><M6></wiggle> and <wiggle><M4></wiggle> are siblings that
+      love catching or playing with <bounce>frogs</bounce>.
+
+
+      They stay in
+      seperate houses, but they live near each other.'
+  - LeftImage: {fileID: 21300000, guid: cb708e092e1cf894d919ffe8d8794430, type: 3}
+    RightText: 'I don''t have much info on <wiggle><M5></wiggle> unfortunately.
+
+
+      But
+      I do know they wear a cool <shake>hat</shake>!'

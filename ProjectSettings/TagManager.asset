@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tile
+  - Map
+  - Mushroom
   layers:
   - Default
   - TransparentFX
@@ -11,16 +14,16 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Mushroom
+  - Ground
+  - Plate
+  - Grass
+  - Stone
+  - Tree
+  - Bush
+  - Branch
+  - Road
+  - Location
   - 
   - 
   - 
