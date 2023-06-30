@@ -33,7 +33,7 @@ public static class Utility {
 
 	public static int GetHour(string formattedTime) {
 		var hour = int.Parse(formattedTime.Split(':')[0]);
-		if (formattedTime.Contains("pm"))
+		if (formattedTime.Contains("pm") && hour != 12)
 			hour += 12;
 
 		return hour;
