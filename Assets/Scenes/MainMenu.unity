@@ -1741,7 +1741,7 @@ MonoBehaviour:
   playGameSound: {fileID: 8300000, guid: 1fbff186e334f0c4a9a4038fddc2407e, type: 3}
   playTimeSound: {fileID: 8300000, guid: f531f7f645e7f5049b9b3911355026f9, type: 3}
   correctAnswer: {fileID: 8300000, guid: f05001dcc8304184c980532daba99bc8, type: 3}
-  incorrectAnswer: {fileID: 8300000, guid: 32eeb8e869d203d499f061c9a5d331c3, type: 3}
+  incorrectAnswer: {fileID: 8300000, guid: 733bbba495444aa46a0d7897c0071255, type: 3}
   grassFootsteps:
   - {fileID: 8300000, guid: 34be47b9b9dba174786975f15f3a4f2b, type: 3}
   - {fileID: 8300000, guid: 6b49a52b62da0d043bfba6175ba5415c, type: 3}
