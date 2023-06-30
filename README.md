@@ -4,7 +4,7 @@ This is my finalist game about Critical Thinking in the 2023 Life. Love. Game De
 
 ## How to Play
 
-Look for clues and objerve events that occur over time on the Shroo Kingdom's sky islands.
+Look for clues and observe events that occur on the Shroo Kingdom's sky islands.
 Control time to see anything play out again!
 Use your journal to learn more about the Shroo and island and use it to write down notes.
 
