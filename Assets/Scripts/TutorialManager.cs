@@ -20,6 +20,7 @@ public class TutorialManager : MonoBehaviour {
 	
 		[SerializeField] private GameObject panel;
 		[SerializeField] private CanvasGroup[] pages;
+		[SerializeField] private CanvasGroup tryAgainMessage;
 	#endregion
 
 	#region Attributes
@@ -36,6 +37,9 @@ public class TutorialManager : MonoBehaviour {
 		private int _currentPage = -1;
 		private Sequence _pageTurnSequence;
 		private bool _turningPage;
+		
+		private Sequence _tryAgainSequence;
+		private Vector3 _tryAgainStartingPosition;
 
 		// Page one
 		private RectTransform _leftArrow, _rightArrow;
@@ -65,6 +69,8 @@ public class TutorialManager : MonoBehaviour {
 		}
 
 		private void Start() {
+			_tryAgainStartingPosition = tryAgainMessage.transform.position;
+				
 			// Page one
 			var left = pages[0].transform.GetChild(0);
 			var right = pages[0].transform.GetChild(1);
@@ -312,6 +318,19 @@ public class TutorialManager : MonoBehaviour {
 
 		public void ExittedJournal() {
 			_exittedJournal = _currentPage == 3;
+		}
+
+		public void ShowTryAgainMessage() {
+			_tryAgainSequence.Kill();
+			
+			tryAgainMessage.alpha = 0f;
+			tryAgainMessage.transform.position = _tryAgainStartingPosition;
+			
+			_tryAgainSequence = DOTween.Sequence();
+			_tryAgainSequence.Append(tryAgainMessage.DOFade(1f, 0.25f));
+			_tryAgainSequence.Append(tryAgainMessage.transform.DOMoveY(_tryAgainStartingPosition.y - 20f, 2f).SetEase(Ease.OutExpo));
+			_tryAgainSequence.Append(tryAgainMessage.DOFade(0f, 0.5f));
+			_tryAgainSequence.Play();
 		}
 	#endregion
 }

@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour {
 		private MushroomManager _mushroomManager;
 		private VictoryParticles _victoryParticles;
 		private Volume _volume;
+		private LevelSelection _levelSelection;
 	#endregion
 	
 	#region Private Data
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour {
 			_cardManager = GetComponent<CardManager>();
 			_mushroomManager = GetComponent<MushroomManager>();
 			_volume = GetComponent<Volume>();
+			_levelSelection = FindObjectOfType<LevelSelection>();
 		}
 
 		private void Start() {
@@ -139,6 +142,13 @@ public class GameManager : MonoBehaviour {
 			
 			foreach (var b in FindObjectsOfType<MiscAnimal>())
 				b.EnableRenderers(false);
+		}
+
+		public void AutoScrollNextLevel() {
+			if (!LevelSelection.NextLevel) return;
+			
+			_uiManager.DisableButtonsOnLoading(true);
+			DOVirtual.DelayedCall(1f, _levelSelection.SelectNextLevel);
 		}
 
 		private void RestartLevel() {
@@ -395,6 +405,27 @@ public class GameManager : MonoBehaviour {
 					_audioManager.PlayCorrect(false);
 					CloseAnswer();
 				}
+			}
+		}
+		
+		public void GuessTutorial(bool correct) {
+			if (correct) {
+				_audioManager.VictoryTheme();
+				foreach (var b in FindObjectsOfType<MiscAnimal>())
+					b.EnableRenderers(false);
+				_timeManager.SlideTimeToNight();
+				_mushroomManager.LevelCompleteAnimations(true);
+				_victoryParticles.Activate(true);
+				_cameraController.ResetWorldPositionToVictory();
+				_uiManager.ShowAnswerPanel(false);
+				DisableEverythingForPrompt(true, true, 0.4f);
+				_uiManager.ShowLevelComplete(true);
+				if (LevelSelection.NextLevel)
+					LevelSelection.NextLevel.SaveLevelComplete();
+			} else {
+				_audioManager.PlayCorrect(false);
+				CloseAnswer();
+				_tutorialManager.ShowTryAgainMessage();
 			}
 		}
 

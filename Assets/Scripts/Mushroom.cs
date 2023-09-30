@@ -18,8 +18,9 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		[SerializeField] private MeshRenderer headTopMeshRenderer;
 		[SerializeField] private SkinnedMeshRenderer bodyMeshRenderer;
 
-		[Header("Accessories")] 
-		[SerializeField] private bool requiresNet, requiresHat, requiresNoHat, requiresGlasses;
+		[Header("Accessories")]
+		[SerializeField] private bool requiresNet;
+		[SerializeField] private bool requiresHat, requiresNoHat, requiresGlasses;
 		[SerializeField] private Color[] accessoryTints;
 		[SerializeField] private MeshRenderer fannyPack, butterflyNet, glasses, hat, headband;
 	#endregion
