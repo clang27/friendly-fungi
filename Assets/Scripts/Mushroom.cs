@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Mushroom : MonoBehaviour, Highlightable {
@@ -33,6 +34,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	    public static List<Mushroom> All { get; } = new();
 		public MushroomData Data => MushroomData.AllData[Index];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
+		private bool VocalCooldown { get; set; }
 	#endregion
 	
 	#region Components
@@ -140,6 +142,14 @@ public class Mushroom : MonoBehaviour, Highlightable {
 
 		public void LevelCompleteAnimation(bool b) {
 			_animator.SetTrigger(b ? Cheer : Pose);
+		}
+		public void PlayVocalSound(int i) {
+			if (VocalCooldown) return;
+			if (!IsOnScreen(CameraController.Camera)) return;
+
+			AudioManager.Instance.PlayShrooSound(i);
+			VocalCooldown = true;
+			DOVirtual.DelayedCall(2f / TimeManager.SecondMultiplier, () => VocalCooldown = false);
 		}
 
 	#endregion

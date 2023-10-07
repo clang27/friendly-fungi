@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour {
 		public static GameManager Instance { get; private set; }
 		public bool Loading { get; private set; }
 		private bool InMainMenu { get; set; } = true;
-		
 		public bool InBinoculars { get; private set; }
+		public static bool Victory { get; private set; }
 	#endregion
 
 	#region Components
@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour {
 
 		public void QuitGame() {
 			InMainMenu = true;
+			Victory = false;
 
 			_mushroomManager.LevelCompleteAnimations(false);
 			_tutorialManager.EndTutorial();
@@ -166,12 +167,11 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		private void DisableEverythingForPrompt(bool b, bool autoRotate = true, float blurBgAmount = 1f) {
-			if (b) {
+			if (b)
 				_timeManager.Pause();
-			} else if (!TimeManager.PausedFlag) {
+			else if (!TimeManager.PausedFlag)
 				_timeManager.Play();
-			}
-			
+
 			_cameraController.Enabled = !b;
 			_cameraController.AutoRotate = b && autoRotate;
 			
@@ -199,12 +199,11 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		public void OpenJournal() {
-			if (InMainMenu) {
+			if (InMainMenu)
 				_uiManager.CloseMainMenu();
-			} else {
+			else
 				DisableEverythingForPrompt(true, false);
-			}
-				
+
 			_uiManager.ShowLeftClickInstruction(false);
 			_uiManager.OpenJournal();
 		}
@@ -233,12 +232,11 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		public void CloseJournal() {
-			if (InMainMenu) {
+			if (InMainMenu)
 				_uiManager.OpenMainMenu();
-			} else {
+			else
 				DisableEverythingForPrompt(false);
-			}
-				
+
 			_uiManager.CloseJournal();
 		}
 
@@ -376,6 +374,7 @@ public class GameManager : MonoBehaviour {
 			if (correct) {
 				_correctGuesses++;
 				if (_correctGuesses == LevelSelection.CurrentLevel.NumberOfCorrectGuesses) {
+					Victory = true;
 					_audioManager.VictoryTheme();
 					foreach (var b in FindObjectsOfType<MiscAnimal>())
 						b.EnableRenderers(false);

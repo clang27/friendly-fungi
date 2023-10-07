@@ -1758,6 +1758,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 00e69593f424d984a85994a205f4eb56, type: 3}
   - {fileID: 8300000, guid: 2483693066c6cd84583ead0a294952d8, type: 3}
   - {fileID: 8300000, guid: ccc02f6c7d4ee5243b252f28e3b31e73, type: 3}
+  shrooSounds:
+  - {fileID: 8300000, guid: 031dc24dadb39634bb9800f5e42f0049, type: 3}
+  - {fileID: 8300000, guid: de68ee03701d24345aa1f86080344924, type: 3}
+  - {fileID: 8300000, guid: d455d085ba797d2489f55cc1f52f5c23, type: 3}
+  - {fileID: 8300000, guid: b8d0faa075c773f43abf0d7f5f47c833, type: 3}
 --- !u!1 &101088242
 GameObject:
   m_ObjectHideFlags: 0
