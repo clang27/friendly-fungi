@@ -40,6 +40,7 @@ public class UiManager : MonoBehaviour {
 		private Journal _journal;
 		private Sign _sign;
 		private RectTransform _binocularRectTransform;
+		private Vector3 _leftClickStartPosition;
 	#endregion
 
 	#region Unity Methods
@@ -48,6 +49,7 @@ public class UiManager : MonoBehaviour {
 			_journal = journalPanel.GetComponent<Journal>();
 			_sign = signPanel.GetComponent<Sign>();
 			_binocularRectTransform = binocularImage.GetComponent<RectTransform>();
+			_leftClickStartPosition = leftClickInstruction.transform.position;
 		}
 
 		private void Start() {
@@ -320,15 +322,16 @@ public class UiManager : MonoBehaviour {
 			
 			leftClickInstruction.DOKill();
 			img.DOKill();
-
+			
 			if (b) {
+				leftClickInstruction.localScale = Vector3.one;
+				leftClickInstruction.transform.position = _leftClickStartPosition;
 				img.DOFade(1f, 1f);
 				leftClickInstruction.DOScale(Vector3.one * 0.6f, 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
-				leftClickInstruction.DOMoveY(leftClickInstruction.transform.position.y + (Screen.height * 0.04f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
-				leftClickInstruction.DOMoveX(leftClickInstruction.transform.position.x - (Screen.height * 0.01f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+				leftClickInstruction.DOMoveY(_leftClickStartPosition.y + (Screen.height * 0.04f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+				leftClickInstruction.DOMoveX(_leftClickStartPosition.x - (Screen.height * 0.01f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
 			} else {
 				img.DOFade(0f, 0.2f);
-				leftClickInstruction.localScale = Vector3.one;
 			}
 		}
 	#endregion

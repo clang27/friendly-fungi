@@ -211,6 +211,7 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(true, false);
 
 			_uiManager.OpenJournalToMushroomPage(m);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 		
 		public void OpenSign(Location l) {
@@ -345,6 +346,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowTopBar(false);
 			_cameraController.Enabled = false;
 			_timeManager.enabled = false;
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 		
 		public void CloseAnswer() {
@@ -362,6 +364,7 @@ public class GameManager : MonoBehaviour {
 			InBinoculars = true;
 			_volume.profile.components[1].active = true;
 			_uiManager.ShowBinoculars(true);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 
 		public void HideBinoculars() {
