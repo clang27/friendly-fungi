@@ -143,6 +143,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		public void LevelCompleteAnimation(bool b) {
 			_animator.SetTrigger(b ? Cheer : Pose);
 		}
+		
 		public void PlayVocalSound(int i) {
 			if (VocalCooldown) return;
 			if (!IsOnScreen(CameraController.Camera)) return;
