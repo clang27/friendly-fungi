@@ -49,7 +49,7 @@ public class UiManager : MonoBehaviour {
 			_journal = journalPanel.GetComponent<Journal>();
 			_sign = signPanel.GetComponent<Sign>();
 			_binocularRectTransform = binocularImage.GetComponent<RectTransform>();
-			_leftClickStartPosition = leftClickInstruction.transform.position;
+			_leftClickStartPosition = leftClickInstruction.localPosition;
 		}
 
 		private void Start() {
@@ -314,22 +314,24 @@ public class UiManager : MonoBehaviour {
 				yield return new WaitForSeconds(time);
 			}
 		}
-		public void ShowLeftClickInstruction(bool b) {
-			var img = leftClickInstruction.GetComponent<Image>();
-
-			if (img.color.a < 0.5f && !b)
+		public void ShowLeftClickInstruction(bool b, string message = "") {
+			var img = leftClickInstruction.GetComponent<CanvasGroup>();
+			var textmesh = img.GetComponentInChildren<TextMeshProUGUI>();
+			
+			if (img.alpha < 0.5f && !b)
 				return;
 			
 			leftClickInstruction.DOKill();
 			img.DOKill();
 			
 			if (b) {
+				textmesh.text = message;
 				leftClickInstruction.localScale = Vector3.one;
-				leftClickInstruction.transform.position = _leftClickStartPosition;
+				leftClickInstruction.localPosition = _leftClickStartPosition;
 				img.DOFade(1f, 1f);
 				leftClickInstruction.DOScale(Vector3.one * 0.6f, 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
-				leftClickInstruction.DOMoveY(_leftClickStartPosition.y + (Screen.height * 0.04f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
-				leftClickInstruction.DOMoveX(_leftClickStartPosition.x - (Screen.height * 0.01f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+				leftClickInstruction.DOLocalMoveY(_leftClickStartPosition.y + (Screen.height * 0.04f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
+				leftClickInstruction.DOLocalMoveX(_leftClickStartPosition.x - (Screen.height * 0.01f), 0.7f).SetEase(Ease.InCubic).SetLoops(-1, LoopType.Yoyo);
 			} else {
 				img.DOFade(0f, 0.2f);
 			}
