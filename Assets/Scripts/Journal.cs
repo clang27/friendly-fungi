@@ -122,7 +122,9 @@ public class Journal : MonoBehaviour {
 					active = index == 0;
 
 				buttonText.DOFade(active ? 1f : 0.5f, 0f);
-				buttonText.text = active ? LevelSelection.AllLevels[index].LevelName : "???";
+				buttonText.text = index != 3
+					? active ? LevelSelection.AllLevels[index].LevelName : "???"
+					: "Under Construction!";
 				button.interactable = active;
 
 				index++;

@@ -134,6 +134,9 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		}
 
 		public bool IsOnScreen(Camera c) {
+			if (!c)
+				return false;
+			
 			var sp = c.WorldToScreenPoint(_transform.position);
 			var vp = c.ScreenToViewportPoint(sp);
 			

@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
 			Settings.ReadData();
 			MushroomData.Init();
 			LocationData.Init();
+			Application.targetFrameRate = 60;
 
 			_timeManager = GetComponent<TimeManager>();
 			_tutorialManager = GetComponent<TutorialManager>();
@@ -218,6 +219,7 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(true, false);
 
 			_uiManager.OpenSign(l);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 
 		public void CloseSign() {
@@ -230,6 +232,7 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(true, false);
 
 			_uiManager.OpenSign(l);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 		
 		public void CloseJournal() {
@@ -332,7 +335,7 @@ public class GameManager : MonoBehaviour {
 				
 				_timeManager.enabled = true;
 				_timeManager.Play();
-				_uiManager.ShowLeftClickInstruction(true);
+				_uiManager.ShowLeftClickInstruction(true, "Journal");
 			} else {
 				_tutorialManager.StartTutorial();
 			}
