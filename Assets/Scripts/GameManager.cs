@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -19,8 +20,8 @@ public class GameManager : MonoBehaviour {
 		public static GameManager Instance { get; private set; }
 		public bool Loading { get; private set; }
 		private bool InMainMenu { get; set; } = true;
-		
 		public bool InBinoculars { get; private set; }
+		public static bool Victory { get; private set; }
 	#endregion
 
 	#region Components
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour {
 		private MushroomManager _mushroomManager;
 		private VictoryParticles _victoryParticles;
 		private Volume _volume;
+		private LevelSelection _levelSelection;
 	#endregion
 	
 	#region Private Data
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour {
 			Settings.ReadData();
 			MushroomData.Init();
 			LocationData.Init();
+			Application.targetFrameRate = 60;
 
 			_timeManager = GetComponent<TimeManager>();
 			_tutorialManager = GetComponent<TutorialManager>();
@@ -54,6 +57,7 @@ public class GameManager : MonoBehaviour {
 			_cardManager = GetComponent<CardManager>();
 			_mushroomManager = GetComponent<MushroomManager>();
 			_volume = GetComponent<Volume>();
+			_levelSelection = FindObjectOfType<LevelSelection>();
 		}
 
 		private void Start() {
@@ -115,6 +119,7 @@ public class GameManager : MonoBehaviour {
 
 		public void QuitGame() {
 			InMainMenu = true;
+			Victory = false;
 
 			_mushroomManager.LevelCompleteAnimations(false);
 			_tutorialManager.EndTutorial();
@@ -141,6 +146,13 @@ public class GameManager : MonoBehaviour {
 				b.EnableRenderers(false);
 		}
 
+		public void AutoScrollNextLevel() {
+			if (!LevelSelection.NextLevel) return;
+			
+			_uiManager.DisableButtonsOnLoading(true);
+			DOVirtual.DelayedCall(1f, _levelSelection.SelectNextLevel);
+		}
+
 		private void RestartLevel() {
 			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ClosePrompt();
@@ -156,12 +168,11 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		private void DisableEverythingForPrompt(bool b, bool autoRotate = true, float blurBgAmount = 1f) {
-			if (b) {
+			if (b)
 				_timeManager.Pause();
-			} else if (!TimeManager.PausedFlag) {
+			else if (!TimeManager.PausedFlag)
 				_timeManager.Play();
-			}
-			
+
 			_cameraController.Enabled = !b;
 			_cameraController.AutoRotate = b && autoRotate;
 			
@@ -189,12 +200,11 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		public void OpenJournal() {
-			if (InMainMenu) {
+			if (InMainMenu)
 				_uiManager.CloseMainMenu();
-			} else {
+			else
 				DisableEverythingForPrompt(true, false);
-			}
-				
+
 			_uiManager.ShowLeftClickInstruction(false);
 			_uiManager.OpenJournal();
 		}
@@ -202,12 +212,14 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(true, false);
 
 			_uiManager.OpenJournalToMushroomPage(m);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 		
 		public void OpenSign(Location l) {
 			DisableEverythingForPrompt(true, false);
 
 			_uiManager.OpenSign(l);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 
 		public void CloseSign() {
@@ -220,15 +232,15 @@ public class GameManager : MonoBehaviour {
 			DisableEverythingForPrompt(true, false);
 
 			_uiManager.OpenSign(l);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 		
 		public void CloseJournal() {
-			if (InMainMenu) {
+			if (InMainMenu)
 				_uiManager.OpenMainMenu();
-			} else {
+			else
 				DisableEverythingForPrompt(false);
-			}
-				
+
 			_uiManager.CloseJournal();
 		}
 
@@ -323,7 +335,7 @@ public class GameManager : MonoBehaviour {
 				
 				_timeManager.enabled = true;
 				_timeManager.Play();
-				_uiManager.ShowLeftClickInstruction(true);
+				_uiManager.ShowLeftClickInstruction(true, "Journal");
 			} else {
 				_tutorialManager.StartTutorial();
 			}
@@ -337,6 +349,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowTopBar(false);
 			_cameraController.Enabled = false;
 			_timeManager.enabled = false;
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 		
 		public void CloseAnswer() {
@@ -354,6 +367,7 @@ public class GameManager : MonoBehaviour {
 			InBinoculars = true;
 			_volume.profile.components[1].active = true;
 			_uiManager.ShowBinoculars(true);
+			_uiManager.ShowLeftClickInstruction(false);
 		}
 
 		public void HideBinoculars() {
@@ -366,6 +380,7 @@ public class GameManager : MonoBehaviour {
 			if (correct) {
 				_correctGuesses++;
 				if (_correctGuesses == LevelSelection.CurrentLevel.NumberOfCorrectGuesses) {
+					Victory = true;
 					_audioManager.VictoryTheme();
 					foreach (var b in FindObjectsOfType<MiscAnimal>())
 						b.EnableRenderers(false);
@@ -395,6 +410,27 @@ public class GameManager : MonoBehaviour {
 					_audioManager.PlayCorrect(false);
 					CloseAnswer();
 				}
+			}
+		}
+		
+		public void GuessTutorial(bool correct) {
+			if (correct) {
+				_audioManager.VictoryTheme();
+				foreach (var b in FindObjectsOfType<MiscAnimal>())
+					b.EnableRenderers(false);
+				_timeManager.SlideTimeToNight();
+				_mushroomManager.LevelCompleteAnimations(true);
+				_victoryParticles.Activate(true);
+				_cameraController.ResetWorldPositionToVictory();
+				_uiManager.ShowAnswerPanel(false);
+				DisableEverythingForPrompt(true, true, 0.4f);
+				_uiManager.ShowLevelComplete(true);
+				if (LevelSelection.NextLevel)
+					LevelSelection.NextLevel.SaveLevelComplete();
+			} else {
+				_audioManager.PlayCorrect(false);
+				CloseAnswer();
+				_tutorialManager.ShowTryAgainMessage();
 			}
 		}
 

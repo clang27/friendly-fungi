@@ -10,7 +10,7 @@ using UnityEngine;
 
 [Serializable]
 public enum WhatAnswer {
-	Bird, Tree, Squid, Butterfly, Lizard, Snake, Mouse, Frog, Hat, Fish, Sweatband, Glasses
+	Bird, Tree, Squid, Butterfly, Snake, Mouse, Lizard, Frog, Hat, Fish, Glasses
 }
 
 [Serializable]

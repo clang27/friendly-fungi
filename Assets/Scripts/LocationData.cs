@@ -71,7 +71,7 @@ public class LocationData {
                 return f[LocationTypeRng];
             case LocationType.Building:
             default:
-                string[] b = { "Shack", "House", "Abode" };
+                string[] b = { "Shack", "House", "House" };
                 return b[LocationTypeRng];
         }
     }

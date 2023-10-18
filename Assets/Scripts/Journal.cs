@@ -118,9 +118,13 @@ public class Journal : MonoBehaviour {
 			foreach (var button in _infoButtons) {
 				var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
 				var active = index < LevelSelection.AllLevels.Length && LevelSelection.AllLevels[index].Unlocked;
+				if (LevelSelection.CurrentLevel.Tutorial)
+					active = index == 0;
 
 				buttonText.DOFade(active ? 1f : 0.5f, 0f);
-				buttonText.text = active ? LevelSelection.AllLevels[index].LevelName : "???";
+				buttonText.text = index != 3
+					? active ? LevelSelection.AllLevels[index].LevelName : "???"
+					: "Under Construction!";
 				button.interactable = active;
 
 				index++;

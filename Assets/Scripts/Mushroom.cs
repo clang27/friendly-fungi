@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Mushroom : MonoBehaviour, Highlightable {
@@ -18,8 +19,9 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		[SerializeField] private MeshRenderer headTopMeshRenderer;
 		[SerializeField] private SkinnedMeshRenderer bodyMeshRenderer;
 
-		[Header("Accessories")] 
-		[SerializeField] private bool requiresNet, requiresHat, requiresNoHat, requiresGlasses;
+		[Header("Accessories")]
+		[SerializeField] private bool requiresNet;
+		[SerializeField] private bool requiresHat, requiresNoHat, requiresGlasses;
 		[SerializeField] private Color[] accessoryTints;
 		[SerializeField] private MeshRenderer fannyPack, butterflyNet, glasses, hat, headband;
 	#endregion
@@ -32,6 +34,7 @@ public class Mushroom : MonoBehaviour, Highlightable {
 	    public static List<Mushroom> All { get; } = new();
 		public MushroomData Data => MushroomData.AllData[Index];
 		public HeadshotCamera HeadshotCamera => _headshotCamera;
+		private bool VocalCooldown { get; set; }
 	#endregion
 	
 	#region Components
@@ -131,6 +134,9 @@ public class Mushroom : MonoBehaviour, Highlightable {
 		}
 
 		public bool IsOnScreen(Camera c) {
+			if (!c)
+				return false;
+			
 			var sp = c.WorldToScreenPoint(_transform.position);
 			var vp = c.ScreenToViewportPoint(sp);
 			
@@ -139,6 +145,15 @@ public class Mushroom : MonoBehaviour, Highlightable {
 
 		public void LevelCompleteAnimation(bool b) {
 			_animator.SetTrigger(b ? Cheer : Pose);
+		}
+		
+		public void PlayVocalSound(int i) {
+			if (VocalCooldown) return;
+			if (!IsOnScreen(CameraController.Camera)) return;
+
+			AudioManager.Instance.PlayShrooSound(i);
+			VocalCooldown = true;
+			DOVirtual.DelayedCall(2f / TimeManager.SecondMultiplier, () => VocalCooldown = false);
 		}
 
 	#endregion

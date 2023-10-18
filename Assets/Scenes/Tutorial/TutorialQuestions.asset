@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: TutorialQuestions
   m_EditorClassIdentifier: 
   whoQuestions: []
-  whatQuestions:
-  - template: does <M0> find in a bush
-    answer: 6
+  whatQuestions: []
   whenQuestions: []
   whereQuestions: []
-  canQuestions: []
+  canQuestions:
+  - convertToDoes: 1
+    template: <M0> find a mouse in the bush
+    tip: 
+    answer: 1
   howManyQuestions: []
   notes: 'Need animation for excited reaction from mushroom
 

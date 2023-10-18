@@ -21,12 +21,13 @@ public class TimeManager : MonoBehaviour {
         public static bool Running { get; private set; }
         public static float Hour { get; private set; } = 9f;
         public static bool PausedFlag { get; private set; }
+        public static float SecondMultiplier => _secondMultiplier;
 
     #endregion
 
     #region Private Data
         private ParticleSystem[] _particleSystems;
-        private float _secondMultiplier = 1.0f;
+        private static float _secondMultiplier = 1.0f;
         private Tweener _timeTransition;
         private PlayableDirector _playableDirector;
     #endregion

@@ -39,6 +39,10 @@ public class AudioManager : MonoBehaviour {
 		[SerializeField] private AudioClip daytimeAmbience;
 		[SerializeField] private AudioClip nighttimeAmbience;
 		[SerializeField] private AudioClip[] frogRibbits;
+		
+		[Header("Shroo")]
+		[SerializeField] private AudioClip[] shrooSounds;
+		
 	#endregion
 	
 	#region Attributes
@@ -218,6 +222,15 @@ public class AudioManager : MonoBehaviour {
 		
 		public void PlayUiSound(int s) {
 			PlayUiSound((UiSound) s);
+		}
+
+		public void PlayShrooSound(int s) {
+			var volumeModifer = GameManager.Instance.InBinoculars ? 0.6f : 0.2f;
+
+			if (TimeManager.Running) 
+				DOVirtual.DelayedCall(Random.Range(0f, 0.2f) / TimeManager.SecondMultiplier, () => PlaySfx(shrooSounds[s], volumeModifer));
+			if (GameManager.Victory)
+				DOVirtual.DelayedCall(Random.Range(0.2f, 1f), () => PlaySfx(shrooSounds[s], Random.Range(0.1f, 0.25f), Random.Range(0.95f, 1.05f)));
 		}
 
 		public void PlayRandomFootstep(bool grass) {

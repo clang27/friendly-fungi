@@ -46,6 +46,7 @@ public class AnswerUi : MonoBehaviour {
 					dropdown.gameObject.SetActive(true);
 					break;
 				case "Can":
+				case "Does":
 					dropdown.ClearOptions();
 					dropdown.AddOptions(Can.Choices);
 					dropdown.gameObject.SetActive(true);
@@ -76,6 +77,7 @@ public class AnswerUi : MonoBehaviour {
 				"Where" => dropdown.options[dropdown.value].text,
 				"What" => dropdown.options[dropdown.value].text,
 				"Can" => dropdown.options[dropdown.value].text,
+				"Does" => dropdown.options[dropdown.value].text,
 				"How Many" => incrementer.Value,
 				"Who" => dropdown.options[dropdown.value].text,
 				"When" => Utility.FormatTime(timeSlider.CurrentTime+TimeManager.HourOffset),
@@ -84,8 +86,12 @@ public class AnswerUi : MonoBehaviour {
 
 			var isCorrect = q.IsRightAnswer(answer);
 			
-			GameManager.Instance.GuessAnswer(isCorrect);
-			PartneredCard.Finished(isCorrect);
+			if (LevelSelection.CurrentLevel.Tutorial) {
+				GameManager.Instance.GuessTutorial(isCorrect);
+			} else {
+				GameManager.Instance.GuessAnswer(isCorrect);
+				PartneredCard.Finished(isCorrect);
+			}
 		}
 	#endregion
 }
