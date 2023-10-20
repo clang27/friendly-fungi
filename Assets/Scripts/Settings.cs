@@ -43,7 +43,8 @@ public static class Settings {
 			SfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1f);
 			AmbienceVolume = PlayerPrefs.GetFloat("AmbienceVolume", 1f);
 			
-			Quality = PlayerPrefs.GetInt("Quality", 2);
+			PlayerPrefs.DeleteKey("Quality");
+			Quality = PlayerPrefs.GetInt("Quality", 1);
 		}
 
 		public static void SaveAllData() {
