@@ -60,6 +60,8 @@ public class LevelSelection : MonoBehaviour {
 		}
 
 		private IEnumerator IncreaseSelection(int amount) {
+			var currentLevel = _currentSelection;
+			
 			_animator.ResetTrigger(Spin);
 			rightButton.interactable = false;
 			leftButton.interactable = false;
@@ -75,13 +77,40 @@ public class LevelSelection : MonoBehaviour {
 			
 			yield return new WaitForSeconds(0.9f);
 			
-			StartCoroutine(GameManager.Instance.LoadLevel(AllLevels[_currentSelection-amount], AllLevels[_currentSelection]));
+			StartCoroutine(GameManager.Instance.LoadLevel(AllLevels[currentLevel], AllLevels[_currentSelection]));
 
 			while (GameManager.Instance.Loading)
 				yield return null;
 
 			UpdateButtonsUI();
 		}
+		
+		public IEnumerator GoToLevel(int levelNumber) {
+			var currentLevel = _currentSelection;
+			
+			_animator.ResetTrigger(Spin);
+			rightButton.interactable = false;
+			leftButton.interactable = false;
+			_animator.SetTrigger(Spin);
+			
+			_currentSelection=levelNumber;
+			CurrentLevel = AllLevels[_currentSelection];
+			NextLevel = (_currentSelection != AllLevels.Length - 1) ? AllLevels[_currentSelection+1] : null;
+			
+			UpdateNameUI();
+			
+			GameManager.Instance.ShowLoading();
+			
+			yield return new WaitForSeconds(0.9f);
+			
+			StartCoroutine(GameManager.Instance.LoadLevel(AllLevels[currentLevel], AllLevels[_currentSelection]));
+
+			while (GameManager.Instance.Loading)
+				yield return null;
+
+			UpdateButtonsUI();
+		}
+		
 		public void SelectNextLevel() {
 			StartCoroutine(IncreaseSelection(1));
 		}

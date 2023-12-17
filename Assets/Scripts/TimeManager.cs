@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour {
     #region Components
         [SerializeField] private float multiplier = 0.1f;
-        [SerializeField] private Button playButton, oneMultiButton, twoMultiButton, fourMultiButton;
+        [SerializeField] private Button playButton;
         [SerializeField] private Sprite playSprite, pauseSprite;
         [SerializeField] private TimeSlider _timeSlider;
     #endregion
@@ -51,9 +51,9 @@ public class TimeManager : MonoBehaviour {
         public void UpdateMultiplier(float f) {
             _secondMultiplier = f;
             
-            oneMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 1f);
-            twoMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 3f);
-            fourMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 6f);
+            // oneMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 1f);
+            // twoMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 3f);
+            // fourMultiButton.interactable = !Mathf.Approximately(_secondMultiplier, 6f);
         }
         public void UpdateTime(float f) {
             Hour = f;
@@ -104,7 +104,7 @@ public class TimeManager : MonoBehaviour {
         public void Pause() {
             Running = false;
             playButton.GetComponent<Image>().sprite = playSprite;
-            
+
             PauseParticles();
             playButton.onClick.RemoveAllListeners();
             playButton.onClick.AddListener(Play);

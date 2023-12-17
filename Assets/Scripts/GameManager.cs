@@ -87,6 +87,15 @@ public class GameManager : MonoBehaviour {
 			MushroomData.Init();
 			LocationData.Init();
 			
+			foreach (var l in LevelSelection.AllLevels) {
+				if (l.Tutorial)
+					continue;
+				
+				l.ClearLevelComplete();
+			}
+
+			StartCoroutine(_levelSelection.GoToLevel(0));
+			
 			_uiManager.ShowBackgroundBlur(false);
 			_uiManager.ClosePrompt();
 		}
@@ -94,7 +103,7 @@ public class GameManager : MonoBehaviour {
 			_uiManager.ShowBackgroundBlur(true);
 
 			_uiManager.OpenPrompt(
-				"This refreshes & randomizes the Shroos' names, colors, and locations.\n\nDo you want to do this?",
+				"This clears all data & randomizes the Shroos' names, colors, and locations.\n\nDo you want to do this?",
 				"Yes", "No",
 				ResetData, () => {
 					_uiManager.ShowBackgroundBlur(false);

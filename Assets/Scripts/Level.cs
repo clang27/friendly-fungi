@@ -20,4 +20,9 @@ public class Level : ScriptableObject {
 		PlayerPrefs.SetInt(LevelName + "Unlocked", 1);
 		PlayerPrefs.Save();
 	}
+
+	public void ClearLevelComplete() {
+		PlayerPrefs.SetInt(LevelName + "Unlocked", 0);
+		PlayerPrefs.Save();
+	}
 }
